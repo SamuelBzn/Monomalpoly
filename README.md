@@ -9,7 +9,7 @@ les instructions contenus dedans.
 Ensuite lancer :
 
 ~~~
-$ mvn package
+$ gradle fatJar
 ~~~
 
 (Ou utiliser 'Clipse pour le packager).
