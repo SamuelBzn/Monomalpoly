@@ -1,0 +1,14 @@
+title: Monomalpoly - Doc
+description: >- # this means to ignore newlines until "baseurl:"
+  Ce site contient toute la documentation technique pour déployer la
+  Skill Monomalpoly ainsi que le backend Spring et la Lambda associées.
+  <br><br>
+
+  Les règles du jeu sont également disponibles sur ce site.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site, e.g. http://example.com
+twitter_username: jekyllrb
+github_username:  jekyll
+
+markdown: kramdown
+theme: jekyll-theme-minimal
