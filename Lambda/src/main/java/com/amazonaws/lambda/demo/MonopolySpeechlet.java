@@ -34,11 +34,14 @@ public class MonopolySpeechlet implements Speechlet {
 		Intent intent = request.getIntent();
 		String intentName = (intent != null) ? intent.getName() : null;
 
-		if ("StartIntent".equals(intentName)) {
+		switch(intentName) {
+		case "StartIntent" :
 			return getStartResponse();
-		} else if ("AMAZON.HelpIntent".equals(intentName)) {
+		case "DiceDrawIntent" :
+			return getStartResponse();
+		case "AMAZON.HelpIntent":
 			return getHelpResponse();
-		} else {
+		default :
 			throw new SpeechletException("Invalid Intent");
 		}
 	}
@@ -94,6 +97,27 @@ public class MonopolySpeechlet implements Speechlet {
 	 */
 	private SpeechletResponse getHelpResponse() {
 		String speechText = "Besoin d'aide ?";
+
+		SimpleCard card = new SimpleCard();
+		card.setTitle("Monomalpoly");
+		card.setContent(speechText);
+
+		// Create the plain text output.
+		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
+		speech.setText(speechText);
+
+		// Create reprompt
+		Reprompt reprompt = new Reprompt();
+		reprompt.setOutputSpeech(speech);
+
+		return SpeechletResponse.newAskResponse(speech, reprompt, card);
+	}
+	
+	/**
+	 * Crée et retourne une {@code SpeechletResponse} pour le lancé de dé.
+	 */
+	private SpeechletResponse getDiceDrawResponse() {
+		String speechText = "Je vais faire un lancé de dé !";
 
 		SimpleCard card = new SimpleCard();
 		card.setTitle("Monomalpoly");
