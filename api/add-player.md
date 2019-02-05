@@ -24,6 +24,6 @@ Réponse :
 ### Utterances
 
 <ul class="utterances">
-  <li>rajoute un joueur</li>
-  <li>ajoute un joueur</li>
+  <li>rajouter un joueur</li>
+  <li>ajouter un joueur</li>
 </ul>

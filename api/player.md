@@ -24,8 +24,8 @@ Réponse :
 ### Utterances
 
 <ul class="utterances">
-  <li>donne mes informations</li>
-  <li>donne les informations de <span class="slot username">Mouloud</span></li>
-  <li>quelles sont les informations de <span class="slot username">Jean-Michel</span></li>
+  <li>donner mes informations</li>
+  <li>donner les informations de <span class="slot username">Mouloud</span></li>
+  <li>quelles sont les informations de <span class="slot username">Jean-Michel</span> ?</li>
   <li>où en-est <span class="slot username">Jean-Mohktar</span> ?</li>
 </ul>
