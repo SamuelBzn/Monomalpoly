@@ -21,7 +21,7 @@ public class MonopolySpeechlet implements Speechlet {
 
 	@Override
 	public void onSessionStarted(final SessionStartedRequest request, final Session session) throws SpeechletException {
-		
+
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class MonopolySpeechlet implements Speechlet {
 		case "StartIntent" :
 			return getStartResponse();
 		case "DiceDrawIntent" :
-			return getStartResponse();
+			return getDiceDrawResponse();
 		case "AMAZON.HelpIntent":
 			return getHelpResponse();
 		default :
@@ -48,7 +48,7 @@ public class MonopolySpeechlet implements Speechlet {
 
 	@Override
 	public void onSessionEnded(final SessionEndedRequest request, final Session session) throws SpeechletException {
-		
+
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class MonopolySpeechlet implements Speechlet {
 
 		return SpeechletResponse.newAskResponse(speech, reprompt, card);
 	}
-	
+
 	/**
 	 * Crée et retourne une {@code SpeechletResponse} pour le lancé de dé.
 	 */
@@ -127,11 +127,7 @@ public class MonopolySpeechlet implements Speechlet {
 		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
 		speech.setText(speechText);
 
-		// Create reprompt
-		Reprompt reprompt = new Reprompt();
-		reprompt.setOutputSpeech(speech);
-
-		return SpeechletResponse.newAskResponse(speech, reprompt, card);
+		return SpeechletResponse.newTellResponse(speech, card);
 	}
 }
 
