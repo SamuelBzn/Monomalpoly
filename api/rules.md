@@ -17,3 +17,11 @@ Réponse :
   "message": "..."
 }
 ~~~
+
+### Utterances
+
+<ul class="utterances">
+  <li>rappel moi les règles</li>
+  <li>rappel nous les règles</li>
+  <li>quelles sont les règles du jeu</li>
+</ul>

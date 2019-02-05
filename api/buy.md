@@ -77,3 +77,14 @@ Dans le cas d'une propriété déjà possédée :
   "message": "Vous ne pouvez pas acheter cette propriété."
 }
 ~~~
+
+### Utterances
+
+<ul class="utterances">
+  <li>achètes une <span class="slot buyable">maison</span></li>
+  <li>ajoute une <span class="slot buyable">maison</span></li>
+  <li>achètes un <span class="slot buyable">hôtel</span></li>
+  <li>ajoute un <span class="slot buyable">hôtel</span></li>
+  <li>achètes cette <span class="slot buyable">case</span></li>
+  <li>achètes cette <span class="slot buyable">propriété</span></li>
+</ul>

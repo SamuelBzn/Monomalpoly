@@ -16,3 +16,12 @@ $ curl -X POST <url>/start
     "error": "Erreur lors de la création de la partie"
   }
   ~~~
+
+### Utterances
+
+<ul class="utterances">
+  <li>lance une partie</li>
+  <li>lance une nouvelle partie</li>
+  <li>démarrer une partie</li>
+  <li>démarrer une nouvelle partie</li>
+</ul>

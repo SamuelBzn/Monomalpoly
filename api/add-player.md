@@ -20,3 +20,10 @@ Réponse :
     "erreur": "Impossible de créer le joueur"
   }
   ~~~
+
+### Utterances
+
+<ul class="utterances">
+  <li>rajoute un joueur</li>
+  <li>ajoute un joueur</li>
+</ul>

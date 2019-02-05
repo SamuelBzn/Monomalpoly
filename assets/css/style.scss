@@ -1,0 +1,42 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+ul.utterances {
+  list-style-type: none;
+  border: 1px solid #c1dfff;
+  border-radius: 4px;
+  padding: 0;
+
+  li {
+    border-bottom: 1px solid #c1dfff;
+    padding: 1em;
+    color: #004085;
+    background: rgba(5, 50, 252, 0.05);
+
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+}
+
+.slot {
+  display: inline-block;
+  padding: 3px;
+  border-radius: 3px;
+  border-style: solid;
+  border-width: 1px;
+
+  &.buyable {
+    background: lighten(#cabce1, 4%);
+    color: #563d7c;
+    border-color: #cabce1;
+  }
+
+  &.username {
+    background: #d4edda;
+    color: #1e5e2d;
+    border-color: #cbe9d2;
+  }
+}

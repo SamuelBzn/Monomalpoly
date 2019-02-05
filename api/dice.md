@@ -61,3 +61,10 @@ Dans le cas d'une case adverse avec bankrupt :
   ]
 }
 ~~~
+
+### Utterances
+
+<ul class="utterances">
+  <li>lancer les dés</li>
+  <li>jeter les dés</li>
+</ul>
