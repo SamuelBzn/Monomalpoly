@@ -7,6 +7,8 @@ Cette page donne accés aux *endpoints* disponibles pour les actions
 répertoriés ainsi que les utterances qui permettent de donner accés
 à ces actions.
 
+Woot ?
+
 Slots disponibles pour les utterances :
 
 <table>
