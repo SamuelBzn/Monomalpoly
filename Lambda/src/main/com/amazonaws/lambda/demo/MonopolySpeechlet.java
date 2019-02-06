@@ -88,7 +88,7 @@ public class MonopolySpeechlet implements Speechlet {
 	 * @return SpeechletResponse - Réponse textuelle.
 	 */
 	private SpeechletResponse getStartResponse() {
-		String speechText = "Eh bien le bonjour !";
+		String speechText = "Combien de joueurs vont jouer ?";
 
 		SimpleCard card = new SimpleCard();
 		card.setTitle("Monomalpoly");
