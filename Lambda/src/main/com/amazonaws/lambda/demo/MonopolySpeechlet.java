@@ -1,5 +1,7 @@
 package com.amazonaws.lambda.demo;
 
+import java.net.URL;
+
 // import org.slf4j.Logger;
 // import org.slf4j.LoggerFactory;
 
@@ -15,6 +17,13 @@ import com.amazon.speech.speechlet.SpeechletResponse;
 import com.amazon.speech.ui.PlainTextOutputSpeech;
 import com.amazon.speech.ui.Reprompt;
 import com.amazon.speech.ui.SimpleCard;
+
+import java.net.URL;
+import java.nio.charset.Charset;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class MonopolySpeechlet implements Speechlet {
 	// private static final Logger log = LoggerFactory.getLogger(MonopolySpeechlet.class);
@@ -117,8 +126,12 @@ public class MonopolySpeechlet implements Speechlet {
 	 * Crée et retourne une {@code SpeechletResponse} pour le lancé de dé.
 	 */
 	private SpeechletResponse getDiceDrawResponse() {
-		String speechText = "Je vais faire un lancé de dé !";
-
+		
+		String url = "localhost:8080/dice";
+		
+		JSONObject json = readJsonFromUrl(url);
+		String speechText = json.toString();
+		
 		SimpleCard card = new SimpleCard();
 		card.setTitle("Monomalpoly");
 		card.setContent(speechText);
@@ -128,6 +141,27 @@ public class MonopolySpeechlet implements Speechlet {
 		speech.setText(speechText);
 
 		return SpeechletResponse.newTellResponse(speech, card);
+	}
+	
+	private static String readAll(Reader rd) throws IOException {
+	    StringBuilder sb = new StringBuilder();
+	    int cp;
+	    while ((cp = rd.read()) != -1) {
+	      sb.append((char) cp);
+	    }
+	    return sb.toString();
+	}
+
+	public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+	    InputStream is = new URL(url).openStream();
+	    try {
+	      BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+	      String jsonText = readAll(rd);
+	      JSONObject json = new JSONObject(jsonText);
+	      return json;
+	    } finally {
+	      is.close();
+	    }
 	}
 }
 
