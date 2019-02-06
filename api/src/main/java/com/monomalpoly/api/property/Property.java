@@ -82,7 +82,7 @@ public class Property {
 	}
 
 	public void improve(Player player) {
-		if (this.level < 2) {
+		if (this.level < 3) {
 			switch(this.level) {
 			case 1: this.level++; this.cost = (int) (this.landCost * 0.1); player.removeToBalance(HOUSEPRICE); // augmentation de 10% du prix du terrain si maison (level 1)
 			break;
@@ -93,7 +93,7 @@ public class Property {
 	}
 	
 	public void downgrade(Player player){
-		if (this.level > 0) {
+		if (this.level > 1) {
 			switch(this.level) {
 			case 3: this.level--; this.cost = (int) (this.landCost * 0.1); player.addToBalance(HOSTELPRICE);//passage au level 2
 			break;
@@ -101,5 +101,22 @@ public class Property {
 			break;			
 			}
 		}
+	}
+
+	public void buy(Player player) {
+		this.level = 1; // achat du terrain
+		player.removeToBalance(landCost);
+	}
+	
+	public void sell(Player player) {
+		switch(this.level) {
+		case 3: player.addToBalance(HOSTELPRICE + HOUSEPRICE + this.landCost);
+		break;
+		case 2: player.addToBalance(HOUSEPRICE + this.landCost);
+		break;
+		case 1: player.addToBalance(this.landCost);
+		break;
+		}
+		this.level = 0; // vend le terrain
 	}
 }
