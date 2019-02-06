@@ -5,6 +5,7 @@
 **/.classpath
 **/.settings
 /.metadata/
+.recommenders/
 
 RemoteSystemsTempFiles/
 
@@ -15,3 +16,5 @@ RemoteSystemsTempFiles/
 # Jekyll
 .sass-cache/
 _site/
+
+api/bin/
