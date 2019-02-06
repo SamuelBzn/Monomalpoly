@@ -66,35 +66,35 @@ public class Player {
         this.hotels = hotels;
     }
 
-    public addToBalance(int amount) {
+    public void addToBalance(int amount) {
         this.balance += amount;
     }
 
-    public removeToBalance(int amount) {
+    public void removeToBalance(int amount) {
         (this.balance - amount > 0) ? this.balance -= amount : 0;
     }
 
-    public addToProperties(int amount) {
+    public void addToProperties(int amount) {
         this.properties += amount;
     }
 
-    public removeToProperties(int amount) {
+    public void removeToProperties(int amount) {
         (this.properties - amount > 0) ? this.properties -= amount : 0;
     }
 
-    public addToHouses(int amount) {
+    public void addToHouses(int amount) {
         this.houses += amount;
     }
 
-    public removeToHouses(int amount) {
+    public void removeToHouses(int amount) {
         (this.houses - amount > 0) ? this.houses -= amount : 0;
     }
 
-    public addToHotels(int amount) {
+    public void addToHotels(int amount) {
         this.hotels += amount;
     }
 
-    public removeToHotels(int amount) {
+    public void removeToHotels(int amount) {
         (this.hotels - amount > 0) ? this.hotels -= amount : 0;
     }
 }
