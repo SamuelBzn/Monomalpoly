@@ -1,5 +1,7 @@
 package com.amazonaws.lambda.demo;
 
+import java.net.URL;
+
 // import org.slf4j.Logger;
 // import org.slf4j.LoggerFactory;
 
@@ -16,12 +18,25 @@ import com.amazon.speech.ui.PlainTextOutputSpeech;
 import com.amazon.speech.ui.Reprompt;
 import com.amazon.speech.ui.SimpleCard;
 
+import java.net.URL;
+import java.nio.charset.Charset;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.io.Reader;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
 public class MonopolySpeechlet implements Speechlet {
 	// private static final Logger log = LoggerFactory.getLogger(MonopolySpeechlet.class);
 
 	@Override
 	public void onSessionStarted(final SessionStartedRequest request, final Session session) throws SpeechletException {
-		
+
 	}
 
 	@Override
@@ -38,7 +53,7 @@ public class MonopolySpeechlet implements Speechlet {
 		case "StartIntent" :
 			return getStartResponse();
 		case "DiceDrawIntent" :
-			return getStartResponse();
+			return getDiceDrawResponse();
 		case "AMAZON.HelpIntent":
 			return getHelpResponse();
 		default :
@@ -48,7 +63,7 @@ public class MonopolySpeechlet implements Speechlet {
 
 	@Override
 	public void onSessionEnded(final SessionEndedRequest request, final Session session) throws SpeechletException {
-		
+
 	}
 
 	/**
@@ -79,7 +94,7 @@ public class MonopolySpeechlet implements Speechlet {
 	 * @return SpeechletResponse - Réponse textuelle.
 	 */
 	private SpeechletResponse getStartResponse() {
-		String speechText = "Eh bien le bonjour !";
+		String speechText = "Combien de joueurs vont jouer ?";
 
 		SimpleCard card = new SimpleCard();
 		card.setTitle("Monomalpoly");
@@ -89,7 +104,11 @@ public class MonopolySpeechlet implements Speechlet {
 		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
 		speech.setText(speechText);
 
-		return SpeechletResponse.newTellResponse(speech, card);
+		// Reprompt
+		Reprompt reprompt = new Reprompt();
+		reprompt.setOutputSpeech(speech);
+
+		return SpeechletResponse.newTellResponse(speech, reprompt, card);
 	}
 
 	/**
@@ -112,12 +131,22 @@ public class MonopolySpeechlet implements Speechlet {
 
 		return SpeechletResponse.newAskResponse(speech, reprompt, card);
 	}
-	
+
 	/**
 	 * Crée et retourne une {@code SpeechletResponse} pour le lancé de dé.
 	 */
 	private SpeechletResponse getDiceDrawResponse() {
-		String speechText = "Je vais faire un lancé de dé !";
+
+		String speechText;
+
+		String url = "http://52.47.35.192:8080/dice";
+
+		try {
+			JSONObject json = readJsonFromUrl(url);
+			speechText = json.getString("message");
+		} catch (IOException e) {
+			speechText = "Une erreur est survenue pendant la requête.";
+		}
 
 		SimpleCard card = new SimpleCard();
 		card.setTitle("Monomalpoly");
@@ -127,11 +156,28 @@ public class MonopolySpeechlet implements Speechlet {
 		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
 		speech.setText(speechText);
 
-		// Create reprompt
-		Reprompt reprompt = new Reprompt();
-		reprompt.setOutputSpeech(speech);
+		return SpeechletResponse.newTellResponse(speech, card);
+	}
 
-		return SpeechletResponse.newAskResponse(speech, reprompt, card);
+	private static String readAll(Reader rd) throws IOException {
+	    StringBuilder sb = new StringBuilder();
+	    int cp;
+	    while ((cp = rd.read()) != -1) {
+	      sb.append((char) cp);
+	    }
+	    return sb.toString();
+	}
+
+	public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+	    InputStream is = new URL(url).openStream();
+	    try {
+	      BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+	      String jsonText = readAll(rd);
+	      JSONObject json = new JSONObject(jsonText);
+	      return json;
+	    } finally {
+	      is.close();
+	    }
 	}
 }
 
