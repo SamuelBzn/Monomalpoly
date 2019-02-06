@@ -1,7 +1,5 @@
 package com.amazonaws.lambda.demo;
 
-import java.net.URL;
-
 // import org.slf4j.Logger;
 // import org.slf4j.LoggerFactory;
 
@@ -169,7 +167,7 @@ public class MonopolySpeechlet implements Speechlet {
 		// Create reprompt
 		Reprompt reprompt = new Reprompt();
 		reprompt.setOutputSpeech(speech);
-		
+
 		return SpeechletResponse.newTellResponse(speech, card);
 	}
 
@@ -177,8 +175,15 @@ public class MonopolySpeechlet implements Speechlet {
 
 		String speechText;
 
-		String url = new Url("http://52.47.35.192:8080/player/add");
-		URLConnection conn = url.openConnection();
+		String url = "http://52.47.35.192:8080/player/add";
+
+		try {
+			JSONObject json = readJsonFromUrl(url);
+			// speechText = json.getString("message");
+			speechText = "Succès de création de l'utilisateur";
+		} catch (IOException e) {
+			speechText = "Une erreur est survenue pendant la requête.";
+		}
 
 		SimpleCard card = new SimpleCard();
 		card.setTitle("Monomalpoly");
@@ -191,10 +196,10 @@ public class MonopolySpeechlet implements Speechlet {
 		// Create reprompt
 		Reprompt reprompt = new Reprompt();
 		reprompt.setOutputSpeech(speech);
-		
+
 		return SpeechletResponse.newTellResponse(speech, card);
 	}
-	
+
 	private static String readAll(Reader rd) throws IOException {
 	    StringBuilder sb = new StringBuilder();
 	    int cp;
