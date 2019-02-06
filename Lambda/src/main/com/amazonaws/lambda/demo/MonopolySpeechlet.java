@@ -6,6 +6,7 @@ import java.net.URL;
 // import org.slf4j.LoggerFactory;
 
 import com.amazon.speech.slu.Intent;
+import com.amazon.speech.slu.Slot;
 import com.amazon.speech.speechlet.IntentRequest;
 import com.amazon.speech.speechlet.LaunchRequest;
 import com.amazon.speech.speechlet.Session;
@@ -51,7 +52,7 @@ public class MonopolySpeechlet implements Speechlet {
 
 		switch(intentName) {
 		case "StartIntent" :
-			return getStartResponse();
+			return getStartResponse(intent);
 		case "DiceDrawIntent" :
 			return getDiceDrawResponse();
 		case "AMAZON.HelpIntent":
@@ -95,8 +96,10 @@ public class MonopolySpeechlet implements Speechlet {
 	 *
 	 * @return SpeechletResponse - RÃ©ponse textuelle.
 	 */
-	private SpeechletResponse getStartResponse() {
-		String speechText = "La partie va commencée.";
+	private SpeechletResponse getStartResponse(Intent intent) {
+		Slot s = intent.getSlot("NbUser");
+
+		String speechText = "Bonjour le sang, " + s.getValue() + " joueurs vont jouer woulah";
 
 		SimpleCard card = new SimpleCard();
 		card.setTitle("Monomalpoly");
@@ -106,11 +109,7 @@ public class MonopolySpeechlet implements Speechlet {
 		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
 		speech.setText(speechText);
 
-		// Reprompt
-		Reprompt reprompt = new Reprompt();
-		reprompt.setOutputSpeech(speech);
-
-		return SpeechletResponse.newTellResponse(speech, reprompt, card);
+		return SpeechletResponse.newTellResponse(speech, card);
 	}
 
 	/**
