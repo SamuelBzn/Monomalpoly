@@ -101,8 +101,8 @@ public class MonopolySpeechlet implements Speechlet {
 
 		String speechText = "Bienvenue dans votre nouvelle partie "
 				+ "de Monomalpoly. " + s.getValue() + " joueurs vont jouer. "
-				+ "Pour avoir les raigles du jeu dites Raigles du jeu. "
-				+ "Pour des marer une partie dites Des marer une partie";
+				+ "Maintenant vous devez choisir vos pseudos,"
+				+ "pour cela dites Mon pseudo est Toto par exemple.";
 
 		SimpleCard card = new SimpleCard();
 		card.setTitle("Monomalpoly");
@@ -174,13 +174,15 @@ public class MonopolySpeechlet implements Speechlet {
 	private SpeechletResponse getPlayerNameResponse() {
 
 		String speechText;
-
-		String url = "http://52.47.35.192:8080/player/add";
+		Slot s = intent.getSlot("Name");
+		
+		String url = "http://52.47.35.192:8080/player/add/" + s.getValue();
 
 		try {
 			JSONObject json = readJsonFromUrl(url);
 			// speechText = json.getString("message");
-			speechText = "SuccÃ¨s de crÃ©ation de l'utilisateur";
+			speechText = "Le Pseudo " + s.getValue() + " a bien été ajouter."
+					+ " Joueur suivant dites votre pseudo.";
 		} catch (IOException e) {
 			speechText = "Une erreur est survenue pendant la requÃªte.";
 		}
