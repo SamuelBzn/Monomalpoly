@@ -11,3 +11,7 @@ RemoteSystemsTempFiles/
 # Gradle
 **/.gradle
 **/build
+
+# Jekyll
+.sass-cache/
+_site/
