@@ -21,6 +21,12 @@ import com.amazon.speech.ui.SimpleCard;
 import java.net.URL;
 import java.nio.charset.Charset;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.io.Reader;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -126,12 +132,18 @@ public class MonopolySpeechlet implements Speechlet {
 	 * Crée et retourne une {@code SpeechletResponse} pour le lancé de dé.
 	 */
 	private SpeechletResponse getDiceDrawResponse() {
-		
-		String url = "localhost:8080/dice";
-		
-		JSONObject json = readJsonFromUrl(url);
-		String speechText = json.toString();
-		
+
+		String speechText;
+
+		String url = "http://52.47.35.192:8080/dice";
+
+		try {
+			JSONObject json = readJsonFromUrl(url);
+			speechText = json.getString("message");
+		} catch (IOException e) {
+			speechText = "Une erreur est survenue pendant la requête.";
+		}
+
 		SimpleCard card = new SimpleCard();
 		card.setTitle("Monomalpoly");
 		card.setContent(speechText);
@@ -142,7 +154,7 @@ public class MonopolySpeechlet implements Speechlet {
 
 		return SpeechletResponse.newTellResponse(speech, card);
 	}
-	
+
 	private static String readAll(Reader rd) throws IOException {
 	    StringBuilder sb = new StringBuilder();
 	    int cp;
