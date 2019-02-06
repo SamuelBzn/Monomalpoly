@@ -54,7 +54,7 @@ public class MonopolySpeechlet implements Speechlet {
 		case "DiceDrawIntent" :
 			return getDiceDrawResponse();
 		case "PlayerName" :
-			return getPlayerNameResponse();
+			return getPlayerNameResponse(intent);
 		case "AMAZON.HelpIntent":
 			return getHelpResponse();
 		case "RulesIntent":
@@ -81,7 +81,7 @@ public class MonopolySpeechlet implements Speechlet {
 		card.setTitle("Monomalpoly");
 		card.setContent(speechText);
 
-		// Réponse texte
+		// RÃ©ponse texte
 		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
 		speech.setText(speechText);
 
@@ -94,7 +94,7 @@ public class MonopolySpeechlet implements Speechlet {
 
 	/**
 	 * Gère le début d'une partie. Toute la logique de création d'une
-	 * partie doit être lancé à ce moment (appel au backend).
+	 * partie doit être lancée à ce moment (appel au backend).
 	 *
 	 * @return SpeechletResponse - Réponse textuelle.
 	 */
@@ -173,17 +173,18 @@ public class MonopolySpeechlet implements Speechlet {
 		return SpeechletResponse.newTellResponse(speech, card);
 	}
 
-	private SpeechletResponse getPlayerNameResponse() {
+	private SpeechletResponse getPlayerNameResponse(Intent intent) {
 
 		String speechText;
+
 		Slot s = intent.getSlot("Name");
-		
+
 		String url = "http://52.47.35.192:8080/player/add/" + s.getValue();
 
 		try {
 			JSONObject json = readJsonFromUrl(url);
 			// speechText = json.getString("message");
-			speechText = "Le Pseudo " + s.getValue() + " a bien �t� ajouter."
+			speechText = "Le Pseudo " + s.getValue() + " a bien été ajouter."
 					+ " Joueur suivant dites votre pseudo.";
 		} catch (IOException e) {
 			speechText = "Une erreur est survenue pendant la requête.";
