@@ -55,6 +55,8 @@ public class MonopolySpeechlet implements Speechlet {
 			return getStartResponse(intent);
 		case "DiceDrawIntent" :
 			return getDiceDrawResponse();
+		case "PlayerName" :
+			return getPlayersNameResponse();
 		case "AMAZON.HelpIntent":
 			return getHelpResponse();
 		default :
@@ -73,7 +75,7 @@ public class MonopolySpeechlet implements Speechlet {
 	private SpeechletResponse getWelcomeResponse() {
 		String speechText = "Bienvenue dans la Skill Monomalpoly ! "
 				+ "Pour avoir les raigles du jeu dites Raigles du jeu. "
-				+ "Pour lancer une nouvelle partie dites Lancer une partie.";
+				+ "Pour creer une nouvelle partie dites Creer une partie.";
 
 		SimpleCard card = new SimpleCard();
 		card.setTitle("Monomalpoly");
@@ -100,9 +102,9 @@ public class MonopolySpeechlet implements Speechlet {
 		Slot s = intent.getSlot("NbUser");
 
 		String speechText = "Bienvenue dans votre nouvelle partie "
-				+	"de Monomalpoly. " + s.getValue() + " joueurs "
-				+ "vont jouer. Pour avoir les raigles du jeu dites "
-				+	"Raigles du jeu.";
+				+ "de Monomalpoly. " + s.getValue() + " joueurs vont jouer. "
+				+ "Pour avoir les raigles du jeu dites Raigles du jeu. "
+				+ "Pour des marer une partie dites Des marer une partie";
 
 		SimpleCard card = new SimpleCard();
 		card.setTitle("Monomalpoly");
@@ -164,9 +166,35 @@ public class MonopolySpeechlet implements Speechlet {
 		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
 		speech.setText(speechText);
 
+		// Create reprompt
+		Reprompt reprompt = new Reprompt();
+		reprompt.setOutputSpeech(speech);
+		
 		return SpeechletResponse.newTellResponse(speech, card);
 	}
 
+	private SpeechletResponse getPlayerNameResponse() {
+
+		String speechText;
+
+		String url = new Url("http://52.47.35.192:8080/player/add");
+		URLConnection conn = url.openConnection();
+
+		SimpleCard card = new SimpleCard();
+		card.setTitle("Monomalpoly");
+		card.setContent(speechText);
+
+		// Create the plain text output.
+		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
+		speech.setText(speechText);
+
+		// Create reprompt
+		Reprompt reprompt = new Reprompt();
+		reprompt.setOutputSpeech(speech);
+		
+		return SpeechletResponse.newTellResponse(speech, card);
+	}
+	
 	private static String readAll(Reader rd) throws IOException {
 	    StringBuilder sb = new StringBuilder();
 	    int cp;
