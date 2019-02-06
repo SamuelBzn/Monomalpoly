@@ -72,7 +72,7 @@ public class MonopolySpeechlet implements Speechlet {
 	 */
 	private SpeechletResponse getWelcomeResponse() {
 		String speechText = "Bienvenue dans la Skill Monomalpoly ! "
-				+ "Pour avoir les règles du jeu dites Règles du jeu. "
+				+ "Pour avoir les raigles du jeu dites Raigles du jeu. "
 				+ "Pour lancer une nouvelle partie dites Lancer une partie.";
 
 		SimpleCard card = new SimpleCard();
@@ -99,7 +99,10 @@ public class MonopolySpeechlet implements Speechlet {
 	private SpeechletResponse getStartResponse(Intent intent) {
 		Slot s = intent.getSlot("NbUser");
 
-		String speechText = "Bonjour le sang, " + s.getValue() + " joueurs vont jouer woulah";
+		String speechText = "Bienvenue dans votre nouvelle partie "
+				+	"de Monomalpoly. " + s.getValue() + " joueurs "
+				+ "vont jouer. Pour avoir les raigles du jeu dites "
+				+	"Raigles du jeu.";
 
 		SimpleCard card = new SimpleCard();
 		card.setTitle("Monomalpoly");
