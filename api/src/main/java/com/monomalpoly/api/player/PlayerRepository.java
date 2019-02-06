@@ -1,4 +1,4 @@
-package bimbamboum;
+package com.monomalpoly.api.player;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.jpa.repository.Query;

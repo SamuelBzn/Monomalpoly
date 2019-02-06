@@ -1,7 +1,13 @@
 package com.monomalpoly.api.player;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Player {
 
+    @Id
     @GeneratedValue
     private int id;
     private String name;
@@ -11,7 +17,7 @@ public class Player {
     private int hotels;
 
     public Player() {
-        
+
     }
 
     public Player(String name) {
@@ -50,6 +56,10 @@ public class Player {
         this.id = id;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void setBalance(int balance) {
         this.balance = balance;
     }
@@ -71,7 +81,7 @@ public class Player {
     }
 
     public void removeToBalance(int amount) {
-        (this.balance - amount > 0) ? this.balance -= amount : 0;
+        this.balance = (this.balance - amount > 0) ? balance - amount : 0;
     }
 
     public void addToProperties(int amount) {
@@ -79,7 +89,7 @@ public class Player {
     }
 
     public void removeToProperties(int amount) {
-        (this.properties - amount > 0) ? this.properties -= amount : 0;
+        this.properties = (this.properties - amount > 0) ? properties - amount : 0;
     }
 
     public void addToHouses(int amount) {
@@ -87,7 +97,7 @@ public class Player {
     }
 
     public void removeToHouses(int amount) {
-        (this.houses - amount > 0) ? this.houses -= amount : 0;
+        this.houses = (this.houses - amount > 0) ? houses - amount : 0;
     }
 
     public void addToHotels(int amount) {
@@ -95,6 +105,6 @@ public class Player {
     }
 
     public void removeToHotels(int amount) {
-        (this.hotels - amount > 0) ? this.hotels -= amount : 0;
+        this.hotels = (this.hotels - amount > 0) ? hotels - amount : 0;
     }
 }
