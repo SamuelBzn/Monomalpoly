@@ -94,7 +94,7 @@ public class MonopolySpeechlet implements Speechlet {
 	 * @return SpeechletResponse - Réponse textuelle.
 	 */
 	private SpeechletResponse getStartResponse() {
-		String speechText = "Combien de joueurs vont jouer ?";
+		String speechText = "Bonjour";
 
 		SimpleCard card = new SimpleCard();
 		card.setTitle("Monomalpoly");
