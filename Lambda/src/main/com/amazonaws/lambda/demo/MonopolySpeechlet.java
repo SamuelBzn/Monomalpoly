@@ -70,7 +70,9 @@ public class MonopolySpeechlet implements Speechlet {
 	 * CrÃ©e et retourne une {@code SpeechletResponse} avec un message de bienvenue.
 	 */
 	private SpeechletResponse getWelcomeResponse() {
-		String speechText = "Eh bien le bonjour !";
+		String speechText = "Bienvenue dans la Skill Monomalpoly ! "
+				+ "Pour avoir les règles du jeu dites Règles du jeu. "
+				+ "Pour lancer une nouvelle partie dites Lancer une partie.";
 
 		SimpleCard card = new SimpleCard();
 		card.setTitle("Monomalpoly");
@@ -94,7 +96,7 @@ public class MonopolySpeechlet implements Speechlet {
 	 * @return SpeechletResponse - RÃ©ponse textuelle.
 	 */
 	private SpeechletResponse getStartResponse() {
-		String speechText = "Bonjour {NbUser}";
+		String speechText = "La partie va commencée.";
 
 		SimpleCard card = new SimpleCard();
 		card.setTitle("Monomalpoly");
