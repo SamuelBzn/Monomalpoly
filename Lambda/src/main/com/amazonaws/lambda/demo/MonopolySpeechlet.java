@@ -98,7 +98,11 @@ public class MonopolySpeechlet implements Speechlet {
 		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
 		speech.setText(speechText);
 
-		return SpeechletResponse.newTellResponse(speech, card);
+		// Reprompt
+		Reprompt reprompt = new Reprompt();
+		reprompt.setOutputSpeech(speech);
+
+		return SpeechletResponse.newTellResponse(speech, reprompt, card);
 	}
 
 	/**
