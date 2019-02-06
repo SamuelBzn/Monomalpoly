@@ -56,7 +56,7 @@ public class MonopolySpeechlet implements Speechlet {
 		case "DiceDrawIntent" :
 			return getDiceDrawResponse();
 		case "PlayerName" :
-			return getPlayersNameResponse();
+			return getPlayerNameResponse();
 		case "AMAZON.HelpIntent":
 			return getHelpResponse();
 		default :
