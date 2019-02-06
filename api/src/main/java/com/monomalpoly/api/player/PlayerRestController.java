@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
+import java.util.List;
+import java.util.ArrayList;
 
 @RestController
 public class PlayerRestController {
@@ -21,5 +23,13 @@ public class PlayerRestController {
         playerRepository.save(p);
 
         return p;
+    }
+
+    @RequestMapping("player")
+    public List<Player> players() {
+        List<Player> l = new ArrayList<Player>();
+        for(Player p : playerRepository.findAll())
+            l.add(p);
+        return l;
     }
 }
