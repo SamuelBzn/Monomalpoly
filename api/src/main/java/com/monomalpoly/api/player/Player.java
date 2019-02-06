@@ -3,12 +3,16 @@ package com.monomalpoly.api.player;
 public class Player {
 
     @GeneratedValue
-    private final int id;
-    private final String name;
-    private final int balance;
-    private final int properties;
-    private final int houses;
-    private final int hotels;
+    private int id;
+    private String name;
+    private int balance;
+    private int properties;
+    private int houses;
+    private int hotels;
+
+    public Player() {
+        
+    }
 
     public Player(String name) {
         this.name = name;
