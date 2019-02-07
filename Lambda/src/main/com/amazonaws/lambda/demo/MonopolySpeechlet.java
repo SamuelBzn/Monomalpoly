@@ -275,7 +275,7 @@ public class MonopolySpeechlet implements Speechlet {
 	public static void resetDataBase() {
 		
 		URL url = new URL("http://52.47.35.192:8080/reset");
-		HttpUrlConnection con = (HttpUrlConnection)url.openConnection();
+		HttpURLConnection con = (HttpURLConnection)url.openConnection();
 		
 	}
 	
