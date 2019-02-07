@@ -278,7 +278,8 @@ public class MonopolySpeechlet implements Speechlet {
 	public static void resetDataBase() {
 		
 		try{
-			URL url = new URL("http://52.47.35.192:8080/reset");
+			String route = "http://52.47.35.192:8080/reset";
+			URL url = new URL(route);
 			try{
 				HttpURLConnection con = (HttpURLConnection)url.openConnection();
 			}catch(IOException e){}
