@@ -295,7 +295,7 @@ public class MonopolySpeechlet implements Speechlet {
 		} catch (IOException e) {
 		}
 		
-		return json.getInt();
+		return json.getInt("value");
 	}
 	
 	public static JSONObject createGame(String state, String NbUsers) {
