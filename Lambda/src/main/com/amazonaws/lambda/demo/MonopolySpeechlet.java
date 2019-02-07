@@ -57,6 +57,8 @@ public class MonopolySpeechlet implements Speechlet {
 			return getPlayerNameResponse();
 		case "AMAZON.HelpIntent":
 			return getHelpResponse();
+		case "RulesIntent":
+			return getRulesResponse();
 		default :
 			throw new SpeechletException("Invalid Intent");
 		}
@@ -200,6 +202,28 @@ public class MonopolySpeechlet implements Speechlet {
 		reprompt.setOutputSpeech(speech);
 
 		return SpeechletResponse.newTellResponse(speech, card);
+	}
+
+		private SpeechletResponse getRulesResponse() {
+		String speechText = "Le Monomalpolie est un jeu de société américain édité par Hasbro. " + 
+		"Le but du jeu consiste à ruiner ses concurrents par des opérations immobilières." + 
+		" Le jeu se déroule en tour par tour, avec deux dés ordinaires à 6 faces. "+
+		"Chaque joueur lance les dés, avance son pion sur le parcours, puis selon la case sur laquelle il s’arrête, effectue une action correspondante."+
+		"Le vainqueur est le dernier joueur n’ayant pas fait faillite, et qui possède de ce fait le monopole";
+
+		SimpleCard card = new SimpleCard();
+		card.setTitle("Monomalpoly");
+		card.setContent(speechText);
+
+		// RÃ©ponse texte
+		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
+		speech.setText(speechText);
+
+		// Reprompt
+		Reprompt reprompt = new Reprompt();
+		reprompt.setOutputSpeech(speech);
+
+		return SpeechletResponse.newTellResponse(speech, reprompt, card);
 	}
 
 	private static String readAll(Reader rd) throws IOException {
