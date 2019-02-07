@@ -184,13 +184,8 @@ public class MonopolySpeechlet implements Speechlet {
 		try {
 			JSONObject json = readJsonFromUrl(url);
 			// speechText = json.getString("message");
-<<<<<<< HEAD
 			speechText = "Le pseudo " + s.getValue() + " a bien �t� ajouter."
 					+ "Joueur suivant dites votre pseudo.";
-=======
-			speechText = "Le Pseudo " + s.getValue() + " a bien été ajouté."
-					+ " Joueur suivant dites votre pseudo.";
->>>>>>> origin/master
 		} catch (IOException e) {
 			speechText = "Une erreur est survenue pendant la requête.";
 		}
