@@ -75,7 +75,7 @@ public class MonopolySpeechlet implements Speechlet {
 	private SpeechletResponse getWelcomeResponse() {
 		String speechText = "Bienvenue dans la Skill Monomalpoly ! "
 				+ "Pour avoir les règles du jeu dites Règles du jeu."
-				+ "Pour créer une nouvelle partie dites Créer une partie.";
+				+ "Pour créer une nouvelle partie dites Lancer une partie.";
 
 		SimpleCard card = new SimpleCard();
 		card.setTitle("Monomalpoly");
@@ -184,7 +184,7 @@ public class MonopolySpeechlet implements Speechlet {
 		try {
 			JSONObject json = readJsonFromUrl(url);
 			// speechText = json.getString("message");
-			speechText = "Le pseudo " + s.getValue() + " a bien été ajouté ."
+			speechText = "Le pseudo " + s.getValue() + " a bien été ajouté"
 					+ "Joueur suivant dites Mon pseudo est ";
 		} catch (IOException e) {
 			speechText = "Une erreur est survenue pendant la requête";
