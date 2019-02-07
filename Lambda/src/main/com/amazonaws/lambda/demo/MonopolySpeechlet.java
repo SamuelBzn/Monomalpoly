@@ -57,6 +57,8 @@ public class MonopolySpeechlet implements Speechlet {
 			return getPlayerNameResponse(intent);
 		case "AMAZON.HelpIntent":
 			return getHelpResponse();
+		case "AMAZON.StopIntent":
+			return stopResponse();
 		case "RulesIntent":
 			return getRulesResponse();
 		default :
@@ -172,6 +174,21 @@ public class MonopolySpeechlet implements Speechlet {
 		// Create reprompt
 		Reprompt reprompt = new Reprompt();
 		reprompt.setOutputSpeech(speech);
+
+		return SpeechletResponse.newAskResponse(speech, reprompt, card);
+	}
+
+	private SpeechletResponse stopResponse() {
+
+		String speechText = "Au revoir";
+
+		SimpleCard card = new SimpleCard();
+		card.setTitle("Monomalpoly");
+		card.setContent(speechText);
+
+		// Create the plain text output.
+		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
+		speech.setText(speechText);
 
 		return SpeechletResponse.newTellResponse(speech, card);
 	}
