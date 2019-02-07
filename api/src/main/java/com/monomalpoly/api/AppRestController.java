@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.monomalpoly.api.player.PlayerRepository;
 import com.monomalpoly.api.property.PropertyRepository;
+import com.monomalpoly.api.game.GameRepository;
 
 @RestController
 public class AppRestController {
@@ -16,9 +17,13 @@ public class AppRestController {
     @Autowired
     private PropertyRepository propertyRepository;
 
+    @Autowired
+    private GameRepository gameRepository;
+
     @RequestMapping("reset")
     public void reset() {
         playerRepository.deleteAll();
         propertyRepository.deleteAll();
+        gameRepository.deleteAll();
     }
 }
