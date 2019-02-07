@@ -8,6 +8,8 @@ import com.monomalpoly.api.player.PlayerRepository;
 import com.monomalpoly.api.property.PropertyRepository;
 import com.monomalpoly.api.game.GameRepository;
 
+import java.util.HashMap;
+
 @RestController
 public class AppRestController {
     @Autowired
@@ -20,9 +22,15 @@ public class AppRestController {
     private GameRepository gameRepository;
 
     @RequestMapping("reset")
-    public void reset() {
+    public HashMap<String, String> reset() {
         playerRepository.deleteAll();
         propertyRepository.deleteAll();
         gameRepository.deleteAll();
+
+        HashMap<String, String> response = new HashMap<String, String>();
+
+        response.put("response", "base vidée sans erreur");
+
+        return response;
     }
 }
