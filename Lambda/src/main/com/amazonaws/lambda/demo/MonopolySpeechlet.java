@@ -54,9 +54,11 @@ public class MonopolySpeechlet implements Speechlet {
 		case "DiceDrawIntent" :
 			return getDiceDrawResponse();
 		case "PlayerName" :
-			return getPlayerNameResponse();
+			return getPlayerNameResponse(intent);
 		case "AMAZON.HelpIntent":
 			return getHelpResponse();
+		case "RulesIntent":
+			return getRulesResponse();
 		default :
 			throw new SpeechletException("Invalid Intent");
 		}
@@ -92,7 +94,7 @@ public class MonopolySpeechlet implements Speechlet {
 
 	/**
 	 * Gère le début d'une partie. Toute la logique de création d'une
-	 * partie doit être lancé à ce moment (appel au backend).
+	 * partie doit être lancée à  ce moment (appel au backend).
 	 *
 	 * @return SpeechletResponse - Réponse textuelle.
 	 */
@@ -171,18 +173,24 @@ public class MonopolySpeechlet implements Speechlet {
 		return SpeechletResponse.newTellResponse(speech, card);
 	}
 
-	private SpeechletResponse getPlayerNameResponse() {
+	private SpeechletResponse getPlayerNameResponse(Intent intent) {
 
 		String speechText;
+
 		Slot s = intent.getSlot("Name");
-		
+
 		String url = "http://52.47.35.192:8080/player/add/" + s.getValue();
 
 		try {
 			JSONObject json = readJsonFromUrl(url);
 			// speechText = json.getString("message");
+<<<<<<< HEAD
 			speechText = "Le pseudo " + s.getValue() + " a bien �t� ajouter."
 					+ "Joueur suivant dites votre pseudo.";
+=======
+			speechText = "Le Pseudo " + s.getValue() + " a bien été ajouté."
+					+ " Joueur suivant dites votre pseudo.";
+>>>>>>> origin/master
 		} catch (IOException e) {
 			speechText = "Une erreur est survenue pendant la requête.";
 		}
@@ -198,6 +206,24 @@ public class MonopolySpeechlet implements Speechlet {
 		// Create reprompt
 		Reprompt reprompt = new Reprompt();
 		reprompt.setOutputSpeech(speech);
+
+		return SpeechletResponse.newTellResponse(speech, card);
+	}
+
+		private SpeechletResponse getRulesResponse() {
+		String speechText = "Le Monomalpolie est un jeu de société américain édité par Hasbro. " +
+		"Le but du jeu consiste à ruiner ses concurrents par des opérations immobilières." +
+		" Le jeu se déroule en tour par tour, avec deux dés ordinaires à 6 faces. "+
+		"Chaque joueur lance les dés, avance son pion sur le parcours, puis selon la case sur laquelle il s’arrête, effectue une action correspondante."+
+		"Le vainqueur est le dernier joueur n’ayant pas fait faillite, et qui possède de ce fait le monopole";
+
+		SimpleCard card = new SimpleCard();
+		card.setTitle("Monomalpoly");
+		card.setContent(speechText);
+
+		// Réponse texte
+		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
+		speech.setText(speechText);
 
 		return SpeechletResponse.newTellResponse(speech, card);
 	}

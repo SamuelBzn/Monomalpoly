@@ -15,7 +15,7 @@ public class PropertyRestController {
     @RequestMapping("property")
     public List<Property> properties() {
         List<Property> l = new ArrayList<Property>();
-        for(Property p : playerRepository.findAll())
+        for(Property p : propertyRepository.findAll())
             l.add(p);
         return l;
     }
