@@ -18,7 +18,7 @@ import com.amazon.speech.ui.Reprompt;
 import com.amazon.speech.ui.SimpleCard;
 
 import java.net.URL;
-import java.net.HttpURLConnection
+import java.net.HttpURLConnection;
 import java.nio.charset.Charset;
 
 import java.io.BufferedReader;
