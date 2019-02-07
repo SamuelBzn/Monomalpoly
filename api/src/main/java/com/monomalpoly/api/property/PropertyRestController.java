@@ -20,16 +20,16 @@ public class PropertyRestController {
     }
 
     @RequestMapping("Property/create")
-    public Property createProperty() {
+    public List<Property> createProperty() {
 
         Property p = new Property();
         p.setName("Go");
         p.setNature("depart");
         p.setBuyable(false);
         p.setUser(null);
-        p.setLandCost(null);
-        p.setCost(null);
-        p.setLevel(null);
+        p.setLandCost(0);
+        p.setCost(0);
+        p.setLevel(0);
         p.setColor(null);
         propertyRepository.save(p);
 
@@ -53,9 +53,9 @@ public class PropertyRestController {
         p3.setNature("community");
         p3.setBuyable(false);
         p3.setUser(null);
-        p3.setLandCost(null);
-        p3.setCost(null);
-        p3.setLevel(null);
+        p3.setLandCost(0);
+        p3.setCost(0);
+        p3.setLevel(0);
         p3.setColor(null);
         propertyRepository.save(p3);
 
@@ -75,9 +75,9 @@ public class PropertyRestController {
         p5.setNature("tax");
         p5.setBuyable(false);
         p5.setUser(null);
-        p5.setLandCost(null);
-        p5.setCost(null);
-        p5.setLevel(null);
+        p5.setLandCost(0);
+        p5.setCost(0);
+        p5.setLevel(0);
         p5.setColor(null);
         propertyRepository.save(p5);
 
@@ -88,7 +88,7 @@ public class PropertyRestController {
         p6.setUser(null);
         p6.setLandCost(200);
         p6.setCost(200);
-        p6.setLevel(null);
+        p6.setLevel(0);
         p6.setColor(null);
         propertyRepository.save(p6);
 
@@ -108,9 +108,9 @@ public class PropertyRestController {
         p8.setNature("chance");
         p8.setBuyable(false);
         p8.setUser(null);
-        p8.setLandCost(null);
-        p8.setCost(null);
-        p8.setLevel(null);
+        p8.setLandCost(0);
+        p8.setCost(0);
+        p8.setLevel(0);
         p8.setColor(null);
         propertyRepository.save(p8);
 
@@ -141,9 +141,9 @@ public class PropertyRestController {
         p11.setNature("jail");
         p11.setBuyable(false);
         p11.setUser(null);
-        p11.setLandCost(null);
-        p11.setCost(null);
-        p11.setLevel(null);
+        p11.setLandCost(0);
+        p11.setCost(0);
+        p11.setLevel(0);
         p11.setColor(null);
         propertyRepository.save(p11);
 
@@ -165,7 +165,7 @@ public class PropertyRestController {
         p13.setUser(null);
         p13.setLandCost(150);
         p13.setCost(150);
-        p13.setLevel(null);
+        p13.setLevel(0);
         p13.setColor(null);
         propertyRepository.save(p13);
 
@@ -198,7 +198,7 @@ public class PropertyRestController {
         p16.setUser(null);
         p16.setLandCost(200);
         p16.setCost(200);
-        p16.setLevel(null);
+        p16.setLevel(0);
         p16.setColor(null);
         propertyRepository.save(p16);
 
@@ -218,9 +218,9 @@ public class PropertyRestController {
         p18.setNature("community");
         p18.setBuyable(false);
         p18.setUser(null);
-        p18.setLandCost(null);
-        p18.setCost(null);
-        p18.setLevel(null);
+        p18.setLandCost(0);
+        p18.setCost(0);
+        p18.setLevel(0);
         p18.setColor(null);
         propertyRepository.save(p18);
 
@@ -251,9 +251,9 @@ public class PropertyRestController {
         p21.setNature("parking");
         p21.setBuyable(false);
         p21.setUser(null);
-        p21.setLandCost(null);
-        p21.setCost(null);
-        p21.setLevel(null);
+        p21.setLandCost(0);
+        p21.setCost(0);
+        p21.setLevel(0);
         p21.setColor(null);
         propertyRepository.save(p21);
 
@@ -273,9 +273,9 @@ public class PropertyRestController {
         p23.setNature("chance");
         p23.setBuyable(false);
         p23.setUser(null);
-        p23.setLandCost(null);
-        p23.setCost(null);
-        p23.setLevel(null);
+        p23.setLandCost(0);
+        p23.setCost(0);
+        p23.setLevel(0);
         p23.setColor(null);
         propertyRepository.save(p23);
 
@@ -308,7 +308,7 @@ public class PropertyRestController {
         p26.setUser(null);
         p26.setLandCost(200);
         p26.setCost(200);
-        p26.setLevel(null);
+        p26.setLevel(0);
         p26.setColor(null);
         propertyRepository.save(p26);
 
@@ -341,7 +341,7 @@ public class PropertyRestController {
         p29.setUser(null);
         p29.setLandCost(120);
         p29.setCost(120);
-        p29.setLevel(null);
+        p29.setLevel(0);
         p29.setColor(null);
         propertyRepository.save(p29);
 
@@ -361,9 +361,9 @@ public class PropertyRestController {
         p31.setNature("gojail");
         p31.setBuyable(false);
         p31.setUser(null);
-        p31.setLandCost(null);
-        p31.setCost(null);
-        p31.setLevel(null);
+        p31.setLandCost(0);
+        p31.setCost(0);
+        p31.setLevel(0);
         p31.setColor(null);
         propertyRepository.save(p31);
 
@@ -394,9 +394,9 @@ public class PropertyRestController {
         p34.setNature("community");
         p34.setBuyable(false);
         p34.setUser(null);
-        p34.setLandCost(null);
-        p34.setCost(null);
-        p34.setLevel(null);
+        p34.setLandCost(0);
+        p34.setCost(0);
+        p34.setLevel(0);
         p34.setColor(null);
         propertyRepository.save(p34);
 
@@ -418,7 +418,7 @@ public class PropertyRestController {
         p36.setUser(null);
         p36.setLandCost(200);
         p36.setCost(200);
-        p36.setLevel(null);
+        p36.setLevel(0);
         p36.setColor(null);
         propertyRepository.save(p36);
 
@@ -427,9 +427,9 @@ public class PropertyRestController {
         p37.setNature("chance");
         p37.setBuyable(false);
         p37.setUser(null);
-        p37.setLandCost(null);
-        p37.setCost(null);
-        p37.setLevel(null);
+        p37.setLandCost(0);
+        p37.setCost(0);
+        p37.setLevel(0);
         p37.setColor(null);
         propertyRepository.save(p37);
 
@@ -449,9 +449,9 @@ public class PropertyRestController {
         p39.setNature("tax");
         p39.setBuyable(false);
         p39.setUser(null);
-        p39.setLandCost(null);
-        p39.setCost(null);
-        p39.setLevel(null);
+        p39.setLandCost(0);
+        p39.setCost(0);
+        p39.setLevel(0);
         p39.setColor(null);
         propertyRepository.save(p39);
 
@@ -463,14 +463,14 @@ public class PropertyRestController {
         p40.setLandCost(400);
         p40.setCost(400);
         p40.setLevel(0);
-        p40.setColor(blue);
+        p40.setColor("blue");
         propertyRepository.save(p40);
 
-        List<Property> list = new propertyRepository();
-    	for(Property p : propertyRepository.findAll())
-		list.add(p);
+        ArrayList<Property> list = new ArrayList<Property>();
 
-		return list;
+        for (Property property : propertyRepository.findAll())
+		list.add(property);
+
+	return list;
     }
-
 }

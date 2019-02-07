@@ -82,24 +82,36 @@ public class Property {
 		this.landCost = landCost;
 	}
 
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public void setCost(int cost) {
+		this.cost = cost;
+	}
+
 	public void improve(Player player) {
 		if (this.level < 3) {
 			switch(this.level) {
 			case 1: this.level++; this.cost = (int) (this.landCost * 0.1); player.removeToBalance(HOUSEPRICE); // augmentation de 10% du prix du terrain si maison (level 1)
 			break;
 			case 2: this.level++; this.cost = (int) (this.landCost * 0.3); player.removeToBalance(HOSTELPRICE);// augmentation de 30% du prix du terrain si hotel (level 2)
-			break;			
+			break;
 			}
 		}
 	}
-	
+
 	public void downgrade(Player player){
 		if (this.level > 1) {
 			switch(this.level) {
 			case 3: this.level--; this.cost = (int) (this.landCost * 0.1); player.addToBalance(HOSTELPRICE);//passage au level 2
 			break;
 			case 2: this.level--; this.cost = (int) (this.landCost); player.addToBalance(HOUSEPRICE);// passage au level 1
-			break;			
+			break;
 			}
 		}
 	}
@@ -108,7 +120,7 @@ public class Property {
 		this.level = 1; // achat du terrain
 		player.removeToBalance(landCost);
 	}
-	
+
 	public void sell(Player player) {
 		switch(this.level) {
 		case 3: player.addToBalance(HOSTELPRICE + HOUSEPRICE + this.landCost);
