@@ -36,7 +36,7 @@ public class Property {
 		this.name = name;
 		this.nature = nature;
 		this.buyable = buyable;
-		this.user = null;
+		this.user = user;
 		this.landCost = landCost;
 		this.cost = landCost;
 		this.level = 0;

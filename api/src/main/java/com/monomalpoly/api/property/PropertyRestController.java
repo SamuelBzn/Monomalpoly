@@ -3,7 +3,6 @@ package com.monomalpoly.api.property;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -466,8 +465,12 @@ public class PropertyRestController {
         p40.setLevel(0);
         p40.setColor(blue);
         propertyRepository.save(p40);
+
+        List<Property> list = new propertyRepository();
+    	for(Property p : propertyRepository.findAll())
+		list.add(p);
+
+		return list;
     }
-
-
 
 }
