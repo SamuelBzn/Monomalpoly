@@ -61,14 +61,12 @@ public class MonopolySpeechlet implements Speechlet {
 			}else{
 				return getNotAllowedResponse();
 			}
-			break;
 		case "PlayerName" :
 			if(state.equals("choix_pseudo")) {
 				return getPlayerNameResponse(intent);
 			}else{
 				return getNotAllowedResponse();
 			}
-			break;
 		case "AMAZON.HelpIntent":
 			return getHelpResponse();
 		case "AMAZON.StopIntent":
@@ -369,11 +367,7 @@ public class MonopolySpeechlet implements Speechlet {
 		} catch (IOException e) {
 		}
 		
-		if(json != null) {
-			return json.getString("state");
-		}else {
-			return "null";
-		}
+		return json.getString("state");
 	}
 }
 
