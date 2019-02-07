@@ -271,16 +271,11 @@ public class MonopolySpeechlet implements Speechlet {
 	    }
 	}
 	
-	public static JSONObject resetDataBase() {
-		String url = "http://52.47.35.192:8080/reset";
-		JSONObject json = new JSONObject();
+	public static void resetDataBase() {
 		
-		try {
-			json = readJsonFromUrl(url);
-		} catch (IOException e) {
-		}
+		String url = new URL("http://52.47.35.192:8080/reset");
+		HttpUrlConnection con = (HttpUrlConnection)url.openConnection();
 		
-		return json;
 	}
 	
 	public static int decreaseUser() {
