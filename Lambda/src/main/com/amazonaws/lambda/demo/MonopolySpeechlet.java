@@ -58,15 +58,17 @@ public class MonopolySpeechlet implements Speechlet {
 		case "DiceDrawIntent" :
 			if(state.equals("game_started")) {
 				return getDiceDrawResponse();
-			}else {
+			}else{
 				return getNotAllowedResponse();
 			}
+			break;
 		case "PlayerName" :
 			if(state.equals("choix_pseudo")) {
 				return getPlayerNameResponse(intent);
-			}else {
+			}else{
 				return getNotAllowedResponse();
 			}
+			break;
 		case "AMAZON.HelpIntent":
 			return getHelpResponse();
 		case "AMAZON.StopIntent":
