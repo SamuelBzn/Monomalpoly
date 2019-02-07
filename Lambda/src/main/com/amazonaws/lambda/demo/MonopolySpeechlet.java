@@ -251,7 +251,11 @@ public class MonopolySpeechlet implements Speechlet {
 		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
 		speech.setText(speechText);
 
-		return SpeechletResponse.newTellResponse(speech, card);
+		// Create reprompt
+		Reprompt reprompt = new Reprompt();
+		reprompt.setOutputSpeech(speech);
+		
+		return SpeechletResponse.newAskResponse(speech, reprompt, card);
 	}
 
 	private static String readAll(Reader rd) throws IOException {
