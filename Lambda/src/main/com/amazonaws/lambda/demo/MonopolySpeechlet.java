@@ -81,7 +81,7 @@ public class MonopolySpeechlet implements Speechlet {
 		card.setTitle("Monomalpoly");
 		card.setContent(speechText);
 
-		// RÃ©ponse texte
+		// Réponse texte
 		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
 		speech.setText(speechText);
 
@@ -94,7 +94,7 @@ public class MonopolySpeechlet implements Speechlet {
 
 	/**
 	 * Gère le début d'une partie. Toute la logique de création d'une
-	 * partie doit être lancée à ce moment (appel au backend).
+	 * partie doit être lancée à  ce moment (appel au backend).
 	 *
 	 * @return SpeechletResponse - Réponse textuelle.
 	 */
@@ -184,7 +184,7 @@ public class MonopolySpeechlet implements Speechlet {
 		try {
 			JSONObject json = readJsonFromUrl(url);
 			// speechText = json.getString("message");
-			speechText = "Le Pseudo " + s.getValue() + " a bien été ajouter."
+			speechText = "Le Pseudo " + s.getValue() + " a bien été ajouté."
 					+ " Joueur suivant dites votre pseudo.";
 		} catch (IOException e) {
 			speechText = "Une erreur est survenue pendant la requête.";
@@ -206,11 +206,11 @@ public class MonopolySpeechlet implements Speechlet {
 	}
 
 		private SpeechletResponse getRulesResponse() {
-		String speechText = "Le Monomalpolie est un jeu de soci�t� am�ricain �dit� par Hasbro. " + 
-		"Le but du jeu consiste � ruiner ses concurrents par des op�rations immobili�res." + 
-		" Le jeu se d�roule en tour par tour, avec deux d�s ordinaires � 6 faces. "+
-		"Chaque joueur lance les d�s, avance son pion sur le parcours, puis selon la case sur laquelle il s�arr�te, effectue une action correspondante."+
-		"Le vainqueur est le dernier joueur n�ayant pas fait faillite, et qui poss�de de ce fait le monopole";
+		String speechText = "Le Monomalpolie est un jeu de société américain édité par Hasbro. " +
+		"Le but du jeu consiste à ruiner ses concurrents par des opérations immobilières." +
+		" Le jeu se déroule en tour par tour, avec deux dés ordinaires à 6 faces. "+
+		"Chaque joueur lance les dés, avance son pion sur le parcours, puis selon la case sur laquelle il s’arrête, effectue une action correspondante."+
+		"Le vainqueur est le dernier joueur n’ayant pas fait faillite, et qui possède de ce fait le monopole";
 
 		SimpleCard card = new SimpleCard();
 		card.setTitle("Monomalpoly");
@@ -220,11 +220,7 @@ public class MonopolySpeechlet implements Speechlet {
 		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
 		speech.setText(speechText);
 
-		// Reprompt
-		Reprompt reprompt = new Reprompt();
-		reprompt.setOutputSpeech(speech);
-
-		return SpeechletResponse.newTellResponse(speech, reprompt, card);
+		return SpeechletResponse.newTellResponse(speech, card);
 	}
 
 	private static String readAll(Reader rd) throws IOException {
