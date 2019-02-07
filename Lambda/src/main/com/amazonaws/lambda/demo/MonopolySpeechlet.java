@@ -180,8 +180,6 @@ public class MonopolySpeechlet implements Speechlet {
 
 		String speechText;
 
-		
-		
 		Slot s = intent.getSlot("Name");
 
 		String url = "http://52.47.35.192:8080/player/add/" + s.getValue();
