@@ -105,7 +105,7 @@ public class MonopolySpeechlet implements Speechlet {
 	private SpeechletResponse getStartResponse(Intent intent) {
 		Slot s = intent.getSlot("NbUser");
 		
-		resetDataBase();
+		JSONObject reset = resetDataBase();
 		JSONObject createGame = createGame("choix_pseudo", s.getValue());
 		
 		String speechText = "Bienvenue dans votre nouvelle partie "
@@ -206,7 +206,7 @@ public class MonopolySpeechlet implements Speechlet {
 		try {
 			JSONObject json = readJsonFromUrl(url);
 			// speechText = json.getString("message");
-			speechText = "Le pseudo " + s.getValue() + " a bien été ajouté ";
+			speechText = "Le pseudo " + s.getValue() + " a bien été ajouté.";
 		} catch (IOException e) {
 			speechText = "Une erreur est survenue pendant la requête";
 		}
@@ -214,10 +214,10 @@ public class MonopolySpeechlet implements Speechlet {
 		int pseudoLeft = decreaseUser();
 		
 		if(pseudoLeft > 0) {
-			speechText += " Joueur suivant dites Mon pseudo est ";
+			speechText += "Joueur suivant dites Mon pseudo est ";
 		}else {
-			speechText += " Tout les joueurs ont annoncé leur pseudo."
-					+ " La partie va bientot commencer";
+			speechText += "Tout les joueurs ont annoncé leur pseudo."
+					+ "La partie va bientot commencer";
 			JSONObject update = updateState("game_started");
 		}
 		
@@ -275,15 +275,17 @@ public class MonopolySpeechlet implements Speechlet {
 	    }
 	}
 	
-	public static void resetDataBase() {
+	public static JSONObject resetDataBase() {
 		
-		try{
-			String route = "http://52.47.35.192:8080/reset";
-			URL url = new URL(route);
-			try{
-				HttpURLConnection con = (HttpURLConnection)url.openConnection();
-			}catch(IOException e){}
-		}catch(MalformedURLException ex){}
+		String url = "http://52.47.35.192:8080/game/new/" + NbUsers + "/" + state + "";
+		JSONObject json  = new JSONObject();
+		
+		try {
+			json = readJsonFromUrl(url);
+		} catch (IOException e) {
+		}
+		
+		return json;
 	}
 	
 	public static int decreaseUser() {
