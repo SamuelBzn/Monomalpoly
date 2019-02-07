@@ -18,6 +18,7 @@ import com.amazon.speech.ui.Reprompt;
 import com.amazon.speech.ui.SimpleCard;
 
 import java.net.URL;
+import java.net.HttpURLConnection
 import java.nio.charset.Charset;
 
 import java.io.BufferedReader;
@@ -103,7 +104,7 @@ public class MonopolySpeechlet implements Speechlet {
 	private SpeechletResponse getStartResponse(Intent intent) {
 		Slot s = intent.getSlot("NbUser");
 		
-		JSONObject reset = resetDataBase();
+		resetDataBase();
 		JSONObject createGame = createGame("choix_pseudo", s.getValue());
 		
 		String speechText = "Bienvenue dans votre nouvelle partie "
