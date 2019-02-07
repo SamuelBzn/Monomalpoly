@@ -277,7 +277,7 @@ public class MonopolySpeechlet implements Speechlet {
 	
 	public static JSONObject resetDataBase() {
 		
-		String url = "http://52.47.35.192:8080/game/new/" + NbUsers + "/" + state + "";
+		String url = "http://52.47.35.192:8080/reset;
 		JSONObject json  = new JSONObject();
 		
 		try {
