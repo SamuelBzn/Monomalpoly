@@ -211,7 +211,9 @@ public class MonopolySpeechlet implements Speechlet {
 			speechText = "Une erreur est survenue pendant la requête";
 		}
 
-		if(decreaseUser() > 0) {
+		int pseudoLeft = decreaseUser();
+		
+		if(pseudoLeft > 0) {
 			speechText += " Joueur suivant dites Mon pseudo est ";
 		}else {
 			speechText += " Tout les joueurs ont annoncé leur pseudo."
@@ -292,7 +294,7 @@ public class MonopolySpeechlet implements Speechlet {
 		} catch (IOException e) {
 		}
 		
-		return json.getInt("countNbUsers");
+		return json.getInt();
 	}
 	
 	public static JSONObject createGame(String state, String NbUsers) {
