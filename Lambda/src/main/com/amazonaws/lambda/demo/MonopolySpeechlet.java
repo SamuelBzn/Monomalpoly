@@ -74,8 +74,8 @@ public class MonopolySpeechlet implements Speechlet {
 	 */
 	private SpeechletResponse getWelcomeResponse() {
 		String speechText = "Bienvenue dans la Skill Monomalpoly ! "
-				+ "Pour avoir les raigles du jeu dites Raigles du jeu. "
-				+ "Pour creer une nouvelle partie dites Creer une partie.";
+				+ "Pour avoir les règles du jeu dites Règles du jeu."
+				+ "Pour créer une nouvelle partie dites Créer une partie.";
 
 		SimpleCard card = new SimpleCard();
 		card.setTitle("Monomalpoly");
@@ -184,10 +184,10 @@ public class MonopolySpeechlet implements Speechlet {
 		try {
 			JSONObject json = readJsonFromUrl(url);
 			// speechText = json.getString("message");
-			speechText = "Le Pseudo " + s.getValue() + " a bien été ajouté."
-					+ " Joueur suivant dites votre pseudo.";
+			speechText = "Le pseudo " + s.getValue() + " a bien été ajouté ."
+					+ "Joueur suivant dites Mon pseudo est ";
 		} catch (IOException e) {
-			speechText = "Une erreur est survenue pendant la requête.";
+			speechText = "Une erreur est survenue pendant la requête";
 		}
 
 		SimpleCard card = new SimpleCard();
@@ -202,10 +202,10 @@ public class MonopolySpeechlet implements Speechlet {
 		Reprompt reprompt = new Reprompt();
 		reprompt.setOutputSpeech(speech);
 
-		return SpeechletResponse.newTellResponse(speech, card);
+		return SpeechletResponse.newAskResponse(speech, reprompt, card);
 	}
 
-		private SpeechletResponse getRulesResponse() {
+	private SpeechletResponse getRulesResponse() {
 		String speechText = "Le Monomalpolie est un jeu de société américain édité par Hasbro. " +
 		"Le but du jeu consiste à ruiner ses concurrents par des opérations immobilières." +
 		" Le jeu se déroule en tour par tour, avec deux dés ordinaires à 6 faces. "+
