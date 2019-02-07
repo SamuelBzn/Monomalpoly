@@ -50,13 +50,23 @@ public class MonopolySpeechlet implements Speechlet {
 		Intent intent = request.getIntent();
 		String intentName = (intent != null) ? intent.getName() : null;
 
+		String state = getStateGame();
+		
 		switch(intentName) {
 		case "StartIntent" :
 			return getStartResponse(intent);
 		case "DiceDrawIntent" :
-			return getDiceDrawResponse();
+			if(state.equals("game_started")) {
+				return getDiceDrawResponse();
+			}else {
+				return getNotAllowedResponse();
+			}
 		case "PlayerName" :
-			return getPlayerNameResponse(intent);
+			if(state.equals("choix_pseudo")) {
+				return getPlayerNameResponse(intent);
+			}else {
+				return getNotAllowedResponse();
+			}
 		case "AMAZON.HelpIntent":
 			return getHelpResponse();
 		case "AMAZON.StopIntent":
@@ -260,6 +270,24 @@ public class MonopolySpeechlet implements Speechlet {
 		return SpeechletResponse.newAskResponse(speech, reprompt, card);
 	}
 
+	private SpeechletResponse getNotAllowedResponse() {
+		String speechText = "Cette instruction n'est pas disponible dans l'état actuel de la partie.";
+
+		SimpleCard card = new SimpleCard();
+		card.setTitle("Monomalpoly");
+		card.setContent(speechText);
+
+		// Réponse texte
+		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
+		speech.setText(speechText);
+
+		// Create reprompt
+		Reprompt reprompt = new Reprompt();
+		reprompt.setOutputSpeech(speech);
+		
+		return SpeechletResponse.newAskResponse(speech, reprompt, card);
+	}
+	
 	private static String readAll(Reader rd) throws IOException {
 	    StringBuilder sb = new StringBuilder();
 	    int cp;
@@ -328,6 +356,22 @@ public class MonopolySpeechlet implements Speechlet {
 		}
 		
 		return json;
+	}
+	
+	public static String getStateGame() {
+		String url = "http://52.47.35.192:8080/game";
+		JSONObject json = new JSONObject();
+		
+		try {
+			json = readJsonFromUrl(url);
+		} catch (IOException e) {
+		}
+		
+		if(json != null) {
+			return json.getString("state");
+		}else {
+			return "null";
+		}
 	}
 }
 
