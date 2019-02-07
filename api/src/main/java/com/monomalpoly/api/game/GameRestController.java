@@ -51,6 +51,13 @@ public class GameRestController {
         List<Game> l = new ArrayList<Game>();
         for(Game g : gameRepository.findAll())
             l.add(g);
+        if(l.isEmpty()) {
+            Game g = new Game();
+            g.setNbUsers(-1);
+            g.setCountNbUsers(-1);
+            g.setState("null");
+            l.add(g)
+        }
         return l;
     }
 }
