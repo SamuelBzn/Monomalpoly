@@ -25,6 +25,7 @@ public class Property {
     private int landCost; // prix terrain
     private int cost;  // prix terrain + aménagement
     private int level; // 0 = pas acheter 1 = terrain, 2 = maison, 3 = hotel
+    private String color;
 
     public Property() {
 
@@ -35,7 +36,7 @@ public class Property {
 		this.name = name;
 		this.nature = nature;
 		this.buyable = buyable;
-		this.user = user;
+		this.user = null;
 		this.landCost = landCost;
 		this.cost = landCost;
 		this.level = 0;
