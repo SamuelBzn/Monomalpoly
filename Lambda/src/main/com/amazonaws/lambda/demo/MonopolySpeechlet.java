@@ -20,6 +20,7 @@ import com.amazon.speech.ui.SimpleCard;
 import java.net.URL;
 import java.net.HttpURLConnection;
 import java.nio.charset.Charset;
+import java.net.MalformedURLException;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -274,9 +275,12 @@ public class MonopolySpeechlet implements Speechlet {
 	
 	public static void resetDataBase() {
 		
-		URL url = new URL("http://52.47.35.192:8080/reset");
-		HttpURLConnection con = (HttpURLConnection)url.openConnection();
-		
+		try{
+			URL url = new URL("http://52.47.35.192:8080/reset");
+			try{
+				HttpURLConnection con = (HttpURLConnection)url.openConnection();
+			}catch(IOException e){}
+		}catch(MalformedURLException ex){}
 	}
 	
 	public static int decreaseUser() {
