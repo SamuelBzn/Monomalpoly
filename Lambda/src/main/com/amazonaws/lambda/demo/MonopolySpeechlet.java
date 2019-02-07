@@ -210,7 +210,7 @@ public class MonopolySpeechlet implements Speechlet {
 		}
 
 		if(decreaseUser() > 0) {
-			speechText += " Joueur suivant dites Mon pseudo est "
+			speechText += " Joueur suivant dites Mon pseudo est ";
 		}else {
 			speechText += " Tout les joueurs ont annoncé leur pseudo."
 					+ " La partie va bientot commencer";
@@ -273,8 +273,10 @@ public class MonopolySpeechlet implements Speechlet {
 	
 	public static JSONObject resetDataBase() {
 		String url = "http://52.47.35.192:8080/reset";
+		JSONObject json = new JSONObject();
+		
 		try {
-			JSONObject json = readJsonFromUrl(url);
+			json = readJsonFromUrl(url);
 		} catch (IOException e) {
 		}
 		
@@ -283,9 +285,10 @@ public class MonopolySpeechlet implements Speechlet {
 	
 	public static int decreaseUser() {
 		String url = "http://52.47.35.192:8080/game/decreaseCountNbUsers";
+		JSONObject json  = new JSONObject();
 		
 		try {
-			JSONObject json = readJsonFromUrl(url);
+			json = readJsonFromUrl(url);
 		} catch (IOException e) {
 		}
 		
@@ -294,9 +297,10 @@ public class MonopolySpeechlet implements Speechlet {
 	
 	public static JSONObject createGame(String state, String NbUsers) {
 		String url = "http://52.47.35.192:8080/game/new/" + NbUsers + "/" + state + "";
+		JSONObject json  = new JSONObject();
 		
 		try {
-			JSONObject json = readJsonFromUrl(url);
+			json = readJsonFromUrl(url);
 		} catch (IOException e) {
 		}
 		
@@ -305,9 +309,10 @@ public class MonopolySpeechlet implements Speechlet {
 	
 	public static JSONObject updateState(String state) {
 		String url = "http://52.47.35.192:8080/game/editState/" + state + "";
+		JSONObject json = new JSONObject();
 		
 		try {
-			JSONObject json = readJsonFromUrl(url);
+			json = readJsonFromUrl(url);
 		} catch (IOException e) {
 		}
 		
