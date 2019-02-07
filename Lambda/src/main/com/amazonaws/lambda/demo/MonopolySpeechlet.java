@@ -185,7 +185,7 @@ public class MonopolySpeechlet implements Speechlet {
 			JSONObject json = readJsonFromUrl(url);
 			// speechText = json.getString("message");
 			speechText = "Le pseudo " + s.getValue() + " a bien �t� ajouter."
-					+ "Joueur suivant dites votre pseudo.";
+					+ "Joueur suivant dites Mon pseudo est .";
 		} catch (IOException e) {
 			speechText = "Une erreur est survenue pendant la requête.";
 		}
@@ -202,10 +202,10 @@ public class MonopolySpeechlet implements Speechlet {
 		Reprompt reprompt = new Reprompt();
 		reprompt.setOutputSpeech(speech);
 
-		return SpeechletResponse.newTellResponse(speech, card);
+		return SpeechletResponse.newAskResponse(speech, reprompt, card);
 	}
 
-		private SpeechletResponse getRulesResponse() {
+	private SpeechletResponse getRulesResponse() {
 		String speechText = "Le Monomalpolie est un jeu de société américain édité par Hasbro. " +
 		"Le but du jeu consiste à ruiner ses concurrents par des opérations immobilières." +
 		" Le jeu se déroule en tour par tour, avec deux dés ordinaires à 6 faces. "+
