@@ -78,8 +78,8 @@ public class MonopolySpeechlet implements Speechlet {
 	 */
 	private SpeechletResponse getWelcomeResponse() {
 		String speechText = "Bienvenue dans la Skill Monomalpoly ! "
-				+ "Pour avoir les règles du jeu dites Règles du jeu."
-				+ "Pour créer une nouvelle partie dites Lancer une partie.";
+				+ "Pour avoir les règles du jeu dites Règles du jeu. "
+				+ "Pour créer une nouvelle partie dites Lancer une partie. ";
 
 		SimpleCard card = new SimpleCard();
 		card.setTitle("Monomalpoly");
@@ -214,10 +214,10 @@ public class MonopolySpeechlet implements Speechlet {
 		int pseudoLeft = decreaseUser();
 		
 		if(pseudoLeft > 0) {
-			speechText += "Joueur suivant dites Mon pseudo est ";
+			speechText += " Joueur suivant dites Mon pseudo est ";
 		}else {
-			speechText += "Tout les joueurs ont annoncé leur pseudo."
-					+ "La partie va bientot commencer";
+			speechText += " Tout les joueurs ont annoncé leur pseudo. "
+					+ " La partie va bientot commencer";
 			JSONObject update = updateState("game_started");
 		}
 		
@@ -238,10 +238,10 @@ public class MonopolySpeechlet implements Speechlet {
 
 	private SpeechletResponse getRulesResponse() {
 		String speechText = "Le Monomalpolie est un jeu de société américain édité par Hasbro. " +
-		"Le but du jeu consiste à ruiner ses concurrents par des opérations immobilières." +
+		" Le but du jeu consiste à ruiner ses concurrents par des opérations immobilières." +
 		" Le jeu se déroule en tour par tour, avec deux dés ordinaires à 6 faces. "+
-		"Chaque joueur lance les dés, avance son pion sur le parcours, puis selon la case sur laquelle il s’arrête, effectue une action correspondante."+
-		"Le vainqueur est le dernier joueur n’ayant pas fait faillite, et qui possède de ce fait le monopole";
+		" Chaque joueur lance les dés, avance son pion sur le parcours, puis selon la case sur laquelle il s’arrête, effectue une action correspondante."+
+		" Le vainqueur est le dernier joueur n’ayant pas fait faillite, et qui possède de ce fait le monopole";
 
 		SimpleCard card = new SimpleCard();
 		card.setTitle("Monomalpoly");
