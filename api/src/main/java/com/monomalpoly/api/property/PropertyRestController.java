@@ -466,8 +466,12 @@ public class PropertyRestController {
         p40.setLevel(0);
         p40.setColor(blue);
         propertyRepository.save(p40);
+
+        List<Property> list = new propertyRepository();
+    	for(Property p : propertyRepository.findAll())
+		list.add(p);
+
+		return list;
     }
-
-
 
 }
