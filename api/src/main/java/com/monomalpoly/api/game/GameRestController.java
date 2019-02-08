@@ -52,7 +52,7 @@ public class GameRestController {
 
     @RequestMapping("game/editState/{state}")
     public Game editState(@PathVariable String state) {
-        Game g = gameRepository.findById(1);
+        Game g = getLastGame();
         g.setState(state);
         gameRepository.save(g);
         return g;

@@ -18,9 +18,12 @@ import com.amazon.speech.ui.Reprompt;
 import com.amazon.speech.ui.SimpleCard;
 
 import java.net.URL;
+import java.net.URLEncoder;
 import java.net.HttpURLConnection;
 import java.nio.charset.Charset;
 import java.net.MalformedURLException;
+
+import java.io.UnsupportedEncodingException;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -51,7 +54,7 @@ public class MonopolySpeechlet implements Speechlet {
 		String intentName = (intent != null) ? intent.getName() : null;
 
 		String state = getStateGame();
-		
+
 		switch(intentName) {
 		case "StartIntent" :
 			return getStartResponse(intent);
@@ -116,10 +119,10 @@ public class MonopolySpeechlet implements Speechlet {
 	 */
 	private SpeechletResponse getStartResponse(Intent intent) {
 		Slot s = intent.getSlot("NbUser");
-		
+
 		JSONObject reset = resetDataBase();
 		JSONObject createGame = createGame("choix_pseudo", s.getValue());
-		
+
 		String speechText = "Bienvenue dans votre nouvelle partie "
 				+ "de Monomalpoly. " + s.getValue() + " joueurs vont jouer. "
 				+ "Maintenant vous devez choisir vos pseudos,"
@@ -208,12 +211,19 @@ public class MonopolySpeechlet implements Speechlet {
 	}
 
 	private SpeechletResponse getPlayerNameResponse(Intent intent) {
-
 		String speechText;
 
 		Slot s = intent.getSlot("Name");
+		String parameter;
 
-		String url = "http://52.47.35.192:8080/player/add/" + s.getValue();
+		try {
+			parameter = URLEncoder.encode(s.getValue(), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			parameter = s.getValue();
+		}
+
+		String url = "http://52.47.35.192:8080/player/add/" + parameter;
 
 		try {
 			JSONObject json = readJsonFromUrl(url);
@@ -224,7 +234,7 @@ public class MonopolySpeechlet implements Speechlet {
 		}
 
 		int pseudoLeft = decreaseUser();
-		
+
 		if(pseudoLeft > 0) {
 			speechText += " Joueur suivant dites Mon pseudo est ";
 		}else {
@@ -232,7 +242,7 @@ public class MonopolySpeechlet implements Speechlet {
 					+ " La partie va bientot commencer";
 			JSONObject update = updateState("game_started");
 		}
-		
+
 		SimpleCard card = new SimpleCard();
 		card.setTitle("Monomalpoly");
 		card.setContent(speechText);
@@ -266,7 +276,7 @@ public class MonopolySpeechlet implements Speechlet {
 		// Create reprompt
 		Reprompt reprompt = new Reprompt();
 		reprompt.setOutputSpeech(speech);
-		
+
 		return SpeechletResponse.newAskResponse(speech, reprompt, card);
 	}
 
@@ -284,10 +294,10 @@ public class MonopolySpeechlet implements Speechlet {
 		// Create reprompt
 		Reprompt reprompt = new Reprompt();
 		reprompt.setOutputSpeech(speech);
-		
+
 		return SpeechletResponse.newAskResponse(speech, reprompt, card);
 	}
-	
+
 	private static String readAll(Reader rd) throws IOException {
 	    StringBuilder sb = new StringBuilder();
 	    int cp;
@@ -308,65 +318,65 @@ public class MonopolySpeechlet implements Speechlet {
 	      is.close();
 	    }
 	}
-	
+
 	public static JSONObject resetDataBase() {
-		
+
 		String url = "http://52.47.35.192:8080/reset";
 		JSONObject json  = new JSONObject();
-		
+
 		try {
 			json = readJsonFromUrl(url);
 		} catch (IOException e) {
 		}
-		
+
 		return json;
 	}
-	
+
 	public static int decreaseUser() {
 		String url = "http://52.47.35.192:8080/game/decreaseCountNbUsers";
 		JSONObject json  = new JSONObject();
-		
+
 		try {
 			json = readJsonFromUrl(url);
 		} catch (IOException e) {
 		}
-		
+
 		return json.getInt("value");
 	}
-	
+
 	public static JSONObject createGame(String state, String NbUsers) {
 		String url = "http://52.47.35.192:8080/game/new/" + NbUsers + "/" + state + "";
 		JSONObject json  = new JSONObject();
-		
+
 		try {
 			json = readJsonFromUrl(url);
 		} catch (IOException e) {
 		}
-		
+
 		return json;
 	}
-	
+
 	public static JSONObject updateState(String state) {
 		String url = "http://52.47.35.192:8080/game/editState/" + state + "";
 		JSONObject json = new JSONObject();
-		
+
 		try {
 			json = readJsonFromUrl(url);
 		} catch (IOException e) {
 		}
-		
+
 		return json;
 	}
-	
+
 	public static String getStateGame() {
 		String url = "http://52.47.35.192:8080/game";
 		JSONObject json = new JSONObject();
-		
+
 		try {
 			json = readJsonFromUrl(url);
 		} catch (IOException e) {
 		}
-		
+
 		return json.getString("state");
 	}
 }
