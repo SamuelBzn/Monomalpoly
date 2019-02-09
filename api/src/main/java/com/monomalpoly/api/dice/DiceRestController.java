@@ -11,10 +11,10 @@ public class DiceRestController {
     public Dice dice() {
     	int x = new Random().nextInt(6-1) + 1;
     	int y = new Random().nextInt(6-1) + 1;
-    	
+
     	if(x == y)
         	return new Dice(x+y, true, "Vous avez fait " + (x+y) + " avec un double.");
-       	else
-        	return new Dice(x+y, false, "Vous avez fait " + (x+y));
+        else
+            return new Dice(x+y, false, "Vous avez fait " + (x+y) + ".");
     }
 }
