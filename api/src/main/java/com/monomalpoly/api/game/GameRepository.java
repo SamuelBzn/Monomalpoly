@@ -8,7 +8,7 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 
 public interface GameRepository extends CrudRepository<Game, Long> {
-	@Query(value = "SELECT game FROM Game game")
+	@Query(value = "SELECT game FROM Game game ORDER BY id DESC")
 	List<Game> findFirst(Pageable limit);
 
 	Game findById(int id);
