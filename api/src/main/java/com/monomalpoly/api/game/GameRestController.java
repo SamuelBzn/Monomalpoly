@@ -60,10 +60,10 @@ public class GameRestController {
 
     @RequestMapping("game")
     public Game games() {
-        Iterator<Game> games = gameRepository.findAll().iterator();
+        List<Game> games = gameRepository.findFirst(PageRequest.of(0, 1));
 
-        if (games.hasNext()) {
-            return games.next();
+        if (games.size() > 0) {
+            return games.get(0);
         } else {
             Game g = new Game();
             g.setNbUsers(-1);
