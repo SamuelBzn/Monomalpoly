@@ -37,7 +37,7 @@ public class Board {
         this.cards = list;
     }
 
-    public void setCard(Object object, int index) {
+    public void setCard(int index, Object object) {
         this.cards.set(index, object);
     }
 }

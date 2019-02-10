@@ -33,9 +33,6 @@ public class PropertyRestController {
         p.setColor(null);
         propertyRepository.save(p);
 
-       // return p;
-
-
         Property p2 = new Property();
         p2.setName("MEDITERRANEAN AVENUE");
         p2.setNature("normal");
@@ -46,7 +43,6 @@ public class PropertyRestController {
         p2.setLevel(0);
         p2.setColor("purple");
         propertyRepository.save(p2);
-
 
         Property p3 = new Property();
         p3.setName("COMMUNITY CHEST");
