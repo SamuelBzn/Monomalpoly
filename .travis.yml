@@ -1,5 +1,12 @@
 language: java
 
 matrix:
-  - script: gradle test -p api
-  - script: gradle test -p Lambda
+  include:
+  - name: Spring
+    script: gradle test -p api
+    env: PROJECT=api
+  - name: Lambda
+    script: gradle test -p Lambda
+    env: PROJECT=Lambda
+
+script: gradle test -p $PROJECT
