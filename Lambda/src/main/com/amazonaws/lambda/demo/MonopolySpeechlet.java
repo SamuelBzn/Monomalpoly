@@ -96,19 +96,7 @@ public class MonopolySpeechlet implements Speechlet {
 				+ "Pour avoir les règles du jeu dites Règles du jeu. "
 				+ "Pour créer une nouvelle partie dites Lancer une partie. ";
 
-		SimpleCard card = new SimpleCard();
-		card.setTitle("Monomalpoly");
-		card.setContent(speechText);
-
-		// Réponse texte
-		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
-		speech.setText(speechText);
-
-		// Reprompt
-		Reprompt reprompt = new Reprompt();
-		reprompt.setOutputSpeech(speech);
-
-		return SpeechletResponse.newAskResponse(speech, reprompt, card);
+		return askResponse(speechText);
 	}
 
 	/**
@@ -120,55 +108,28 @@ public class MonopolySpeechlet implements Speechlet {
 	private SpeechletResponse getStartResponse(Intent intent) {
 		Slot s = intent.getSlot("NbUser");
 
-		JSONObject reset = resetDataBase();
-		JSONObject createGame = createGame("choix_pseudo", s.getValue());
+		resetDataBase();
+		createGame("choix_pseudo", s.getValue());
 
 		String speechText = "Bienvenue dans votre nouvelle partie "
 				+ "de Monomalpoly. " + s.getValue() + " joueurs vont jouer. "
 				+ "Maintenant vous devez choisir vos pseudos,"
 				+ "pour cela dites Mon pseudo est Toto par exemple.";
 
-		SimpleCard card = new SimpleCard();
-		card.setTitle("Monomalpoly");
-		card.setContent(speechText);
-
-		// Réponse texte
-		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
-		speech.setText(speechText);
-
-		// Reprompt
-		Reprompt reprompt = new Reprompt();
-		reprompt.setOutputSpeech(speech);
-
-		return SpeechletResponse.newAskResponse(speech, reprompt, card);
+		return askResponse(speechText);
 	}
 
 	/**
 	 * Crée et retourne une {@code SpeechletResponse} pour l'aide.
 	 */
 	private SpeechletResponse getHelpResponse() {
-		String speechText = "Besoin d'aide ?";
-
-		SimpleCard card = new SimpleCard();
-		card.setTitle("Monomalpoly");
-		card.setContent(speechText);
-
-		// Create the plain text output.
-		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
-		speech.setText(speechText);
-
-		// Create reprompt
-		Reprompt reprompt = new Reprompt();
-		reprompt.setOutputSpeech(speech);
-
-		return SpeechletResponse.newAskResponse(speech, reprompt, card);
+		return askResponse("Besoin d'aide ?");
 	}
 
 	/**
 	 * Crée et retourne une {@code SpeechletResponse} pour le lancé de dé.
 	 */
 	private SpeechletResponse getDiceDrawResponse() {
-
 		String speechText;
 
 		String url = "http://52.47.78.233:8080/dice";
@@ -180,34 +141,11 @@ public class MonopolySpeechlet implements Speechlet {
 			speechText = "Une erreur est survenue pendant la requête.";
 		}
 
-		SimpleCard card = new SimpleCard();
-		card.setTitle("Monomalpoly");
-		card.setContent(speechText);
-
-		// Create the plain text output.
-		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
-		speech.setText(speechText);
-
-		// Create reprompt
-		Reprompt reprompt = new Reprompt();
-		reprompt.setOutputSpeech(speech);
-
-		return SpeechletResponse.newAskResponse(speech, reprompt, card);
+		return askResponse(speechText);
 	}
 
 	private SpeechletResponse stopResponse() {
-
-		String speechText = "Au revoir";
-
-		SimpleCard card = new SimpleCard();
-		card.setTitle("Monomalpoly");
-		card.setContent(speechText);
-
-		// Create the plain text output.
-		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
-		speech.setText(speechText);
-
-		return SpeechletResponse.newTellResponse(speech, card);
+		return tellResponse("Au revoir");
 	}
 
 	private SpeechletResponse getPlayerNameResponse(Intent intent) {
@@ -243,19 +181,7 @@ public class MonopolySpeechlet implements Speechlet {
 			JSONObject update = updateState("game_started");
 		}
 
-		SimpleCard card = new SimpleCard();
-		card.setTitle("Monomalpoly");
-		card.setContent(speechText);
-
-		// Create the plain text output.
-		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
-		speech.setText(speechText);
-
-		// Create reprompt
-		Reprompt reprompt = new Reprompt();
-		reprompt.setOutputSpeech(speech);
-
-		return SpeechletResponse.newAskResponse(speech, reprompt, card);
+		return askResponse(speechText);
 	}
 
 	private SpeechletResponse getRulesResponse() {
@@ -265,24 +191,38 @@ public class MonopolySpeechlet implements Speechlet {
 		" Chaque joueur lance les dés, avance son pion sur le parcours, puis selon la case sur laquelle il s’arrête, effectue une action correspondante."+
 		" Le vainqueur est le dernier joueur n’ayant pas fait faillite, et qui possède de ce fait le monopole";
 
-		SimpleCard card = new SimpleCard();
-		card.setTitle("Monomalpoly");
-		card.setContent(speechText);
-
-		// Réponse texte
-		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
-		speech.setText(speechText);
-
-		// Create reprompt
-		Reprompt reprompt = new Reprompt();
-		reprompt.setOutputSpeech(speech);
-
-		return SpeechletResponse.newAskResponse(speech, reprompt, card);
+		return askResponse(speechText);
 	}
 
 	private SpeechletResponse getNotAllowedResponse() {
 		String speechText = "Cette instruction n'est pas disponible dans l'état actuel de la partie.";
 
+		return askResponse(speechText);
+	}
+
+	/**
+	 * Permet de retourner une simple réponse (sans reprompt).
+	 *
+	 * @param speechText - Le texte à faire dire à Alexa.
+	 */
+	private SpeechletResponse tellResponse(String speechText) {
+		SimpleCard card = new SimpleCard();
+		card.setTitle("Monomalpoly");
+		card.setContent(speechText);
+
+		// Create the plain text output.
+		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
+		speech.setText(speechText);
+
+		return SpeechletResponse.newTellResponse(speech, card);
+	}
+
+	/**
+	 * Permet de retourner une réponse avec reprompt.
+	 *
+	 * @param speechText - Le texte à faire dire à Alexa.
+	 */
+	private SpeechletResponse askResponse(String speechText) {
 		SimpleCard card = new SimpleCard();
 		card.setTitle("Monomalpoly");
 		card.setContent(speechText);
@@ -291,7 +231,7 @@ public class MonopolySpeechlet implements Speechlet {
 		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
 		speech.setText(speechText);
 
-		// Create reprompt
+		// Reprompt
 		Reprompt reprompt = new Reprompt();
 		reprompt.setOutputSpeech(speech);
 
