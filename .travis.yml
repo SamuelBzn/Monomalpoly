@@ -1,0 +1,5 @@
+language: java
+
+matrix:
+  - script: gradle test -p api
+  - script: gradle test -p Lambda
