@@ -1,8 +1,5 @@
 package com.amazonaws.lambda.demo;
 
-// import org.slf4j.Logger;
-// import org.slf4j.LoggerFactory;
-
 import com.amazon.speech.slu.Intent;
 import com.amazon.speech.slu.Slot;
 import com.amazon.speech.speechlet.IntentRequest;
@@ -36,7 +33,7 @@ import org.json.JSONObject;
 
 
 public class MonopolySpeechlet implements Speechlet {
-	// private static final Logger log = LoggerFactory.getLogger(MonopolySpeechlet.class);
+	public static final String API_URL = "http://52.47.78.233:8080";
 
 	@Override
 	public void onSessionStarted(final SessionStartedRequest request, final Session session) throws SpeechletException {
@@ -52,8 +49,15 @@ public class MonopolySpeechlet implements Speechlet {
 	public SpeechletResponse onIntent(final IntentRequest request, final Session session) throws SpeechletException {
 		Intent intent = request.getIntent();
 		String intentName = (intent != null) ? intent.getName() : null;
+		String state;
 
-		String state = getStateGame();
+		try {
+			state = getStateGame();
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			return askResponse("Une erreur est survenue lors de la récupération des informations.");
+		}
 
 		switch(intentName) {
 		case "StartIntent" :
@@ -108,8 +112,14 @@ public class MonopolySpeechlet implements Speechlet {
 	private SpeechletResponse getStartResponse(Intent intent) {
 		Slot s = intent.getSlot("NbUser");
 
-		resetDataBase();
-		createGame("choix_pseudo", s.getValue());
+		try {
+			resetDataBase();
+			createGame("choix_pseudo", s.getValue());
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			return askResponse("Une erreur est survenue pendant la création de la partie");
+		}
 
 		String speechText = "Bienvenue dans votre nouvelle partie "
 				+ "de Monomalpoly. " + s.getValue() + " joueurs vont jouer. "
@@ -132,12 +142,11 @@ public class MonopolySpeechlet implements Speechlet {
 	private SpeechletResponse getDiceDrawResponse() {
 		String speechText;
 
-		String url = "http://52.47.78.233:8080/dice";
-
 		try {
-			JSONObject json = readJsonFromUrl(url);
-			speechText = json.getString("message");
+			speechText = get("/dice").getString("message");
 		} catch (IOException e) {
+			e.printStackTrace();
+
 			speechText = "Une erreur est survenue pendant la requête.";
 		}
 
@@ -149,39 +158,30 @@ public class MonopolySpeechlet implements Speechlet {
 	}
 
 	private SpeechletResponse getPlayerNameResponse(Intent intent) {
-		String speechText;
-
 		Slot s = intent.getSlot("Name");
-		String parameter;
 
 		try {
-			parameter = URLEncoder.encode(s.getValue(), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
+			JSONObject json = get("/player/add/" + urlEncode(s.getValue()));
+			String speechText = "Le pseudo " + s.getValue() + " a bien été ajouté.";
+
+			int pseudoLeft = decreaseUser();
+
+			if (pseudoLeft > 0) {
+				speechText += " Joueur suivant dites Mon pseudo est ";
+			} else {
+				speechText += " Tout les joueurs ont annoncé leur pseudo. "
+						+ " La partie va bientot commencer";
+
+				updateState("game_started");
+			}
+
+			return askResponse(speechText);
+		} catch (Exception e) {
 			e.printStackTrace();
-			parameter = s.getValue();
+
+			return askResponse("Une erreur est survenue pendant la requête");
 		}
 
-		String url = "http://52.47.78.233:8080/player/add/" + parameter;
-
-		try {
-			JSONObject json = readJsonFromUrl(url);
-			// speechText = json.getString("message");
-			speechText = "Le pseudo " + s.getValue() + " a bien été ajouté.";
-		} catch (IOException e) {
-			speechText = "Une erreur est survenue pendant la requête";
-		}
-
-		int pseudoLeft = decreaseUser();
-
-		if(pseudoLeft > 0) {
-			speechText += " Joueur suivant dites Mon pseudo est ";
-		}else {
-			speechText += " Tout les joueurs ont annoncé leur pseudo. "
-					+ " La partie va bientot commencer";
-			JSONObject update = updateState("game_started");
-		}
-
-		return askResponse(speechText);
 	}
 
 	private SpeechletResponse getRulesResponse() {
@@ -238,86 +238,76 @@ public class MonopolySpeechlet implements Speechlet {
 		return SpeechletResponse.newAskResponse(speech, reprompt, card);
 	}
 
+	public static JSONObject resetDataBase() throws Exception {
+		return get("/reset");
+	}
+
+	public static int decreaseUser() throws Exception {
+		return get("/game/decreaseCountNbUsers").getInt("value");
+	}
+
+	public static JSONObject createGame(String state, String nbUsers) throws Exception {
+		return get("/game/new/" + nbUsers + "/" + state);
+	}
+
+	public static JSONObject updateState(String state) throws Exception {
+		return get("/game/editState/" + state);
+	}
+
+	public static String getStateGame() throws Exception {
+		return get("/game").getString("state");
+	}
+
+	/**
+	 * Permet d'accéder à un endpoint de l'API et de retourner un objet
+	 * JSON contenant le résultat de la requête.
+	 *
+	 * @param endpoint - L'endpoint auquel accéder (avec ou sans slash
+	 *                   au début de la chaîne).
+	 */
+	public static JSONObject get(String endpoint) throws IOException, JSONException {
+		StringBuilder builder = new StringBuilder(API_URL);
+		JSONObject json = new JSONObject();
+
+		if (endpoint.charAt(0) != '/')
+			builder.append("/");
+
+		builder.append(endpoint);
+
+		InputStream is = new URL(builder.toString()).openStream();
+
+		try {
+			BufferedReader rd = new BufferedReader(
+				new InputStreamReader(is, Charset.forName("UTF-8"))
+			);
+
+			json = new JSONObject(readAll(rd));
+		} finally {
+			is.close();
+		}
+
+		return json;
+	}
+
 	private static String readAll(Reader rd) throws IOException {
-	    StringBuilder sb = new StringBuilder();
-	    int cp;
-	    while ((cp = rd.read()) != -1) {
-	      sb.append((char) cp);
-	    }
-	    return sb.toString();
-	}
+		StringBuilder sb = new StringBuilder();
 
-	public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
-	    InputStream is = new URL(url).openStream();
-	    try {
-	      BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
-	      String jsonText = readAll(rd);
-	      JSONObject json = new JSONObject(jsonText);
-	      return json;
-	    } finally {
-	      is.close();
-	    }
-	}
+		int cp;
 
-	public static JSONObject resetDataBase() {
-
-		String url = "http://52.47.78.233:8080/reset";
-		JSONObject json  = new JSONObject();
-
-		try {
-			json = readJsonFromUrl(url);
-		} catch (IOException e) {
+		while ((cp = rd.read()) != -1) {
+			sb.append((char) cp);
 		}
 
-		return json;
+		return sb.toString();
 	}
 
-	public static int decreaseUser() {
-		String url = "http://52.47.78.233:8080/game/decreaseCountNbUsers";
-		JSONObject json  = new JSONObject();
-
+	private static String urlEncode(String s) {
 		try {
-			json = readJsonFromUrl(url);
-		} catch (IOException e) {
+			return URLEncoder.encode(s, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+
+			return s;
 		}
-
-		return json.getInt("value");
-	}
-
-	public static JSONObject createGame(String state, String NbUsers) {
-		String url = "http://52.47.78.233:8080/game/new/" + NbUsers + "/" + state + "";
-		JSONObject json  = new JSONObject();
-
-		try {
-			json = readJsonFromUrl(url);
-		} catch (IOException e) {
-		}
-
-		return json;
-	}
-
-	public static JSONObject updateState(String state) {
-		String url = "http://52.47.78.233:8080/game/editState/" + state + "";
-		JSONObject json = new JSONObject();
-
-		try {
-			json = readJsonFromUrl(url);
-		} catch (IOException e) {
-		}
-
-		return json;
-	}
-
-	public static String getStateGame() {
-		String url = "http://52.47.78.233:8080/game";
-		JSONObject json = new JSONObject();
-
-		try {
-			json = readJsonFromUrl(url);
-		} catch (IOException e) {
-		}
-
-		return json.getString("state");
 	}
 }
-
