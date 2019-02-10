@@ -11,8 +11,6 @@ public class Chance {
     @GeneratedValue
     private int id;
     private String name;
-    // private int effect;
-    // private String message;
 
     public Chance() {
 
@@ -20,7 +18,6 @@ public class Chance {
 
     public Chance(String name) {
         this.name = name;
-        this.effect = 0;
     }
 
     public int getId() {
@@ -31,14 +28,6 @@ public class Chance {
         return name;
     }
 
-    // public int getEffect() {
-    //     return effect;
-    // }
-
-    // public String getMessage() {
-    //     return message;
-    // }
-
     public void setId(int id) {
         this.id = id;
     }
@@ -46,12 +35,4 @@ public class Chance {
     public void setName(String name) {
         this.name = name;
     }
-
-    // public void setEffect(int effect) {
-    //     this.effect = effect;
-    // }
-
-    // public void setMessage (String message) {
-    //     this.message = message;
-    // }
 }

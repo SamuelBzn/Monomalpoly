@@ -6,9 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Random.nextInt;
-import Math.random;
-import java.util.Random.ints;
+import java.util.HashMap;
+import java.util.Random;
 
 @RestController
 public class ChanceRestController {

@@ -74,7 +74,7 @@ public class GameRestController {
         }
     }
 
-    private Game getLastGame() {
+    public Game getLastGame() {
         List<Game> games = gameRepository.findFirst(new PageRequest(0, 1));
         return games.get(0);
     }
