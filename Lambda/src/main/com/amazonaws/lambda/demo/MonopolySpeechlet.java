@@ -1,8 +1,5 @@
 package com.amazonaws.lambda.demo;
 
-// import org.slf4j.Logger;
-// import org.slf4j.LoggerFactory;
-
 import com.amazon.speech.slu.Intent;
 import com.amazon.speech.slu.Slot;
 import com.amazon.speech.speechlet.IntentRequest;
@@ -36,7 +33,7 @@ import org.json.JSONObject;
 
 
 public class MonopolySpeechlet implements Speechlet {
-	// private static final Logger log = LoggerFactory.getLogger(MonopolySpeechlet.class);
+	public static final String API_URL = "http://52.47.78.233:8080";
 
 	@Override
 	public void onSessionStarted(final SessionStartedRequest request, final Session session) throws SpeechletException {
@@ -52,8 +49,15 @@ public class MonopolySpeechlet implements Speechlet {
 	public SpeechletResponse onIntent(final IntentRequest request, final Session session) throws SpeechletException {
 		Intent intent = request.getIntent();
 		String intentName = (intent != null) ? intent.getName() : null;
+		String state;
 
-		String state = getStateGame();
+		try {
+			state = getStateGame();
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			return askResponse("Une erreur est survenue lors de la récupération des informations.");
+		}
 
 		switch(intentName) {
 		case "StartIntent" :
@@ -96,19 +100,7 @@ public class MonopolySpeechlet implements Speechlet {
 				+ "Pour avoir les règles du jeu dites Règles du jeu. "
 				+ "Pour créer une nouvelle partie dites Lancer une partie. ";
 
-		SimpleCard card = new SimpleCard();
-		card.setTitle("Monomalpoly");
-		card.setContent(speechText);
-
-		// Réponse texte
-		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
-		speech.setText(speechText);
-
-		// Reprompt
-		Reprompt reprompt = new Reprompt();
-		reprompt.setOutputSpeech(speech);
-
-		return SpeechletResponse.newAskResponse(speech, reprompt, card);
+		return askResponse(speechText);
 	}
 
 	/**
@@ -120,14 +112,117 @@ public class MonopolySpeechlet implements Speechlet {
 	private SpeechletResponse getStartResponse(Intent intent) {
 		Slot s = intent.getSlot("NbUser");
 
-		JSONObject reset = resetDataBase();
-		JSONObject createGame = createGame("choix_pseudo", s.getValue());
+		try {
+			resetDataBase();
+			createGame("choix_pseudo", s.getValue());
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			return askResponse("Une erreur est survenue pendant la création de la partie");
+		}
 
 		String speechText = "Bienvenue dans votre nouvelle partie "
 				+ "de Monomalpoly. " + s.getValue() + " joueurs vont jouer. "
 				+ "Maintenant vous devez choisir vos pseudos,"
 				+ "pour cela dites Mon pseudo est Toto par exemple.";
 
+		return askResponse(speechText);
+	}
+
+	/**
+	 * Crée et retourne une {@code SpeechletResponse} pour l'aide.
+	 */
+	private SpeechletResponse getHelpResponse() {
+		return askResponse("Besoin d'aide ?");
+	}
+
+	/**
+	 * Crée et retourne une {@code SpeechletResponse} pour le lancé de dé.
+	 */
+	private SpeechletResponse getDiceDrawResponse() {
+		String speechText;
+
+		try {
+			speechText = get("/dice").getString("message");
+		} catch (IOException e) {
+			e.printStackTrace();
+
+			speechText = "Une erreur est survenue pendant la requête.";
+		}
+
+		return askResponse(speechText);
+	}
+
+	private SpeechletResponse stopResponse() {
+		return tellResponse("Au revoir");
+	}
+
+	private SpeechletResponse getPlayerNameResponse(Intent intent) {
+		Slot s = intent.getSlot("Name");
+
+		try {
+			JSONObject json = get("/player/add/" + urlEncode(s.getValue()));
+			String speechText = "Le pseudo " + s.getValue() + " a bien été ajouté.";
+
+			int pseudoLeft = decreaseUser();
+
+			if (pseudoLeft > 0) {
+				speechText += " Joueur suivant dites Mon pseudo est ";
+			} else {
+				speechText += " Tout les joueurs ont annoncé leur pseudo. "
+						+ " La partie va bientot commencer";
+
+				updateState("game_started");
+			}
+
+			return askResponse(speechText);
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			return askResponse("Une erreur est survenue pendant la requête");
+		}
+
+	}
+
+	private SpeechletResponse getRulesResponse() {
+		String speechText = "Le Monomalpolie est un jeu de société américain édité par Hasbro. " +
+		" Le but du jeu consiste à ruiner ses concurrents par des opérations immobilières." +
+		" Le jeu se déroule en tour par tour, avec deux dés ordinaires à 6 faces. "+
+		" Chaque joueur lance les dés, avance son pion sur le parcours, puis selon la case sur laquelle il s’arrête, effectue une action correspondante."+
+		" Le vainqueur est le dernier joueur n’ayant pas fait faillite, et qui possède de ce fait le monopole";
+
+		return askResponse(speechText);
+	}
+
+	private SpeechletResponse getNotAllowedResponse() {
+		String speechText = "Cette instruction n'est pas disponible dans l'état actuel de la partie.";
+
+		return askResponse(speechText);
+	}
+
+	/**
+	 * Permet de retourner une simple réponse (sans reprompt).
+	 *
+	 * @param speechText - Le texte à faire dire à Alexa.
+	 */
+	private SpeechletResponse tellResponse(String speechText) {
+		SimpleCard card = new SimpleCard();
+		card.setTitle("Monomalpoly");
+		card.setContent(speechText);
+
+		// Create the plain text output.
+		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
+		speech.setText(speechText);
+
+		return SpeechletResponse.newTellResponse(speech, card);
+	}
+
+	/**
+	 * Permet de retourner une réponse avec reprompt.
+	 *
+	 * @param speechText - Le texte à faire dire à Alexa.
+	 */
+	private SpeechletResponse askResponse(String speechText) {
 		SimpleCard card = new SimpleCard();
 		card.setTitle("Monomalpoly");
 		card.setContent(speechText);
@@ -143,241 +238,76 @@ public class MonopolySpeechlet implements Speechlet {
 		return SpeechletResponse.newAskResponse(speech, reprompt, card);
 	}
 
-	/**
-	 * Crée et retourne une {@code SpeechletResponse} pour l'aide.
-	 */
-	private SpeechletResponse getHelpResponse() {
-		String speechText = "Besoin d'aide ?";
+	public static JSONObject resetDataBase() throws Exception {
+		return get("/reset");
+	}
 
-		SimpleCard card = new SimpleCard();
-		card.setTitle("Monomalpoly");
-		card.setContent(speechText);
+	public static int decreaseUser() throws Exception {
+		return get("/game/decreaseCountNbUsers").getInt("value");
+	}
 
-		// Create the plain text output.
-		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
-		speech.setText(speechText);
+	public static JSONObject createGame(String state, String nbUsers) throws Exception {
+		return get("/game/new/" + nbUsers + "/" + state);
+	}
 
-		// Create reprompt
-		Reprompt reprompt = new Reprompt();
-		reprompt.setOutputSpeech(speech);
+	public static JSONObject updateState(String state) throws Exception {
+		return get("/game/editState/" + state);
+	}
 
-		return SpeechletResponse.newAskResponse(speech, reprompt, card);
+	public static String getStateGame() throws Exception {
+		return get("/game").getString("state");
 	}
 
 	/**
-	 * Crée et retourne une {@code SpeechletResponse} pour le lancé de dé.
+	 * Permet d'accéder à un endpoint de l'API et de retourner un objet
+	 * JSON contenant le résultat de la requête.
+	 *
+	 * @param endpoint - L'endpoint auquel accéder (avec ou sans slash
+	 *                   au début de la chaîne).
 	 */
-	private SpeechletResponse getDiceDrawResponse() {
+	public static JSONObject get(String endpoint) throws IOException, JSONException {
+		StringBuilder builder = new StringBuilder(API_URL);
+		JSONObject json = new JSONObject();
 
-		String speechText;
+		if (endpoint.charAt(0) != '/')
+			builder.append("/");
 
-		String url = "http://52.47.35.192:8080/dice";
+		builder.append(endpoint);
 
-		try {
-			JSONObject json = readJsonFromUrl(url);
-			speechText = json.getString("message");
-		} catch (IOException e) {
-			speechText = "Une erreur est survenue pendant la requête.";
-		}
-
-		SimpleCard card = new SimpleCard();
-		card.setTitle("Monomalpoly");
-		card.setContent(speechText);
-
-		// Create the plain text output.
-		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
-		speech.setText(speechText);
-
-		// Create reprompt
-		Reprompt reprompt = new Reprompt();
-		reprompt.setOutputSpeech(speech);
-
-		return SpeechletResponse.newAskResponse(speech, reprompt, card);
-	}
-
-	private SpeechletResponse stopResponse() {
-
-		String speechText = "Au revoir";
-
-		SimpleCard card = new SimpleCard();
-		card.setTitle("Monomalpoly");
-		card.setContent(speechText);
-
-		// Create the plain text output.
-		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
-		speech.setText(speechText);
-
-		return SpeechletResponse.newTellResponse(speech, card);
-	}
-
-	private SpeechletResponse getPlayerNameResponse(Intent intent) {
-		String speechText;
-
-		Slot s = intent.getSlot("Name");
-		String parameter;
+		InputStream is = new URL(builder.toString()).openStream();
 
 		try {
-			parameter = URLEncoder.encode(s.getValue(), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			parameter = s.getValue();
+			BufferedReader rd = new BufferedReader(
+				new InputStreamReader(is, Charset.forName("UTF-8"))
+			);
+
+			json = new JSONObject(readAll(rd));
+		} finally {
+			is.close();
 		}
 
-		String url = "http://52.47.35.192:8080/player/add/" + parameter;
-
-		try {
-			JSONObject json = readJsonFromUrl(url);
-			// speechText = json.getString("message");
-			speechText = "Le pseudo " + s.getValue() + " a bien été ajouté.";
-		} catch (IOException e) {
-			speechText = "Une erreur est survenue pendant la requête";
-		}
-
-		int pseudoLeft = decreaseUser();
-
-		if(pseudoLeft > 0) {
-			speechText += " Joueur suivant dites Mon pseudo est ";
-		}else {
-			speechText += " Tout les joueurs ont annoncé leur pseudo. "
-					+ " La partie va bientot commencer";
-			JSONObject update = updateState("game_started");
-		}
-
-		SimpleCard card = new SimpleCard();
-		card.setTitle("Monomalpoly");
-		card.setContent(speechText);
-
-		// Create the plain text output.
-		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
-		speech.setText(speechText);
-
-		// Create reprompt
-		Reprompt reprompt = new Reprompt();
-		reprompt.setOutputSpeech(speech);
-
-		return SpeechletResponse.newAskResponse(speech, reprompt, card);
-	}
-
-	private SpeechletResponse getRulesResponse() {
-		String speechText = "Le Monomalpolie est un jeu de société américain édité par Hasbro. " +
-		" Le but du jeu consiste à ruiner ses concurrents par des opérations immobilières." +
-		" Le jeu se déroule en tour par tour, avec deux dés ordinaires à 6 faces. "+
-		" Chaque joueur lance les dés, avance son pion sur le parcours, puis selon la case sur laquelle il s’arrête, effectue une action correspondante."+
-		" Le vainqueur est le dernier joueur n’ayant pas fait faillite, et qui possède de ce fait le monopole";
-
-		SimpleCard card = new SimpleCard();
-		card.setTitle("Monomalpoly");
-		card.setContent(speechText);
-
-		// Réponse texte
-		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
-		speech.setText(speechText);
-
-		// Create reprompt
-		Reprompt reprompt = new Reprompt();
-		reprompt.setOutputSpeech(speech);
-
-		return SpeechletResponse.newAskResponse(speech, reprompt, card);
-	}
-
-	private SpeechletResponse getNotAllowedResponse() {
-		String speechText = "Cette instruction n'est pas disponible dans l'état actuel de la partie.";
-
-		SimpleCard card = new SimpleCard();
-		card.setTitle("Monomalpoly");
-		card.setContent(speechText);
-
-		// Réponse texte
-		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
-		speech.setText(speechText);
-
-		// Create reprompt
-		Reprompt reprompt = new Reprompt();
-		reprompt.setOutputSpeech(speech);
-
-		return SpeechletResponse.newAskResponse(speech, reprompt, card);
+		return json;
 	}
 
 	private static String readAll(Reader rd) throws IOException {
-	    StringBuilder sb = new StringBuilder();
-	    int cp;
-	    while ((cp = rd.read()) != -1) {
-	      sb.append((char) cp);
-	    }
-	    return sb.toString();
-	}
+		StringBuilder sb = new StringBuilder();
 
-	public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
-	    InputStream is = new URL(url).openStream();
-	    try {
-	      BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
-	      String jsonText = readAll(rd);
-	      JSONObject json = new JSONObject(jsonText);
-	      return json;
-	    } finally {
-	      is.close();
-	    }
-	}
+		int cp;
 
-	public static JSONObject resetDataBase() {
-
-		String url = "http://52.47.35.192:8080/reset";
-		JSONObject json  = new JSONObject();
-
-		try {
-			json = readJsonFromUrl(url);
-		} catch (IOException e) {
+		while ((cp = rd.read()) != -1) {
+			sb.append((char) cp);
 		}
 
-		return json;
+		return sb.toString();
 	}
 
-	public static int decreaseUser() {
-		String url = "http://52.47.35.192:8080/game/decreaseCountNbUsers";
-		JSONObject json  = new JSONObject();
-
+	private static String urlEncode(String s) {
 		try {
-			json = readJsonFromUrl(url);
-		} catch (IOException e) {
+			return URLEncoder.encode(s, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+
+			return s;
 		}
-
-		return json.getInt("value");
-	}
-
-	public static JSONObject createGame(String state, String NbUsers) {
-		String url = "http://52.47.35.192:8080/game/new/" + NbUsers + "/" + state + "";
-		JSONObject json  = new JSONObject();
-
-		try {
-			json = readJsonFromUrl(url);
-		} catch (IOException e) {
-		}
-
-		return json;
-	}
-
-	public static JSONObject updateState(String state) {
-		String url = "http://52.47.35.192:8080/game/editState/" + state + "";
-		JSONObject json = new JSONObject();
-
-		try {
-			json = readJsonFromUrl(url);
-		} catch (IOException e) {
-		}
-
-		return json;
-	}
-
-	public static String getStateGame() {
-		String url = "http://52.47.35.192:8080/game";
-		JSONObject json = new JSONObject();
-
-		try {
-			json = readJsonFromUrl(url);
-		} catch (IOException e) {
-		}
-
-		return json.getString("state");
 	}
 }
-

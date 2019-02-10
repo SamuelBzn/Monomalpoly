@@ -14,13 +14,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 @RestController
-public class AppRestController {
-	@Autowired
-    private DiceRestController diceRestController;
-
-    @Autowired
-    private GameRestController gameRestController;
-
+public class AppRestController extends BaseController {
     @Autowired
     private GameRepository gameRepository;
 
@@ -48,12 +42,13 @@ public class AppRestController {
     	HashMap<Player, Integer> rollDice = new HashMap<Player, Integer>();
 
     	for(Player p : playerRepository.findAll()) {
-    		Dice d = diceRestController.dice();
-    		rollDice.put(p, (int)d.getValue());
+            Dice d = Dice.draw();
+            rollDice.put(p, (int)d.getValue());
     	}
 
     	Player pMax = null;
     	int max = 0;
+
     	for(Map.Entry<Player, Integer> entry : rollDice.entrySet()) {
     		if(entry.getValue() > max) {
     			pMax = entry.getKey();
@@ -61,7 +56,7 @@ public class AppRestController {
     		}
     	}
 
-    	Game g = gameRestController.getLastGame();
+        Game g = getLastGame();
         g.setCurrentPlayer(pMax);
         gameRepository.save(g);
 
