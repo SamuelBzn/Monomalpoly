@@ -26,7 +26,7 @@ import org.powermock.modules.junit4.PowerMockRunnerDelegate;
 @SpringBootTest
 @AutoConfigureMockMvc
 @PowerMockRunnerDelegate(SpringRunner.class)
-@PrepareForTest({Random.class, DiceRestController.class})
+@PrepareForTest({Random.class, Dice.class})
 public class DiceRestControllerTest extends JSONTestHelpers {
 
     @Autowired

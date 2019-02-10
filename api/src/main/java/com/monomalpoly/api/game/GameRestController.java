@@ -1,5 +1,7 @@
 package com.monomalpoly.api.game;
 
+import com.monomalpoly.api.BaseController;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 @RestController
-public class GameRestController {
+public class GameRestController extends BaseController {
     @Autowired
     private GameRepository gameRepository;
 
@@ -72,10 +74,5 @@ public class GameRestController {
 
             return g;
         }
-    }
-
-    public Game getLastGame() {
-        List<Game> games = gameRepository.findFirst(PageRequest.of(0, 1));
-        return games.get(0);
     }
 }
