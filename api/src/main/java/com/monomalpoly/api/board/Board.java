@@ -8,14 +8,16 @@ import javax.persistence.OneToMany;
 import java.util.List;
 import java.util.ArrayList;
 
+import com.monomalpoly.api.card.Card;
+
 @Entity
 public class Board {
 
     @Id
     @GeneratedValue
     private int id;
-    // @OneToMany
-    ArrayList cards;
+    @OneToMany(mappedBy="board")
+    List<Card> cards;
 
     public Board() {
         cards = new ArrayList();
@@ -25,7 +27,7 @@ public class Board {
         return id;
     }
 
-    public ArrayList getCards() {
+    public List<Card> getCards() {
         return cards;
     }
 
@@ -37,7 +39,7 @@ public class Board {
         this.cards = list;
     }
 
-    public void setCard(int index, Object object) {
-        this.cards.set(index, object);
+    public void setCard(int index, Card card) {
+        this.cards.set(index, card);
     }
 }

@@ -1,11 +1,16 @@
 package com.monomalpoly.api.chance;
 
+import com.monomalpoly.api.card.Card;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 @Entity
-public class Chance {
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+public class Chance extends Card {
 
     @Id
     @GeneratedValue
