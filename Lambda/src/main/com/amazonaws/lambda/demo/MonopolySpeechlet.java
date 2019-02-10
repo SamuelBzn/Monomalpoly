@@ -171,7 +171,7 @@ public class MonopolySpeechlet implements Speechlet {
 
 		String speechText;
 
-		String url = "http://52.47.35.192:8080/dice";
+		String url = "http://52.47.78.233:8080/dice";
 
 		try {
 			JSONObject json = readJsonFromUrl(url);
@@ -223,7 +223,7 @@ public class MonopolySpeechlet implements Speechlet {
 			parameter = s.getValue();
 		}
 
-		String url = "http://52.47.35.192:8080/player/add/" + parameter;
+		String url = "http://52.47.78.233:8080/player/add/" + parameter;
 
 		try {
 			JSONObject json = readJsonFromUrl(url);
@@ -321,7 +321,7 @@ public class MonopolySpeechlet implements Speechlet {
 
 	public static JSONObject resetDataBase() {
 
-		String url = "http://52.47.35.192:8080/reset";
+		String url = "http://52.47.78.233:8080/reset";
 		JSONObject json  = new JSONObject();
 
 		try {
@@ -333,7 +333,7 @@ public class MonopolySpeechlet implements Speechlet {
 	}
 
 	public static int decreaseUser() {
-		String url = "http://52.47.35.192:8080/game/decreaseCountNbUsers";
+		String url = "http://52.47.78.233:8080/game/decreaseCountNbUsers";
 		JSONObject json  = new JSONObject();
 
 		try {
@@ -345,7 +345,7 @@ public class MonopolySpeechlet implements Speechlet {
 	}
 
 	public static JSONObject createGame(String state, String NbUsers) {
-		String url = "http://52.47.35.192:8080/game/new/" + NbUsers + "/" + state + "";
+		String url = "http://52.47.78.233:8080/game/new/" + NbUsers + "/" + state + "";
 		JSONObject json  = new JSONObject();
 
 		try {
@@ -357,7 +357,7 @@ public class MonopolySpeechlet implements Speechlet {
 	}
 
 	public static JSONObject updateState(String state) {
-		String url = "http://52.47.35.192:8080/game/editState/" + state + "";
+		String url = "http://52.47.78.233:8080/game/editState/" + state + "";
 		JSONObject json = new JSONObject();
 
 		try {
@@ -369,7 +369,7 @@ public class MonopolySpeechlet implements Speechlet {
 	}
 
 	public static String getStateGame() {
-		String url = "http://52.47.35.192:8080/game";
+		String url = "http://52.47.78.233:8080/game";
 		JSONObject json = new JSONObject();
 
 		try {
