@@ -74,9 +74,15 @@ public class MonopolySpeechlet implements Speechlet {
 			}else{
 				return getNotAllowedResponse();
 			}
+<<<<<<< HEAD
 		case "WhoStart" :
 			if(state.equals("game_started")) {
 				return getAnnounceCurrentPlayerResponse();
+=======
+		case "MoneyIntent" :
+			if(state.equals("game_started")) {
+				return getMoneyResponse();
+>>>>>>> origin/master
 			}else{
 				return getNotAllowedResponse();
 			}
@@ -150,6 +156,20 @@ public class MonopolySpeechlet implements Speechlet {
 
 		try {
 			speechText = get("/dice").getString("message");
+		} catch (IOException e) {
+			e.printStackTrace();
+
+			speechText = "Une erreur est survenue pendant la requête.";
+		}
+
+		return askResponse(speechText);
+	}
+
+		private SpeechletResponse getMoneyResponse() {
+		String speechText;
+
+		try {
+			speechText = "test money"; //get("/money").getString("message")
 		} catch (IOException e) {
 			e.printStackTrace();
 
