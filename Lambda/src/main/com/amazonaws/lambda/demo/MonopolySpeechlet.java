@@ -160,15 +160,15 @@ public class MonopolySpeechlet implements Speechlet {
 	}
 
 		private SpeechletResponse getMoneyResponse() {
-		String speechText = "test";
+		String speechText;
 
-		// try {
-		// 	speechText = get("/money").getString("message");
-		// } catch (IOException e) {
-		// 	e.printStackTrace();
+		try {
+			speechText = get("/money").getString("message");
+		} catch (IOException e) {
+			e.printStackTrace();
 
-		// 	speechText = "Une erreur est survenue pendant la requête.";
-		// }
+			speechText = "Une erreur est survenue pendant la requête.";
+		}
 
 		return askResponse(speechText);
 	}
