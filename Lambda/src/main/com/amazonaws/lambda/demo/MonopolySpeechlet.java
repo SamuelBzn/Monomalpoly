@@ -74,15 +74,15 @@ public class MonopolySpeechlet implements Speechlet {
 			}else{
 				return getNotAllowedResponse();
 			}
-<<<<<<< HEAD
 		case "WhoStart" :
 			if(state.equals("game_started")) {
 				return getAnnounceCurrentPlayerResponse();
-=======
+			}else{
+				return getNotAllowedResponse();
+			}
 		case "MoneyIntent" :
 			if(state.equals("game_started")) {
 				return getMoneyResponse();
->>>>>>> origin/master
 			}else{
 				return getNotAllowedResponse();
 			}
