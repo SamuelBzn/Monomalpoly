@@ -162,7 +162,26 @@ public class Player {
 
         Card current = cards.get(position);
 
-        current.action(this);
+        //current.action(this);
+
+        if(current instanceof Property) {
+            if(current.getIsBuyable() == true and current.getUser() == null) {
+                message += "Vous pouvez acheter cette propriété pour un montant de " + current.getLandCost() + " euros. ";
+            } else if (current.getUser() != null) {
+                message += "Vous devez payer " + current.getLoyer() + " euros de loyer à " + current.getUser().getName() + ". ";
+               
+                if(this.getBalance() >= current.getLoyer()) {
+                    this.removeToBalance(current.getLoyer());
+current.getUser().addToBalance(current.getLoyer());
+                } else {
+                    message += "Vous n’avez pas assez d’argent n’est ce pas?! Il va falloir vendre une ou plusieurs propriétés, cheh! Je vais m’en occuper. ";
+                    // Vendre jusqu’à avoir assez de cash, sinon faillite et donner tout l’argent post vente au joueur devant recevoir le loyer
+current.getUser().addToBalance(this.getBalance());
+                }
+            } else if (current.getUser() == this) {
+                message += "Vous êtes chez vous. Souhaitez vous améliorer votre propriété? ";
+            }
+        }
 
         return "action";
     }
