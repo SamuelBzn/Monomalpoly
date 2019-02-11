@@ -74,6 +74,12 @@ public class MonopolySpeechlet implements Speechlet {
 			}else{
 				return getNotAllowedResponse();
 			}
+		case "WhoStart" :
+			if(state.equals("game_started")) {
+				return getAnnounceCurrentPlayerResponse();
+			}else{
+				return getNotAllowedResponse();
+			}
 		case "AMAZON.HelpIntent":
 			return getHelpResponse();
 		case "AMAZON.StopIntent":
@@ -182,6 +188,20 @@ public class MonopolySpeechlet implements Speechlet {
 			return askResponse("Une erreur est survenue pendant la requête");
 		}
 
+	}
+
+	private SpeechletResponse getAnnounceCurrentPlayerResponse(){
+		String speechText;
+
+		try {
+			speechText = get("/whoStart").getString("name");
+		} catch (IOException e) {
+			e.printStackTrace();
+
+			speechText = "Une erreur est survenue pendant la requête.";
+		}
+
+		return askResponse(speechText);
 	}
 
 	private SpeechletResponse getRulesResponse() {
