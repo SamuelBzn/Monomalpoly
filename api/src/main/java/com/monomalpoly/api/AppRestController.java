@@ -9,6 +9,8 @@ import com.monomalpoly.api.player.Player;
 import com.monomalpoly.api.player.PlayerRepository;
 import com.monomalpoly.api.property.PropertyRepository;
 import com.monomalpoly.api.game.*;
+import com.monomalpoly.api.board.BoardRepository;
+import com.monomalpoly.api.chance.ChanceRepository;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -24,10 +26,18 @@ public class AppRestController extends BaseController {
     @Autowired
     private PropertyRepository propertyRepository;
 
+    @Autowired
+    private BoardRepository boardRepository;
+
+    @Autowired
+    private ChanceRepository chanceRepository;
+
     @RequestMapping("reset")
     public HashMap<String, String> reset() {
         playerRepository.deleteAll();
         propertyRepository.deleteAll();
+        chanceRepository.deleteAll();
+        boardRepository.deleteAll();
         gameRepository.deleteAll();
 
         HashMap<String, String> response = new HashMap<String, String>();
