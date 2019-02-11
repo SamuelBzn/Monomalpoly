@@ -15,6 +15,7 @@ public class Player {
     private int properties;
     private int houses;
     private int hotels;
+    private int position;
 
     public Player() {
 
@@ -26,6 +27,7 @@ public class Player {
         this.properties = 0;
         this.houses = 0;
         this.hotels = 0;
+        this.position = 0;
     }
 
     public int getId() {
@@ -52,6 +54,10 @@ public class Player {
         return hotels;
     }
 
+    public int getPosition() {
+        return position;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -74,6 +80,10 @@ public class Player {
 
     public void setHotels(int hotels) {
         this.hotels = hotels;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public void addToBalance(int amount) {
