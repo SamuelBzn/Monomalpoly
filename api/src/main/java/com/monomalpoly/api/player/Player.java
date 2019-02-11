@@ -3,6 +3,14 @@ package com.monomalpoly.api.player;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+import com.monomalpoly.api.game.Game;
+import com.monomalpoly.api.dice.Dice;
+import com.monomalpoly.api.card.Card;
+
+import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 public class Player {
@@ -17,6 +25,10 @@ public class Player {
     private int houses;
     private int hotels;
     private int position;
+    private int nbTours;
+
+    @ManyToOne
+    private Game game;
 
     public Player() {
 
@@ -131,5 +143,27 @@ public class Player {
 
     public void removeToHotels(int amount) {
         this.hotels = (this.hotels - amount > 0) ? hotels - amount : 0;
+    }
+
+    public String forward(Dice d) {
+        List<Card> cards = new ArrayList<>();//this.game.getBoard().getCards();
+        int totalCases = cards.size();
+        String message = d.getMessage();
+
+        if (position + d.getValue() > totalCases) {
+            position = totalCases % (position + d.getValue());
+            nbTours += 1;
+            balance += 200;
+
+            message += "Vous passez par la case départ et touchez 200. ";
+        } else {
+            position += d.getValue();
+        }
+
+        Card current = cards.get(position);
+
+        current.action(this);
+
+        return "action";
     }
 }

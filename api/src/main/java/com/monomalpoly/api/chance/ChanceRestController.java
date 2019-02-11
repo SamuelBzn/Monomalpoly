@@ -13,20 +13,7 @@ import java.util.Random;
 public class ChanceRestController {
 
     @RequestMapping("chance/effect")
-    public HashMap<String, String> effect() {
-        Random r = new Random();
-        int result = r.nextInt((1 - 0) + 1) + 0;
+    public void effect() {
 
-        HashMap<String, String> response = new HashMap<String, String>();
-        if(result == 0) {
-            //Set la balance du joueur à -50
-            response.put("message", "La banque te prend 50 euros, cheh !");
-        }
-        else {
-            //Set la balance du joueur à +50
-            response.put("message", "Tu gagnes 50 balles, gégé le sang. Mais tékaté ça n'arrivera pas souvent.");
-        }
-
-        return response;
     }
 }

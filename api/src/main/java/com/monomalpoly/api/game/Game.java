@@ -4,8 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 
 import com.monomalpoly.api.player.Player;
+
+import java.util.List;
 
 @Entity
 public class Game {
@@ -18,6 +21,9 @@ public class Game {
     private String state;
     @OneToOne
     private Player currentPlayer;
+
+    @OneToMany
+    private List<Player> players;
 
     public Game() {
         this.currentPlayer = null;
