@@ -78,23 +78,24 @@ public class AppRestController extends BaseController {
         HashMap<String, String> response = new HashMap<String, String>();
 
         int betterCapital = 0;
-        Player betterPlayer;
+        Player betterPlayer = null;
+
         for(Player p : playerRepository.findAll()){
             if (p.getCapital() > betterCapital){
                 betterCapital = p.getCapital();
                 betterPlayer = p;
             }
         }
-        response.put("response", "Le vainqueur actuel est : " + p.getName());
+        response.put("response", "Le vainqueur actuel est : " + betterPlayer.getName());
 
         return response;
     }
 
-    @RequestMapping("ConsultAccount")
+    @RequestMapping("consultAccount")
     public HashMap<String, String> consultAccount(){
     HashMap<String, String> response = new HashMap<String, String>();
 
-    Game g = gameRepository.getLastGame();
+    Game g = getLastGame();
     Player p = g.getCurrentPlayer();
 
     response.put("response", "Votre compte est de " + p.getBalance() + " et votre capital est de " + p.getCapital());
