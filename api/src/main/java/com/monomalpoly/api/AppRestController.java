@@ -79,4 +79,16 @@ public class AppRestController extends BaseController {
 
         return response;
     }
+
+    @RequestMapping("ConsultAccount")
+    public HashMap<String, String> consultAccount(){
+    HashMap<String, String> response = new HashMap<String, String>();
+
+    Game g = gameRepository.getLastGame();
+    Player p = g.getCurrentPlayer();
+
+    response.put("response", "Votre compte est de " + p.getBalance() + " et votre capital est de " + p.getCapital());
+
+    return response;
+    }
 }
