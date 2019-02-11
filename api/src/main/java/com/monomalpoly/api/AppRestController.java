@@ -62,4 +62,21 @@ public class AppRestController extends BaseController {
 
     	return pMax;
     }
+
+    @RequestMapping("winner")
+    public HashMap<String, String> whoWin(){
+        HashMap<String, String> response = new HashMap<String, String>();
+
+        int betterCapital = 0;
+        Player betterPlayer;
+        for(Player p : playerRepository.findAll()){
+            if (p.getCapital() > betterCapital){
+                betterCapital = p.getCapital();
+                betterPlayer = p;
+            }
+        }
+        response.put("response", "Le vainqueur actuel est : " + p.getName());
+
+        return response;
+    }
 }

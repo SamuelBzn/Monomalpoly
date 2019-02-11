@@ -12,6 +12,7 @@ public class Player {
     private int id;
     private String name;
     private int balance;
+    private int capital;
     private int properties;
     private int houses;
     private int hotels;
@@ -23,6 +24,7 @@ public class Player {
     public Player(String name) {
         this.name = name;
         this.balance = 1500;
+        this.capital = this.balance;
         this.properties = 0;
         this.houses = 0;
         this.hotels = 0;
@@ -38,6 +40,10 @@ public class Player {
 
     public int getBalance() {
         return balance;
+    }
+
+    public int getCapital() {
+        return capital;
     }
 
     public int getProperties() {
@@ -64,6 +70,10 @@ public class Player {
         this.balance = balance;
     }
 
+    public void setCapital(int capital) {
+        this.capital = capital;
+    }
+
     public void setProperties(int properties) {
         this.properties = properties;
     }
@@ -78,12 +88,17 @@ public class Player {
 
     public void addToBalance(int amount) {
         this.balance += amount;
+        this.capital += amount;
     }
 
-    public void removeToBalance(int amount) {
+    public void removeToBalance(int amount) {           // cas d'une amélioration ou achat d'une case neutre : solde retiré du compte mais pas de son capital
         this.balance = (this.balance - amount > 0) ? balance - amount : 0;
     }
 
+    public void removeToBalanceAndCapital(int amount) {  // cas d'un achat d'une propriété adverse ou paiement d'une rente.
+        this.balance = (this.balance - amount > 0) ? balance - amount : 0;
+        this.capital = (this.capital - amount > 0) ? capital - amount : 0;
+    }
     public void addToProperties(int amount) {
         this.properties += amount;
     }
