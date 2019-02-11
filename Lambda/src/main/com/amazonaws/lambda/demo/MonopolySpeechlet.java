@@ -169,7 +169,7 @@ public class MonopolySpeechlet implements Speechlet {
 		String speechText;
 
 		try {
-			speechText = get("/money").getString("message");
+			speechText = get("/consultAccount").getString("message");
 		} catch (IOException e) {
 			e.printStackTrace();
 
