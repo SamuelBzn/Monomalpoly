@@ -236,9 +236,9 @@ public class MonopolySpeechlet implements Speechlet {
 		String speechText = " Le but du jeu consiste à ruiner ses concurrents par des opérations immobilières. " +
 		" Le jeu se déroule en tour par tour, avec deux dés ordinaires à 6 faces. "+
 		" Au début de la partie, chaque joueur annonce son pseudo. L'ordre de jeu est défini à l'aide d'un lancer de dés et le joueur ayant fait le plus grand nombre commence. " +
-		" Pour jouer, chaque joueur dit lance les dés, Alexa avance son pion sur le parcours, puis selon la case sur laquelle il s’arrête, Alexa lui proposeras le choix correspondant." +
-		" Le Joueur devras alors annoncer son choix et Alexa l'éxecuteras" +
-		" Le vainqueur est le dernier joueur n’ayant pas fait faillite.";
+		" Pour jouer, vous devrez dire lance les dés, j'avancerais votre pion sur le parcours, puis selon la case sur laquelle vous vous arrêterez, je vous proposerais alors le choix correspondant." +
+		" Vous devrez alors annoncer votre choix et je l'éxecuterais." +
+		" Le vainqueur seras le dernier joueur n’ayant pas fait faillite.";
 
 		return askResponse(speechText);
 	}
