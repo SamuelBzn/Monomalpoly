@@ -87,13 +87,29 @@ public class MonopolySpeechlet implements Speechlet {
 				return getNotAllowedResponse();
 			}
 		case "NotBuyPropertyIntent":
-			return getNotBuyPropertyResponse();
+			if(state.equals("attente_amelioration")){
+				return getNotBuyPropertyResponse();
+			}else{
+				return getNotAllowedResponse();
+			}
 		case "BuyPropertyIntent":
-			return getBuyPropertyResponse();
+			if(state.equals("attente_amelioration")){
+				return getBuyPropertyResponse();
+			}else{
+				return getNotAllowedResponse();
+			}
 		case "NotBuyHouseIntent":
-			return getNotBuyHouseResponse();
+			if(state.equals("attente_achat")){
+				return getNotBuyHouseResponse();
+			}else{
+				return getNotAllowedResponse();
+			}
 		case "BuyHouseIntent":
-			return getBuyHouseResponse();
+			if(state.equals("attente_achat")){
+				return getBuyHouseResponse();
+			}else{
+				return getNotAllowedResponse();
+			}
 		case "AMAZON.HelpIntent":
 			return getHelpResponse();
 		case "AMAZON.StopIntent":
@@ -133,7 +149,6 @@ public class MonopolySpeechlet implements Speechlet {
 		Slot s = intent.getSlot("NbUser");
 
 		try {
-			resetDataBase();
 			createGame("choix_pseudo", s.getValue());
 		} catch (Exception e) {
 			e.printStackTrace();
