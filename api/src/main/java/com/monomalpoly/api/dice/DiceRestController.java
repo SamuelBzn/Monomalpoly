@@ -12,6 +12,7 @@ import com.monomalpoly.api.player.Player;
 import com.monomalpoly.api.player.PlayerRepository;
 
 import com.monomalpoly.api.BaseController;
+import com.monomalpoly.api.JSONResponse;
 
 import java.util.HashMap;
 
@@ -21,7 +22,7 @@ public class DiceRestController extends BaseController {
     private PlayerRepository playerRepository;
 
     @RequestMapping("/dice")
-    public HashMap<String, String> dice() {
+    public HashMap<String, Object> dice() {
         Dice d = Dice.draw();
 
         Player current = getLastGame().getCurrentPlayer();
@@ -29,6 +30,9 @@ public class DiceRestController extends BaseController {
 
         playerRepository.save(current);
 
-        return json("message", action);
+        return JSONResponse.builder()
+            .with("message", action)
+            .with("isDouble", d.getIsDouble())
+            .build();
     }
 }
