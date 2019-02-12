@@ -5,6 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.OneToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.CascadeType;
 
 import com.monomalpoly.api.player.Player;
 import com.monomalpoly.api.board.Board;
@@ -20,12 +21,12 @@ public class Game {
     private int nbUsers;
     private int countNbUsers;
     private String state;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Player currentPlayer;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Board board;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Player> players;
 
     public Game() {

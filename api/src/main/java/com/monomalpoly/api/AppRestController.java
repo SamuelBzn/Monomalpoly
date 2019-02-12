@@ -43,10 +43,10 @@ public class AppRestController extends BaseController {
 
     @RequestMapping("reset")
     public HashMap<String, String> reset() {
+        playerRepository.deleteAll();
         boardRepository.deleteAll();
         gameRepository.deleteAll();
         chanceRepository.deleteAll();
-        playerRepository.deleteAll();
         propertyRepository.deleteAll();
 
         HashMap<String, String> response = new HashMap<String, String>();
