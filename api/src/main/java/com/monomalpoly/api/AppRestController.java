@@ -11,6 +11,10 @@ import com.monomalpoly.api.property.PropertyRepository;
 import com.monomalpoly.api.game.*;
 import com.monomalpoly.api.board.BoardRepository;
 import com.monomalpoly.api.chance.ChanceRepository;
+import com.monomalpoly.api.card.*;
+import com.monomalpoly.api.board.*;
+import com.monomalpoly.api.property.*;
+import com.monomalpoly.api.chance.*;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -102,4 +106,59 @@ public class AppRestController extends BaseController {
 
     return response;
     }
+
+    @RequestMapping("announceCard")
+    public HashMap<String, String> announceCard(){
+        HashMap<String, String> response = new HashMap<String, String>();
+
+        Game g = getLastGame();
+        Player p = g.getCurrentPlayer(); 
+        Board b = getLastBoard();
+
+        Card c = b.getCards().get(p.getPosition());
+
+
+        String user = "";
+        String color = "";
+        String level = "";
+
+
+        if (c instanceof Property){
+
+            if (((Property)c).getUser() == null){
+                user = " n'appartenant à aucun joueur";
+            } else { user = " appartenant à " + ((Property)c).getUser().getName();}
+
+            if (((Property)c).getLevel() == 0){
+                level = " C'est un terrain non acheté";
+            }
+            else if (((Property)c).getLevel() == 1){
+                level = " C'est un terrain plat";
+            }
+            else if (((Property)c).getLevel() == 2){
+                level = " C'est une maison";
+            }
+            else if (((Property)c).getLevel() == 3){
+                level = " C'est un hotel";
+            }
+            
+            if (((Property)c).getColor() == null){
+                color = " et n'a aucune couleur";
+            }else { color = ((Property)c).getColor(); }
+
+            response.put("response", "Vous arrivez sur :" + ((Property)c).getName() + " de type " + ((Property)c).getNature() + user + " dont le terrain coûte" + ((Property)c).getLandCost() + " et dont le prix total est de " + ((Property)c).getCost() + level + color); 
+
+        }
+
+
+        else if (c instanceof Chance){
+
+            response.put("response", "Vous arrivez sur : " + ((Property)c).getName() + " une case de type chance");
+
+        }
+
+        return response;
+
+    }
+
 }
