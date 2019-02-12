@@ -160,7 +160,7 @@ public class BoardRestController extends BaseController{
         b.getCards().add(p10);
 
         Property p11 = new Property();
-        p11.setName("JAIL");
+        p11.setName("PRISON");
         p11.setNature("jail");
         p11.setBuyable(false);
         p11.setUser(null);
@@ -280,7 +280,7 @@ public class BoardRestController extends BaseController{
         b.getCards().add( p20);
 
         Property p21 = new Property();
-        p21.setName("FREE PARKING");
+        p21.setName("PARKING GRATUIT");
         p21.setNature("parking");
         p21.setBuyable(false);
         p21.setUser(null);

@@ -133,20 +133,29 @@ public class Player {
 
         Card current = cards.get(position);
 
-        //current.action(this);
-
         if (current instanceof Property) {
             Property property = (Property)current;
 
-            if (property.isBuyable() == true && property.getUser() == null) {
+            // Case prison (simple visite) ou parking gratuit
+            if(property.getName().equals("PRISON") || property.getName().equals("PARKING GRATUIT")) {
+                message += "Vous êtes sur la case " + property.getName() + ". Vous êtes tranquille pour ce tour! ";
+            }
+
+            // Possibilité d'acheter
+            if (property.isBuyable() == true && property.getUser() == null && ) {
                 message += "Vous pouvez acheter cette propriété pour un montant de " + property.getLandCost() + " euros. ";
+                this.game.setState("attente_achat");
+            // Terrain déjà possédé par un autre joueur
             } else if (property.getUser() != null) {
                 message += "Vous devez payer " + property.getLoyer() + " euros de loyer à " + property.getUser().getName() + ". ";
 
+                // Gestion de la balance et des ventes auto
                 if (this.getBalance() >= property.getLoyer()) {
+                    // Paiement instantané
                     this.removeToBalance(property.getLoyer());
                     property.getUser().addToBalance(property.getLoyer());
                 } else {
+                    // Vente auto
                     message += "Vous n’avez pas assez d’argent n’est ce pas?! Il va falloir vendre une ou plusieurs propriétés, cheh! Je vais m’en occuper. ";
 
                     int accumulator    = this.balance;
@@ -172,7 +181,11 @@ public class Player {
                 }
             } else if (property.getUser() == this) {
                 message += "Vous êtes chez vous. Souhaitez vous améliorer votre propriété? ";
+                this.game.setState("attente_amelioration");
             }
+        } else if (current instanceof Chance) {
+            message += "Vous tombez sur une case Chance. ";
+            message += current.action(currentPlayer);
         }
 
         return message;
