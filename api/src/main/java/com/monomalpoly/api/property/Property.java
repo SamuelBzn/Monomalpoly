@@ -29,6 +29,8 @@ public class Property extends Card {
     private int cost;  // prix terrain + aménagement
     private int level; // 0 = pas acheter 1 = terrain, 2 = maison, 3 = hotel
     private String color;
+    private int nbHouses;
+    private int nbHotels;
 
     public Property() {
 
@@ -156,6 +158,22 @@ public class Property extends Card {
 			return "Cheh, tu dois payer " + landCost + " à " + player.getName() + " . ";
 		}
 	}
+
+	public void addToHotels(int amount) {
+    this.nbHotels += amount;
+  }
+
+  public void removeToHotels(int amount) {
+    this.nbHotels = (this.nbHotels - amount > 0) ? nbHotels - amount : 0;
+	}
+
+	public void addToHouses(int amount) {
+    this.nbHouses += amount;
+  }
+
+	public void removeToHouses(int amount) {
+    this.nbHouses = (this.nbHouses - amount > 0) ? nbHouses - amount : 0;
+  }
 
 	public int getLoyer() {
 		switch(nbHouses) {
