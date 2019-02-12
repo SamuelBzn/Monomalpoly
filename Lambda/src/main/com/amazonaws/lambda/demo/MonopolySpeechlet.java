@@ -33,7 +33,7 @@ import org.json.JSONObject;
 
 
 public class MonopolySpeechlet implements Speechlet {
-	public static final String API_URL = "http://52.47.78.233:8080";
+	public static final String API_URL = "http://robin-dupret.com:8080";
 
 	@Override
 	public void onSessionStarted(final SessionStartedRequest request, final Session session) throws SpeechletException {
