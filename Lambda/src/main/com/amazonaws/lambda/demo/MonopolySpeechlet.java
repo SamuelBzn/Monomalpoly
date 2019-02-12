@@ -214,7 +214,7 @@ public class MonopolySpeechlet implements Speechlet {
 		String speechText;
 
 		try {
-			speechText = "" + get("/whoStart").getString("name") + "va commencer la partie !";
+			speechText = "" + get("/whoStart").getString("name") + " va commencer la partie !";
 		} catch (IOException e) {
 			e.printStackTrace();
 
