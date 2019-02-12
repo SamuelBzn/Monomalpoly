@@ -64,6 +64,18 @@ public class Property extends Card {
 		return landCost;
 	}
 
+	public int getLevel() {
+		return level;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public int getCost() {
+		return cost;
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -142,6 +154,26 @@ public class Property extends Card {
 			player.removeToBalance(10);
 
 			return "Cheh, tu dois payer " + landCost + " à " + player.getName() + " . ";
+		}
+	}
+
+	public int getLoyer() {
+		switch(nbHouses) {
+		  case 1:
+		    return getLandCost() * 4;
+		  case 2:
+		    return getLandCost() * 12;
+		  case 3:
+		    return getLandCost() * 28;
+		  case 4:
+		    return getLandCost() * 34;
+		  default:
+		    switch(nbHotels) {
+		    	case 1:
+		    		return getLandCost() * 40;
+		    	default:
+		    		return getLandCost();
+		    }
 		}
 	}
 }

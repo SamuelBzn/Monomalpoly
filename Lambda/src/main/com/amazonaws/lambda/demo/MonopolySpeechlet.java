@@ -86,6 +86,14 @@ public class MonopolySpeechlet implements Speechlet {
 			}else{
 				return getNotAllowedResponse();
 			}
+		case "NotBuyPropertyIntent":
+			return getNotBuyPropertyResponse();
+		case "BuyPropertyIntent":
+			return getBuyPropertyResponse();
+		case "NotBuyHouseIntent":
+			return getNotBuyHouseResponse();
+		case "BuyHouseIntent":
+			return getBuyHouseResponse();
 		case "AMAZON.HelpIntent":
 			return getHelpResponse();
 		case "AMAZON.StopIntent":
@@ -225,10 +233,11 @@ public class MonopolySpeechlet implements Speechlet {
 	}
 
 	private SpeechletResponse getRulesResponse() {
-		String speechText = "Le Monomalpolie est un jeu de société américain édité par Hasbro. " +
-		" Le but du jeu consiste à ruiner ses concurrents par des opérations immobilières." +
+		String speechText = "Le Monomalpolie est un jeu de société. " +
+		" Le but du jeu consiste à ruiner ses concurrents par des opérations immobilières. " +
 		" Le jeu se déroule en tour par tour, avec deux dés ordinaires à 6 faces. "+
-		" Chaque joueur lance les dés, avance son pion sur le parcours, puis selon la case sur laquelle il s’arrête, effectue une action correspondante."+
+		" Au début de la partie, chaque joueur annonce son pseudo. L'ordre de jeu est défini à l'aide d'un lancer de dés et le joueur ayant fait le plus grand nombre commence. "+
+		" Pour jouer, chaque joueur lance les dés, avance son pion sur le parcours, puis selon la case sur laquelle il s’arrête, effectue une action correspondante."+
 		" Le vainqueur est le dernier joueur n’ayant pas fait faillite, et qui possède de ce fait le monopole";
 
 		return askResponse(speechText);
@@ -236,6 +245,30 @@ public class MonopolySpeechlet implements Speechlet {
 
 	private SpeechletResponse getNotAllowedResponse() {
 		String speechText = "Cette instruction n'est pas disponible dans l'état actuel de la partie.";
+
+		return askResponse(speechText);
+	}
+
+	private SpeechletResponse getNotBuyPropertyResponse() {
+		String speechText = "Vous n'achetez pas le terrain";
+
+		return askResponse(speechText);
+	}
+
+	private SpeechletResponse getBuyPropertyResponse() {
+		String speechText = "Vous achetez le terrain";
+
+		return askResponse(speechText);
+	}
+
+	private SpeechletResponse getNotBuyHouseResponse() {
+		String speechText = "Vous n'achetez pas la maison";
+
+		return askResponse(speechText);
+	}
+
+	private SpeechletResponse getBuyHouseResponse() {
+		String speechText = "Vous achetez la maison";
 
 		return askResponse(speechText);
 	}
