@@ -1,5 +1,7 @@
 package com.monomalpoly.api.board;
 
+import com.monomalpoly.api.BaseController;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +18,7 @@ import com.monomalpoly.api.chance.Chance;
 import com.monomalpoly.api.property.Property;
 
 @RestController
-public class BoardRestController {
+public class BoardRestController extends BaseController{
 	@Autowired
 	private BoardRepository boardRepository;
 
@@ -31,11 +33,6 @@ public class BoardRestController {
         	return b;
         }
 	}
-
-	public Board getLastBoard() {
-        List<Board> boards = boardRepository.findFirst(new PageRequest(0, 1));
-        return boards.get(0);
-    }
 
     @RequestMapping("board/create")
     public Board create() {

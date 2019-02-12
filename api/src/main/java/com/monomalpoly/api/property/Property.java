@@ -64,6 +64,18 @@ public class Property extends Card {
 		return landCost;
 	}
 
+	public int getLevel() {
+		return level;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public int getCost() {
+		return cost;
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
