@@ -86,6 +86,14 @@ public class MonopolySpeechlet implements Speechlet {
 			}else{
 				return getNotAllowedResponse();
 			}
+		case "NotBuyPropertyIntent":
+			return getNotBuyPropertyResponse();
+		case "BuyPropertyIntent":
+			return getBuyPropertyResponse();
+		case "NotBuyHouseIntent":
+			return getNotBuyHouseResponse();
+		case "BuyHouseIntent":
+			return getBuyHouseResponse();
 		case "AMAZON.HelpIntent":
 			return getHelpResponse();
 		case "AMAZON.StopIntent":
@@ -236,6 +244,30 @@ public class MonopolySpeechlet implements Speechlet {
 
 	private SpeechletResponse getNotAllowedResponse() {
 		String speechText = "Cette instruction n'est pas disponible dans l'état actuel de la partie.";
+
+		return askResponse(speechText);
+	}
+
+	private SpeechletResponse getNotBuyPropertyResponse() {
+		String speechText = "Vous n'achetez pas le terrain";
+
+		return askResponse(speechText);
+	}
+
+	private SpeechletResponse getBuyPropertyResponse() {
+		String speechText = "Vous achetez le terrain";
+
+		return askResponse(speechText);
+	}
+
+	private SpeechletResponse getNotBuyHouseResponse() {
+		String speechText = "Vous n'achetez pas la maison";
+
+		return askResponse(speechText);
+	}
+
+	private SpeechletResponse getBuyHouseResponse() {
+		String speechText = "Vous achetez la maison";
 
 		return askResponse(speechText);
 	}
