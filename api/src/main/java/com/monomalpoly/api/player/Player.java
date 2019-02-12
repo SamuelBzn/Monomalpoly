@@ -149,7 +149,8 @@ public class Player {
 
             // Possibilité d'acheter
             if (property.isBuyable() == true && property.getUser() == null) {
-                message += "Vous pouvez acheter cette propriété pour un montant de " + property.getLandCost() + " euros. ";
+                message += "Vous pouvez acheter " + property.getName() + " pour un montant de " + property.getLandCost() + " euros." 
+                + " Pour acheter dites Oui je veux acheter le terrain. Sinon dites Non je ne veux pas acheter le terrain.";
                 this.game.setState("attente_achat");
             // Terrain déjà possédé par un autre joueur
             } else if (property.getUser() != null) {
@@ -162,7 +163,7 @@ public class Player {
                     property.getUser().addToBalance(property.getLoyer());
                 } else {
                     // Vente auto
-                    message += "Vous n’avez pas assez d’argent n’est ce pas?! Il va falloir vendre une ou plusieurs propriétés, cheh! Je vais m’en occuper. ";
+                    message += "Vous n’avez pas assez d’argent n’est ce pas ?! Il va falloir vendre une ou plusieurs propriétés, cheh! Je vais m’en occuper. ";
 
                     int accumulator    = this.balance;
                     boolean unsolvable = true;
@@ -186,7 +187,7 @@ public class Player {
                     property.getUser().addToBalance(this.getBalance());
                 }
             } else if (property.getUser() == this) {
-                message += "Vous êtes chez vous. Souhaitez vous améliorer votre propriété? ";
+                message += "Vous êtes chez vous. Souhaitez vous améliorer votre propriété ? Si oui dites Oui je veux améliorer, sinon dites Non je ne veux pas améliorer. ";
                 this.game.setState("attente_amelioration");
             }
         } else if (current instanceof Chance) {

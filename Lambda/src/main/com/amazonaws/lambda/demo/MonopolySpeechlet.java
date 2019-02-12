@@ -204,7 +204,7 @@ public class MonopolySpeechlet implements Speechlet {
 				speechText += " Joueur suivant dites Mon pseudo est ";
 			} else {
 				speechText += " Tout les joueurs ont annoncé leur pseudo. "
-						+ " La partie va bientot commencer, pour savoir qui va commencer dites Qui va commencer";
+						+ " La partie est prête, pour démarrer dites Qui va commencer";
 
 				updateState("game_started");
 			}
@@ -222,7 +222,7 @@ public class MonopolySpeechlet implements Speechlet {
 		String speechText;
 
 		try {
-			speechText = "" + get("/whoStart").getString("name") + " va commencer la partie !";
+			speechText = "" + get("/whoStart").getString("name") + " va commencer la partie ! Pour jouer dites Lance les dés ! ";
 		} catch (IOException e) {
 			e.printStackTrace();
 
