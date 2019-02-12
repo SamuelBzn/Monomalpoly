@@ -15,12 +15,21 @@ import java.util.Random;
 import java.util.Iterator;
 
 import com.monomalpoly.api.chance.Chance;
+import com.monomalpoly.api.chance.ChanceRepository;
 import com.monomalpoly.api.property.Property;
+import com.monomalpoly.api.property.PropertyRepository;
+import com.monomalpoly.api.game.Game;
 
 @RestController
 public class BoardRestController extends BaseController{
 	@Autowired
 	private BoardRepository boardRepository;
+
+    @Autowired
+    private PropertyRepository propertyRepository;
+
+    @Autowired
+    private ChanceRepository chanceRepository;
 
 	@RequestMapping("board")
 	public Board board() {
@@ -47,6 +56,7 @@ public class BoardRestController extends BaseController{
         p.setCost(0);
         p.setLevel(0);
         p.setColor(null);
+        propertyRepository.save(p);
         b.getCards().add(p);
 
         Property p2 = new Property();
@@ -58,6 +68,7 @@ public class BoardRestController extends BaseController{
         p2.setCost(50);
         p2.setLevel(0);
         p2.setColor("purple");
+        propertyRepository.save(p2);
         b.getCards().add(p2);
 
         Property p3 = new Property();
@@ -69,6 +80,7 @@ public class BoardRestController extends BaseController{
         p3.setCost(0);
         p3.setLevel(0);
         p3.setColor(null);
+        propertyRepository.save(p3);
         b.getCards().add(p3);
 
         Property p4 = new Property();
@@ -80,6 +92,7 @@ public class BoardRestController extends BaseController{
         p4.setCost(50);
         p4.setLevel(0);
         p4.setColor("purple");
+        propertyRepository.save(p4);
         b.getCards().add(p4);
 
         Property p5 = new Property();
@@ -91,6 +104,7 @@ public class BoardRestController extends BaseController{
         p5.setCost(0);
         p5.setLevel(0);
         p5.setColor(null);
+        propertyRepository.save(p5);
         b.getCards().add(p5);
 
         Property p6 = new Property();
@@ -102,6 +116,7 @@ public class BoardRestController extends BaseController{
         p6.setCost(200);
         p6.setLevel(0);
         p6.setColor(null);
+        propertyRepository.save(p6);
         b.getCards().add(p6);
 
         Property p7 = new Property();
@@ -113,9 +128,11 @@ public class BoardRestController extends BaseController{
         p7.setCost(100);
         p7.setLevel(0);
         p7.setColor("grey");
+        propertyRepository.save(p7);
         b.getCards().add(p7);
 
         Chance p8 = new Chance();
+        chanceRepository.save(p8);
         b.getCards().add(p8);
 
         Property p9 = new Property();
@@ -127,6 +144,7 @@ public class BoardRestController extends BaseController{
         p9.setCost(100);
         p9.setLevel(0);
         p9.setColor("grey");
+        propertyRepository.save(p9);
         b.getCards().add(p9);
 
         Property p10 = new Property();
@@ -138,6 +156,7 @@ public class BoardRestController extends BaseController{
         p10.setCost(120);
         p10.setLevel(0);
         p10.setColor("grey");
+        propertyRepository.save(p10);
         b.getCards().add(p10);
 
         Property p11 = new Property();
@@ -149,6 +168,7 @@ public class BoardRestController extends BaseController{
         p11.setCost(0);
         p11.setLevel(0);
         p11.setColor(null);
+        propertyRepository.save(p11);
         b.getCards().add( p11);
 
         Property p12 = new Property();
@@ -160,6 +180,7 @@ public class BoardRestController extends BaseController{
         p12.setCost(140);
         p12.setLevel(0);
         p12.setColor("pink");
+        propertyRepository.save(p12);
         b.getCards().add( p12);
 
         Property p13 = new Property();
@@ -171,6 +192,7 @@ public class BoardRestController extends BaseController{
         p13.setCost(150);
         p13.setLevel(0);
         p13.setColor(null);
+        propertyRepository.save(p13);
         b.getCards().add( p13);
 
         Property p14 = new Property();
@@ -182,6 +204,7 @@ public class BoardRestController extends BaseController{
         p14.setCost(140);
         p14.setLevel(0);
         p14.setColor("pink");
+        propertyRepository.save(p14);
         b.getCards().add( p14);
 
         Property p15 = new Property();
@@ -193,6 +216,7 @@ public class BoardRestController extends BaseController{
         p15.setCost(160);
         p15.setLevel(0);
         p15.setColor("pink");
+        propertyRepository.save(p15);
         b.getCards().add( p15);
 
         Property p16 = new Property();
@@ -204,6 +228,7 @@ public class BoardRestController extends BaseController{
         p16.setCost(200);
         p16.setLevel(0);
         p16.setColor(null);
+        propertyRepository.save(p16);
         b.getCards().add( p16);
 
         Property p17 = new Property();
@@ -215,6 +240,7 @@ public class BoardRestController extends BaseController{
         p17.setCost(180);
         p17.setLevel(0);
         p17.setColor("orange");
+        propertyRepository.save(p17);
         b.getCards().add( p17);
 
         Property p18 = new Property();
@@ -226,6 +252,7 @@ public class BoardRestController extends BaseController{
         p18.setCost(0);
         p18.setLevel(0);
         p18.setColor(null);
+        propertyRepository.save(p18);
         b.getCards().add( p18);
 
         Property p19 = new Property();
@@ -237,6 +264,7 @@ public class BoardRestController extends BaseController{
         p19.setCost(180);
         p19.setLevel(0);
         p19.setColor("orange");
+        propertyRepository.save(p19);
         b.getCards().add( p19);
 
         Property p20 = new Property();
@@ -248,6 +276,7 @@ public class BoardRestController extends BaseController{
         p20.setCost(200);
         p20.setLevel(0);
         p20.setColor("orange");
+        propertyRepository.save(p20);
         b.getCards().add( p20);
 
         Property p21 = new Property();
@@ -259,6 +288,7 @@ public class BoardRestController extends BaseController{
         p21.setCost(0);
         p21.setLevel(0);
         p21.setColor(null);
+        propertyRepository.save(p21);
         b.getCards().add( p21);
 
         Property p22 = new Property();
@@ -270,9 +300,11 @@ public class BoardRestController extends BaseController{
         p22.setCost(220);
         p22.setLevel(0);
         p22.setColor("red");
+        propertyRepository.save(p22);
         b.getCards().add( p22);
 
         Chance p23 = new Chance();
+        chanceRepository.save(p23);
         b.getCards().add( p23);
 
         Property p24 = new Property();
@@ -284,6 +316,7 @@ public class BoardRestController extends BaseController{
         p24.setCost(220);
         p24.setLevel(0);
         p24.setColor("red");
+        propertyRepository.save(p24);
         b.getCards().add( p24);
 
         Property p25 = new Property();
@@ -295,6 +328,7 @@ public class BoardRestController extends BaseController{
         p25.setCost(200);
         p25.setLevel(0);
         p25.setColor("red");
+        propertyRepository.save(p25);
         b.getCards().add( p25);
 
         Property p26 = new Property();
@@ -306,6 +340,7 @@ public class BoardRestController extends BaseController{
         p26.setCost(200);
         p26.setLevel(0);
         p26.setColor(null);
+        propertyRepository.save(p26);
         b.getCards().add( p26);
 
         Property p27 = new Property();
@@ -317,6 +352,7 @@ public class BoardRestController extends BaseController{
         p27.setCost(260);
         p27.setLevel(0);
         p27.setColor("yellow");
+        propertyRepository.save(p27);
         b.getCards().add( p27);
 
         Property p28 = new Property();
@@ -328,6 +364,7 @@ public class BoardRestController extends BaseController{
         p28.setCost(260);
         p28.setLevel(0);
         p28.setColor("yellow");
+        propertyRepository.save(p28);
         b.getCards().add( p28);
 
         Property p29 = new Property();
@@ -339,6 +376,7 @@ public class BoardRestController extends BaseController{
         p29.setCost(120);
         p29.setLevel(0);
         p29.setColor(null);
+        propertyRepository.save(p29);
         b.getCards().add( p29);
 
         Property p30 = new Property();
@@ -350,6 +388,7 @@ public class BoardRestController extends BaseController{
         p30.setCost(280);
         p30.setLevel(0);
         p30.setColor("yellow");
+        propertyRepository.save(p30);
         b.getCards().add( p30);
 
         Property p31 = new Property();
@@ -361,6 +400,7 @@ public class BoardRestController extends BaseController{
         p31.setCost(0);
         p31.setLevel(0);
         p31.setColor(null);
+        propertyRepository.save(p31);
         b.getCards().add( p31);
 
         Property p32 = new Property();
@@ -372,6 +412,7 @@ public class BoardRestController extends BaseController{
         p32.setCost(300);
         p32.setLevel(0);
         p32.setColor("green");
+        propertyRepository.save(p32);
         b.getCards().add( p32);
 
         Property p33 = new Property();
@@ -383,6 +424,7 @@ public class BoardRestController extends BaseController{
         p33.setCost(300);
         p33.setLevel(0);
         p33.setColor("green");
+        propertyRepository.save(p33);
         b.getCards().add( p33);
 
         Property p34 = new Property();
@@ -394,6 +436,7 @@ public class BoardRestController extends BaseController{
         p34.setCost(0);
         p34.setLevel(0);
         p34.setColor(null);
+        propertyRepository.save(p34);
         b.getCards().add( p34);
 
         Property p35 = new Property();
@@ -405,6 +448,7 @@ public class BoardRestController extends BaseController{
         p35.setCost(320);
         p35.setLevel(0);
         p35.setColor("green");
+        propertyRepository.save(p35);
         b.getCards().add( p35);
 
         Property p36 = new Property();
@@ -416,9 +460,11 @@ public class BoardRestController extends BaseController{
         p36.setCost(200);
         p36.setLevel(0);
         p36.setColor(null);
+        propertyRepository.save(p36);
         b.getCards().add( p36);
 
         Chance p37 = new Chance();
+        chanceRepository.save(p37);
         b.getCards().add( p37);
 
         Property p38 = new Property();
@@ -430,6 +476,7 @@ public class BoardRestController extends BaseController{
         p38.setCost(350);
         p38.setLevel(0);
         p38.setColor("blue");
+        propertyRepository.save(p38);
         b.getCards().add( p38);
 
         Property p39 = new Property();
@@ -441,6 +488,7 @@ public class BoardRestController extends BaseController{
         p39.setCost(0);
         p39.setLevel(0);
         p39.setColor(null);
+        propertyRepository.save(p39);
         b.getCards().add( p39);
 
         Property p40 = new Property();
@@ -452,9 +500,16 @@ public class BoardRestController extends BaseController{
         p40.setCost(400);
         p40.setLevel(0);
         p40.setColor("blue");
+        propertyRepository.save(p40);
         b.getCards().add( p40);
 
         boardRepository.save(b);
+
+        Game g = getLastGame();
+
+        g.setBoard(b);
+        gameRepository.save(g);
+
         return b;
     }
 

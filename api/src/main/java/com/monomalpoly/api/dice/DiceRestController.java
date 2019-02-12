@@ -11,23 +11,24 @@ import com.monomalpoly.api.game.GameRepository;
 import com.monomalpoly.api.player.Player;
 import com.monomalpoly.api.player.PlayerRepository;
 
-@RestController
-public class DiceRestController {
-    @Autowired
-    private GameRepository gameRepository;
+import com.monomalpoly.api.BaseController;
 
+import java.util.HashMap;
+
+@RestController
+public class DiceRestController extends BaseController {
     @Autowired
     private PlayerRepository playerRepository;
 
     @RequestMapping("/dice")
-    public String dice() {
+    public HashMap<String, String> dice() {
         Dice d = Dice.draw();
 
-        Player current = gameRepository.findFirst(PageRequest.of(0, 1)).get(0).getCurrentPlayer();
+        Player current = getLastGame().getCurrentPlayer();
         String action  = current.forward(d);
 
         playerRepository.save(current);
 
-        return action;
+        return json("message", action);
     }
 }

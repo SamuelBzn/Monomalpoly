@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 
 import com.monomalpoly.api.player.Player;
 import com.monomalpoly.api.card.Card;
+import com.monomalpoly.api.board.Board;
 
 @Entity
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
@@ -31,6 +32,11 @@ public class Property extends Card {
     private String color;
     private int nbHouses;
     private int nbHotels;
+
+    @ManyToOne
+    protected Board board;
+
+    private String cardType;
 
     public Property() {
 
@@ -78,6 +84,10 @@ public class Property extends Card {
 		return cost;
 	}
 
+	public String getCardType() {
+		return cardType;
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -108,6 +118,10 @@ public class Property extends Card {
 
 	public void setCost(int cost) {
 		this.cost = cost;
+	}
+
+	public void setCardType(String cardType) {
+		this.cardType = cardType;
 	}
 
 	public void improve(Player player) {

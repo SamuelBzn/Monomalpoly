@@ -10,10 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
+import java.util.HashMap;
 
 public class BaseController {
     @Autowired
-    private GameRepository gameRepository;
+    protected GameRepository gameRepository;
     @Autowired
     private BoardRepository boardRepository;
 
@@ -23,8 +24,16 @@ public class BaseController {
     }
 
     public Board getLastBoard() {
-    	List<Board> boards = boardRepository.findFirst(new PageRequest(0, 1));
+    	List<Board> boards = boardRepository.findFirst(PageRequest.of(0, 1));
     	return boards.get(0);
+    }
+
+    public HashMap<String, String> json(String key, String value) {
+        HashMap<String, String> result = new HashMap<>();
+
+        result.put(key, value);
+
+        return result;
     }
 
 }

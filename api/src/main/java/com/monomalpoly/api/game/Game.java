@@ -7,6 +7,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.OneToMany;
 
 import com.monomalpoly.api.player.Player;
+import com.monomalpoly.api.board.Board;
 
 import java.util.List;
 
@@ -21,6 +22,8 @@ public class Game {
     private String state;
     @OneToOne
     private Player currentPlayer;
+    @OneToOne
+    private Board board;
 
     @OneToMany
     private List<Player> players;
@@ -59,5 +62,13 @@ public class Game {
 
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
     }
 }
