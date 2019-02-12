@@ -7,14 +7,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.monomalpoly.api.dice.*;
 import com.monomalpoly.api.player.Player;
 import com.monomalpoly.api.player.PlayerRepository;
-import com.monomalpoly.api.property.PropertyRepository;
-import com.monomalpoly.api.game.*;
-import com.monomalpoly.api.board.BoardRepository;
-import com.monomalpoly.api.chance.ChanceRepository;
-import com.monomalpoly.api.card.*;
-import com.monomalpoly.api.board.*;
-import com.monomalpoly.api.property.*;
-import com.monomalpoly.api.chance.*;
+import com.monomalpoly.api.game.Game;
+import com.monomalpoly.api.game.GameRepository;
+
+import com.monomalpoly.api.card.Card;
+import com.monomalpoly.api.board.Board;
+import com.monomalpoly.api.property.Property;
+import com.monomalpoly.api.chance.Chance;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -25,7 +24,6 @@ public class AppRestController extends BaseController {
     public static final int HOUSEPRICE = 100;
     public static final int HOSTELPRICE = 300;
 
-
     @Autowired
     private GameRepository gameRepository;
 
@@ -33,34 +31,22 @@ public class AppRestController extends BaseController {
     private PlayerRepository playerRepository;
 
     @Autowired
-    private PropertyRepository propertyRepository;
-
-    @Autowired
-    private BoardRepository boardRepository;
-
-    @Autowired
-    private ChanceRepository chanceRepository;
+    private ResetService resetService;
 
     @RequestMapping("reset")
-    public HashMap<String, String> reset() {
-        playerRepository.deleteAll();
-        boardRepository.deleteAll();
-        gameRepository.deleteAll();
-        chanceRepository.deleteAll();
-        propertyRepository.deleteAll();
+    public HashMap<String, Object> reset() {
+        resetService.reset();
 
-        HashMap<String, String> response = new HashMap<String, String>();
-
-        response.put("response", "base vidée sans erreur");
-
-        return response;
+        return JSONResponse.builder()
+            .with("response", "base vidée sans erreur")
+            .build();
     }
 
     @RequestMapping("whoStart")
     public Player whoStart() {
     	HashMap<Player, Integer> rollDice = new HashMap<Player, Integer>();
 
-    	for(Player p : playerRepository.findAll()) {
+    	for (Player p : playerRepository.findAll()) {
             Dice d = Dice.draw();
             rollDice.put(p, (int)d.getValue());
     	}
