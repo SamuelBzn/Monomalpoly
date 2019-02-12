@@ -87,25 +87,25 @@ public class MonopolySpeechlet implements Speechlet {
 				return getNotAllowedResponse();
 			}
 		case "NotBuyPropertyIntent":
-			if(state.equals("attente_amelioration")){
+			if(state.equals("attente_achat")){
 				return getNotBuyPropertyResponse();
 			}else{
 				return getNotAllowedResponse();
 			}
 		case "BuyPropertyIntent":
-			if(state.equals("attente_amelioration")){
+			if(state.equals("attente_achat")){
 				return getBuyPropertyResponse();
 			}else{
 				return getNotAllowedResponse();
 			}
 		case "NotBuyHouseIntent":
-			if(state.equals("attente_achat")){
+			if(state.equals("attente_amelioration")){
 				return getNotBuyHouseResponse();
 			}else{
 				return getNotAllowedResponse();
 			}
 		case "BuyHouseIntent":
-			if(state.equals("attente_achat")){
+			if(state.equals("attente_amelioration")){
 				return getBuyHouseResponse();
 			}else{
 				return getNotAllowedResponse();
