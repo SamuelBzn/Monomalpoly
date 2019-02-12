@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import com.monomalpoly.api.board.Board;
+import com.monomalpoly.api.card.Card;
+import com.monomalpoly.api.player.Player;
 
 @Entity
 public abstract class Card {
@@ -32,5 +34,9 @@ public abstract class Card {
 
     public void setBoard(Board board) {
         this.board = board;
+    }
+
+    public String action(Player player) {
+        return "action";
     }
 }

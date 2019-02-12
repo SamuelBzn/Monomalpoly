@@ -1,5 +1,7 @@
 package com.monomalpoly.api.player;
 
+import com.monomalpoly.api.BaseController;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,7 +10,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 @RestController
-public class PlayerRestController {
+public class PlayerRestController extends BaseController {
     @Autowired
     private PlayerRepository playerRepository;
 
@@ -20,6 +22,7 @@ public class PlayerRestController {
         p.setProperties(0);
         p.setHouses(0);
         p.setHotels(0);
+        // p.setGame(getLastGame());
         playerRepository.save(p);
 
         return p;

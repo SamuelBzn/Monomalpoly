@@ -146,4 +146,14 @@ public class Property extends Card {
 		}
 		this.level = 0; // vend le terrain
 	}
+
+	public String action(Player player) {
+		if (user == player) {
+			return "T'es chez toi le sang. ";
+		} else {
+			player.removeToBalance(10);
+
+			return "Cheh, tu dois payer " + landCost + " à " + player.getName() + " . ";
+		}
+	}
 }

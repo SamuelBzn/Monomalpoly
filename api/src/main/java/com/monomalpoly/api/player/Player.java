@@ -3,6 +3,14 @@ package com.monomalpoly.api.player;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+import com.monomalpoly.api.game.Game;
+import com.monomalpoly.api.dice.Dice;
+import com.monomalpoly.api.card.Card;
+
+import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 public class Player {
@@ -17,6 +25,10 @@ public class Player {
     private int houses;
     private int hotels;
     private int position;
+    private int nbTours;
+
+    @ManyToOne
+    private Game game;
 
     public Player() {
 
@@ -131,5 +143,46 @@ public class Player {
 
     public void removeToHotels(int amount) {
         this.hotels = (this.hotels - amount > 0) ? hotels - amount : 0;
+    }
+
+    public String forward(Dice d) {
+        List<Card> cards = new ArrayList<>();//this.game.getBoard().getCards();
+        int totalCases = cards.size();
+        String message = d.getMessage();
+
+        if (position + d.getValue() > totalCases) {
+            position = totalCases % (position + d.getValue());
+            nbTours += 1;
+            balance += 200;
+
+            message += "Vous passez par la case départ et touchez 200. ";
+        } else {
+            position += d.getValue();
+        }
+
+        Card current = cards.get(position);
+
+        //current.action(this);
+
+        if(current instanceof Property) {
+            if(current.getIsBuyable() == true and current.getUser() == null) {
+                message += "Vous pouvez acheter cette propriété pour un montant de " + current.getLandCost() + " euros. ";
+            } else if (current.getUser() != null) {
+                message += "Vous devez payer " + current.getLoyer() + " euros de loyer à " + current.getUser().getName() + ". ";
+               
+                if(this.getBalance() >= current.getLoyer()) {
+                    this.removeToBalance(current.getLoyer());
+current.getUser().addToBalance(current.getLoyer());
+                } else {
+                    message += "Vous n’avez pas assez d’argent n’est ce pas?! Il va falloir vendre une ou plusieurs propriétés, cheh! Je vais m’en occuper. ";
+                    // Vendre jusqu’à avoir assez de cash, sinon faillite et donner tout l’argent post vente au joueur devant recevoir le loyer
+current.getUser().addToBalance(this.getBalance());
+                }
+            } else if (current.getUser() == this) {
+                message += "Vous êtes chez vous. Souhaitez vous améliorer votre propriété? ";
+            }
+        }
+
+        return "action";
     }
 }
