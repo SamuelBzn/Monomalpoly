@@ -144,4 +144,24 @@ public class Property extends Card {
 			return "Cheh, tu dois payer " + landCost + " à " + player.getName() + " . ";
 		}
 	}
+
+	public int getLoyer() {
+		switch(nbHouses) {
+		  case 1:
+		    return getLandCost() * 4;
+		  case 2:
+		    return getLandCost() * 12;
+		  case 3:
+		    return getLandCost() * 28;
+		  case 4:
+		    return getLandCost() * 34;
+		  default:
+		    switch(nbHotels) {
+		    	case 1:
+		    		return getLandCost() * 40;
+		    	default:
+		    		return getLandCost();
+		    }
+		}
+	}
 }
