@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import com.monomalpoly.api.game.Game;
 import com.monomalpoly.api.dice.Dice;
 import com.monomalpoly.api.card.Card;
+import com.monomalpoly.api.property.Property;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -22,8 +23,6 @@ public class Player {
     private int balance;
     private int capital;
     private int properties;
-    private int houses;
-    private int hotels;
     private int position;
     private int nbTours;
 
@@ -39,8 +38,6 @@ public class Player {
         this.balance = 1500;
         this.capital = this.balance;
         this.properties = 0;
-        this.houses = 0;
-        this.hotels = 0;
         this.position = 0;
     }
 
@@ -62,14 +59,6 @@ public class Player {
 
     public int getProperties() {
         return properties;
-    }
-
-    public int getHouses() {
-        return houses;
-    }
-
-    public int getHotels() {
-        return hotels;
     }
 
     public int getPosition() {
@@ -94,14 +83,6 @@ public class Player {
 
     public void setProperties(int properties) {
         this.properties = properties;
-    }
-
-    public void setHouses(int houses) {
-        this.houses = houses;
-    }
-
-    public void setHotels(int hotels) {
-        this.hotels = hotels;
     }
 
     public void setPosition(int position) {
@@ -129,22 +110,6 @@ public class Player {
         this.properties = (this.properties - amount > 0) ? properties - amount : 0;
     }
 
-    public void addToHouses(int amount) {
-        this.houses += amount;
-    }
-
-    public void removeToHouses(int amount) {
-        this.houses = (this.houses - amount > 0) ? houses - amount : 0;
-    }
-
-    public void addToHotels(int amount) {
-        this.hotels += amount;
-    }
-
-    public void removeToHotels(int amount) {
-        this.hotels = (this.hotels - amount > 0) ? hotels - amount : 0;
-    }
-
     public String forward(Dice d) {
         List<Card> cards = new ArrayList<>();//this.game.getBoard().getCards();
         int totalCases = cards.size();
@@ -164,21 +129,23 @@ public class Player {
 
         //current.action(this);
 
-        if(current instanceof Property) {
-            if(current.getIsBuyable() == true and current.getUser() == null) {
-                message += "Vous pouvez acheter cette propriété pour un montant de " + current.getLandCost() + " euros. ";
-            } else if (current.getUser() != null) {
-                message += "Vous devez payer " + current.getLoyer() + " euros de loyer à " + current.getUser().getName() + ". ";
-               
-                if(this.getBalance() >= current.getLoyer()) {
-                    this.removeToBalance(current.getLoyer());
-                    current.getUser().addToBalance(current.getLoyer());
+        if (current instanceof Property) {
+            Property property = (Property)current;
+
+            if (property.isBuyable() == true && property.getUser() == null) {
+                message += "Vous pouvez acheter cette propriété pour un montant de " + property.getLandCost() + " euros. ";
+            } else if (property.getUser() != null) {
+                message += "Vous devez payer " + property.getLoyer() + " euros de loyer à " + property.getUser().getName() + ". ";
+
+                if (this.getBalance() >= property.getLoyer()) {
+                    this.removeToBalance(property.getLoyer());
+                    property.getUser().addToBalance(property.getLoyer());
                 } else {
                     message += "Vous n’avez pas assez d’argent n’est ce pas?! Il va falloir vendre une ou plusieurs propriétés, cheh! Je vais m’en occuper. ";
                     // Vendre jusqu’à avoir assez de cash, sinon faillite et donner tout l’argent post vente au joueur devant recevoir le loyer
-                    current.getUser().addToBalance(this.getBalance());
+                    property.getUser().addToBalance(this.getBalance());
                 }
-            } else if (current.getUser() == this) {
+            } else if (property.getUser() == this) {
                 message += "Vous êtes chez vous. Souhaitez vous améliorer votre propriété? ";
             }
         }
