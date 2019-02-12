@@ -19,7 +19,6 @@ public class PlayerRestController extends BaseController {
         Player p = new Player();
         p.setName(name);
         p.setBalance(1000);
-        p.setProperties(0);
         p.setGame(getLastGame());
         // p.setGame(getLastGame());
         playerRepository.save(p);

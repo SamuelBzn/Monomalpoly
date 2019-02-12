@@ -117,7 +117,7 @@ public class AppRestController extends BaseController {
         HashMap<String, String> response = new HashMap<String, String>();
 
         Game g = getLastGame();
-        Player p = g.getCurrentPlayer(); 
+        Player p = g.getCurrentPlayer();
         Board b = getLastBoard();
 
         Card c = b.getCards().get(p.getPosition());
@@ -146,12 +146,12 @@ public class AppRestController extends BaseController {
             else if (((Property)c).getLevel() == 3){
                 level = " C'est un hotel";
             }
-            
+
             if (((Property)c).getColor() == null){
                 color = " et n'a aucune couleur";
             }else { color = ((Property)c).getColor(); }
 
-            response.put("response", "Vous arrivez sur :" + ((Property)c).getName() + " de type " + ((Property)c).getNature() + user + " dont le terrain coûte" + ((Property)c).getLandCost() + " et dont le prix total est de " + ((Property)c).getCost() + level + color); 
+            response.put("response", "Vous arrivez sur :" + ((Property)c).getName() + " de type " + ((Property)c).getNature() + user + " dont le terrain coûte" + ((Property)c).getLandCost() + " et dont le prix total est de " + ((Property)c).getCost() + level + color);
 
         }
 
@@ -173,43 +173,59 @@ public class AppRestController extends BaseController {
         HashMap<String, String> response = new HashMap<String, String>();
 
         Game g = getLastGame();
-        Player p = g.getCurrentPlayer(); 
+        Player p = g.getCurrentPlayer();
         Board b = getLastBoard();
 
         Card c = b.getCards().get(p.getPosition());
 
         String level = "";
 
-        if (c instanceof Property){
-            if (((Property)c).getUser() == null){
-                response.put("response", "Vous arrivez sur : " + ((Property)c).getName() + " dont le prix du terrain est de " + ((Property)c).getLandCost());
-            }
-            else if (((Property)c).getUser().getName() != p.getName()){
-                response.put("response", "Vous arrivez sur : " + ((Property)c).getName() + " mais il appartient à un joueur adverse : " + ((Property)c).getUser().getName());
-            }
-            else if (((Property)c).getUser().getName() == p.getName()){
+        if (c instanceof Property) {
+            Property property = (Property)c;
 
-                if (((Property)c).getLevel() == 1){
+            if (property.getUser() == null){
+                response.put(
+                    "response",
+                    "Vous arrivez sur : " + property.getName() + " dont le prix du terrain est de " + property.getLandCost()
+                );
+            }
+            else if (property.getUser().getName() != p.getName()) {
+                response.put(
+                    "response",
+                    "Vous arrivez sur : " + property.getName() + " mais il appartient à un joueur adverse : " + property.getUser().getName()
+                );
+            }
+            else if (property.getUser().getName() == p.getName()) {
+
+                if (property.getLevel() == 1) {
                     level = " terrain plat";
                 }
-                else if (((Property)c).getLevel() == 2){
+                else if (property.getLevel() == 2) {
                     level = " maison";
                 }
-                else if (((Property)c).getLevel() == 3){
+                else if (property.getLevel() == 3) {
                     level = " hotel";
                 }
-                if (((Property)c).getLevel() < 3){
-                    response.put("response", "Vous arrivez sur : " + ((Property)c).getName() + " mais il vous appartient déjà avec un niveau : " + level + ". Rappel : une maison coûte : " + HOUSEPRICE + " et un hotel : " + HOSTELPRICE);               
-                    }
-                else if (((Property)c).getLevel() == 3){
-                    response.put("response", "Vous arrivez sur : " + ((Property)c).getName() + " mais il vous appartient déjà avec avec un niveau maximum");
+
+                if (property.getLevel() < 3) {
+                    response.put(
+                        "response",
+                        "Vous arrivez sur : " + property.getName() + " mais il vous appartient déjà avec un niveau : " + level + ". Rappel : une maison coûte : " + HOUSEPRICE + " et un hotel : " + HOSTELPRICE
+                    );
+                }
+                else if (property.getLevel() == 3) {
+                    response.put("response", "Vous arrivez sur : " + property.getName() + " mais il vous appartient déjà avec avec un niveau maximum");
                 }
             }
         }
 
-        else if (c instanceof Chance){
-            response.put("response", "Vous arrivez sur : " + ((Property)c).getName() + " c'est une carte chance.");
+        else if (c instanceof Chance) {
+            response.put(
+                "response",
+                "Vous arrivez sur : " + ((Chance)c).getName() + " c'est une carte chance."
+            );
         }
+
         return response;
     }
 

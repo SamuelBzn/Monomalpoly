@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.monomalpoly.api.game.Game;
 import com.monomalpoly.api.dice.Dice;
@@ -12,6 +13,7 @@ import com.monomalpoly.api.property.Property;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 @Entity
 public class Player {
@@ -22,12 +24,14 @@ public class Player {
     private String name;
     private int balance;
     private int capital;
-    private int properties;
     private int position;
     private int nbTours;
 
     @ManyToOne
     private Game game;
+
+    @OneToMany
+    private List<Property> properties;
 
     public Player() {
 
@@ -37,8 +41,8 @@ public class Player {
         this.name = name;
         this.balance = 1500;
         this.capital = this.balance;
-        this.properties = 0;
         this.position = 0;
+        this.properties = new ArrayList<Property>();
     }
 
     public int getId() {
@@ -57,7 +61,7 @@ public class Player {
         return capital;
     }
 
-    public int getProperties() {
+    public List<Property> getProperties() {
         return properties;
     }
 
@@ -81,7 +85,7 @@ public class Player {
         this.capital = capital;
     }
 
-    public void setProperties(int properties) {
+    public void setProperties(List<Property> properties) {
         this.properties = properties;
     }
 
@@ -101,13 +105,6 @@ public class Player {
     public void removeToBalanceAndCapital(int amount) {  // cas d'un achat d'une propriété adverse ou paiement d'une rente.
         this.balance = (this.balance - amount > 0) ? balance - amount : 0;
         this.capital = (this.capital - amount > 0) ? capital - amount : 0;
-    }
-    public void addToProperties(int amount) {
-        this.properties += amount;
-    }
-
-    public void removeToProperties(int amount) {
-        this.properties = (this.properties - amount > 0) ? properties - amount : 0;
     }
 
     public void setGame(Game game) {
@@ -151,7 +148,26 @@ public class Player {
                     property.getUser().addToBalance(property.getLoyer());
                 } else {
                     message += "Vous n’avez pas assez d’argent n’est ce pas?! Il va falloir vendre une ou plusieurs propriétés, cheh! Je vais m’en occuper. ";
-                    // Vendre jusqu’à avoir assez de cash, sinon faillite et donner tout l’argent post vente au joueur devant recevoir le loyer
+
+                    int accumulator    = this.balance;
+                    boolean unsolvable = true;
+
+                    Iterator<Property> iterator = this
+                        .getProperties()
+                        .iterator();
+
+                    while (iterator.hasNext() && unsolvable) {
+                        Property p = iterator.next();
+
+                        if (p.getNbHotels() == 1) {
+                            accumulator += Property.HOSTELPRICE;
+                        } else if (p.getNbHouses() >= 1) {
+                            accumulator += p.getNbHouses() * Property.HOUSEPRICE;
+                        }
+
+                        unsolvable = accumulator >= property.getLoyer();
+                    }
+
                     property.getUser().addToBalance(this.getBalance());
                 }
             } else if (property.getUser() == this) {

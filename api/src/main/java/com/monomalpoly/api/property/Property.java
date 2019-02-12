@@ -88,6 +88,14 @@ public class Property extends Card {
 		return cardType;
 	}
 
+	public int getNbHotels() {
+		return nbHotels;
+	}
+
+	public int getNbHouses() {
+		return nbHouses;
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -122,6 +130,10 @@ public class Property extends Card {
 
 	public void setCardType(String cardType) {
 		this.cardType = cardType;
+	}
+
+	public void setNbHouses(int nbHouses) {
+		this.nbHouses = nbHouses;
 	}
 
 	public void improve(Player player) {
