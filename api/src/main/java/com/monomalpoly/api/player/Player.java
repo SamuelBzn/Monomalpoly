@@ -9,6 +9,7 @@ import javax.persistence.OneToMany;
 import com.monomalpoly.api.game.Game;
 import com.monomalpoly.api.dice.Dice;
 import com.monomalpoly.api.card.Card;
+import com.monomalpoly.api.chance.Chance;
 import com.monomalpoly.api.property.Property;
 
 import java.util.List;
@@ -141,8 +142,13 @@ public class Player {
                 message += "Vous êtes sur la case " + property.getName() + ". Vous êtes tranquille pour ce tour! ";
             }
 
+            // Case Go To Jail
+            if(property.getName().equals("PRISON") || property.getName().equals("PARKING GRATUIT")) {
+                message += "Vous êtes sur la case " + property.getName() + ". Vous êtes tranquille pour ce tour! ";
+            }
+
             // Possibilité d'acheter
-            if (property.isBuyable() == true && property.getUser() == null && ) {
+            if (property.isBuyable() == true && property.getUser() == null) {
                 message += "Vous pouvez acheter cette propriété pour un montant de " + property.getLandCost() + " euros. ";
                 this.game.setState("attente_achat");
             // Terrain déjà possédé par un autre joueur
@@ -185,7 +191,7 @@ public class Player {
             }
         } else if (current instanceof Chance) {
             message += "Vous tombez sur une case Chance. ";
-            message += current.action(currentPlayer);
+            message += current.action(this);
         }
 
         return message;
