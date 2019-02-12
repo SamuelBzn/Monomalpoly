@@ -21,6 +21,11 @@ import java.util.HashMap;
 
 @RestController
 public class AppRestController extends BaseController {
+
+    public static final int HOUSEPRICE = 100;
+    public static final int HOSTELPRICE = 300;
+
+
     @Autowired
     private GameRepository gameRepository;
 
@@ -160,5 +165,53 @@ public class AppRestController extends BaseController {
         return response;
 
     }
+
+
+    @RequestMapping("announceCardLight")
+    public HashMap<String, String> announceCardLight(){
+
+        HashMap<String, String> response = new HashMap<String, String>();
+
+        Game g = getLastGame();
+        Player p = g.getCurrentPlayer(); 
+        Board b = getLastBoard();
+
+        Card c = b.getCards().get(p.getPosition());
+
+        String level = "";
+
+        if (c instanceof Property){
+            if (((Property)c).getUser() == null){
+                response.put("response", "Vous arrivez sur : " + ((Property)c).getName() + " dont le prix du terrain est de " + ((Property)c).getLandCost());
+            }
+            else if (((Property)c).getUser().getName() != p.getName()){
+                response.put("response", "Vous arrivez sur : " + ((Property)c).getName() + " mais il appartient à un joueur adverse : " + ((Property)c).getUser().getName());
+            }
+            else if (((Property)c).getUser().getName() == p.getName()){
+
+                if (((Property)c).getLevel() == 1){
+                    level = " terrain plat";
+                }
+                else if (((Property)c).getLevel() == 2){
+                    level = " maison";
+                }
+                else if (((Property)c).getLevel() == 3){
+                    level = " hotel";
+                }
+                if (((Property)c).getLevel() < 3){
+                    response.put("response", "Vous arrivez sur : " + ((Property)c).getName() + " mais il vous appartient déjà avec un niveau : " + level + ". Rappel : une maison coûte : " + HOUSEPRICE + " et un hotel : " + HOSTELPRICE);               
+                    }
+                else if (((Property)c).getLevel() == 3){
+                    response.put("response", "Vous arrivez sur : " + ((Property)c).getName() + " mais il vous appartient déjà avec avec un niveau maximum");
+                }
+            }
+        }
+
+        else if (c instanceof Chance){
+            response.put("response", "Vous arrivez sur : " + ((Property)c).getName() + " c'est une carte chance.");
+        }
+        return response;
+    }
+
 
 }
