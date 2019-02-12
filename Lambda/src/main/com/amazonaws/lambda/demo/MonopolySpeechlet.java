@@ -196,7 +196,7 @@ public class MonopolySpeechlet implements Speechlet {
 				speechText += " Joueur suivant dites Mon pseudo est ";
 			} else {
 				speechText += " Tout les joueurs ont annoncé leur pseudo. "
-						+ " La partie va bientot commencer";
+						+ " La partie va bientot commencer, pour savoir qui va commencer dites Qui va commencer";
 
 				updateState("game_started");
 			}
