@@ -4,7 +4,7 @@ layout: default
 
 ## Documentation
 
-* Règles du jeu
+* [Règles du jeu](rules.html)
 
 ## Documentation technique
 
