@@ -9,6 +9,6 @@ layout: default
 ## Documentation technique
 
 * [Endpoints et fonctionnement de l'API](api/)
-* Déploiement de la Skill
-* Déploiement de la fonction Lambda
-* Déploiement du back-end
+* [Déploiement du back-end](deployment/spring.html)
+* [Déploiement de la fonction Lambda](deployment/lambda.html)
+* [Déploiement de la Skill](deployment/skill.html)
