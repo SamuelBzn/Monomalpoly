@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.CascadeType;
 
 import com.monomalpoly.api.game.Game;
 import com.monomalpoly.api.dice.Dice;
@@ -31,10 +32,10 @@ public class Player {
     private boolean inJail;
     private int nbToursToGo;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Game game;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Property> properties;
 
     public Player() {
@@ -152,7 +153,7 @@ public class Player {
             }
         }
         return " ";
-    } 
+    }
 
     public String forward(Dice d) {
         System.out.println(this.game);
@@ -200,8 +201,8 @@ public class Player {
 
             // Possibilité d'acheter
             if (property.isBuyable() == true && property.getUser() == null) {
-                if(this.balance >= property.getLandCost()) { 
-                    message += "Vous pouvez acheter " + property.getName() + " pour un montant de " + property.getLandCost() + " euros." 
+                if(this.balance >= property.getLandCost()) {
+                    message += "Vous pouvez acheter " + property.getName() + " pour un montant de " + property.getLandCost() + " euros."
                     + " Pour acheter dites Oui je veux acheter le terrain. Sinon dites Non je ne veux pas acheter le terrain. ";
                     this.game.setState("attente_achat");
                 } else {
