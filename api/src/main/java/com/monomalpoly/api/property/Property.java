@@ -9,7 +9,6 @@ import javax.persistence.ManyToOne;
 
 import com.monomalpoly.api.player.Player;
 import com.monomalpoly.api.card.Card;
-import com.monomalpoly.api.board.Board;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -37,9 +36,6 @@ public class Property extends Card {
     private String color;
     private int nbHouses;
     private int nbHotels;
-
-    @ManyToOne
-    protected Board board;
 
     private String cardType;
 
@@ -178,16 +174,6 @@ public class Property extends Card {
 		break;
 		}
 		this.level = 0; // vend le terrain
-	}
-
-	public String action(Player player) {
-		if (user == player) {
-			return "T'es chez toi le sang. ";
-		} else {
-			player.removeToBalance(10);
-
-			return "Cheh, tu dois payer " + landCost + " à " + player.getName() + " . ";
-		}
 	}
 
 	public void addToHotels(int amount) {

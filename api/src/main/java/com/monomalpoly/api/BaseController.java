@@ -27,15 +27,4 @@ public class BaseController {
     	List<Board> boards = boardRepository.findFirst(PageRequest.of(0, 1));
     	return boards.get(0);
     }
-
-    public HashMap<String, String> json(String key, String value) {
-        HashMap<String, String> result = new HashMap<>();
-
-        result.put(key, value);
-
-        return result;
-    }
-
 }
-
-
