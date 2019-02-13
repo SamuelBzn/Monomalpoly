@@ -198,9 +198,13 @@ public class Player {
 
             // Possibilité d'acheter
             if (property.isBuyable() == true && property.getUser() == null) {
-                message += "Vous pouvez acheter " + property.getName() + " pour un montant de " + property.getLandCost() + " euros." 
-                + " Pour acheter dites Oui je veux acheter le terrain. Sinon dites Non je ne veux pas acheter le terrain.";
-                this.game.setState("attente_achat");
+                if(this.balance >= property.getLandCost()) { 
+                    message += "Vous pouvez acheter " + property.getName() + " pour un montant de " + property.getLandCost() + " euros." 
+                    + " Pour acheter dites Oui je veux acheter le terrain. Sinon dites Non je ne veux pas acheter le terrain. ";
+                    this.game.setState("attente_achat");
+                } else {
+                    message += "Vous êtes sur la case " + property.getName() + ". Vous ne pouvez pas l'acheter car vous n'avez pas assez d'argent. ";
+                }
             // Terrain déjà possédé par un autre joueur
             } else if (property.getUser() != null) {
                 message += "Vous devez payer " + property.getLoyer() + " euros de loyer à " + property.getUser().getName() + ". ";
