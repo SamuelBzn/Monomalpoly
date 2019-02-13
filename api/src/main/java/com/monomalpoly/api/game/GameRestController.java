@@ -1,6 +1,8 @@
 package com.monomalpoly.api.game;
 
 import com.monomalpoly.api.BaseController;
+import com.monomalpoly.api.ResetService;
+import com.monomalpoly.api.board.BoardService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,12 +21,23 @@ public class GameRestController extends BaseController {
     @Autowired
     private GameRepository gameRepository;
 
+    @Autowired
+    private BoardService boardService;
+
+    @Autowired
+    private ResetService resetService;
+
     @RequestMapping("game/new/{nbUsers}/{state}")
     public Game addGame(@PathVariable int nbUsers, @PathVariable String state) {
+        resetService.reset();
+
         Game g = new Game();
         g.setNbUsers(nbUsers);
         g.setCountNbUsers(nbUsers);
         g.setState(state);
+
+        boardService.createBoard(g);
+
         gameRepository.save(g);
 
         return g;
