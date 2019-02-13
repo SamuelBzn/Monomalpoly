@@ -146,10 +146,12 @@ public class Player {
                 if(this.nbToursToGo == 0) {
                     forward(d);
                     return "Vous avez purgé votre peine, vous pouvez sortir de prison. ";
+                } else {
+                    return "Il vous reste " + this.nbToursToGo + " tours à attendre car vous n'avez pas fait de double avec ce lancé. ";
                 }
             }
         }
-        return "Il vous reste " + this.nbToursToGo + " tours à attendre car vous n'avez pas fait de double avec ce lancé. ";
+        return " ";
     } 
 
     public String forward(Dice d) {
