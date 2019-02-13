@@ -27,6 +27,9 @@ public class Player {
     private int capital;
     private int position;
     private int nbTours;
+    // Gestion prison
+    private boolean inJail;
+    private int nbToursToGo;
 
     @ManyToOne
     private Game game;
@@ -44,6 +47,8 @@ public class Player {
         this.capital = this.balance;
         this.position = 0;
         this.properties = new ArrayList<Property>();
+        this.inJail = false;
+        this.nbToursToGo = 0;
     }
 
     public int getId() {
@@ -70,6 +75,14 @@ public class Player {
         return position;
     }
 
+    public boolean getInJail() {
+        return inJail;
+    }
+
+    public int getNbToursToGo() {
+        return nbToursToGo;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -94,6 +107,14 @@ public class Player {
         this.position = position;
     }
 
+    public void setInJail(boolean inJail) {
+        this.inJail = inJail;
+    }
+
+    public void setNbToursToGo(int nbToursToGo) {
+        this.nbToursToGo = nbToursToGo;
+    }
+
     public void addToBalance(int amount) {
         this.balance += amount;
         this.capital += amount;
@@ -112,6 +133,25 @@ public class Player {
         this.game = game;
     }
 
+    public String outOfJail() {
+        if(this.inJail == true && this.nbToursToGo > 0) {
+            this.nbToursToGo--;
+            Dice d = Dice.draw();
+            if(d.getIsDouble() == true) {
+                this.inJail = false;
+                this.nbToursToGo = 0;
+                forward(d);
+                return "Vous avez fait un double, vous pouvez sortir de prison. ";
+            } else {
+                if(this.nbToursToGo == 0) {
+                    forward(d);
+                    return "Vous avez purgé votre peine, vous pouvez sortir de prison. ";
+                }
+            }
+        }
+        return "Il vous reste " + this.nbToursToGo + " tours à attendre car vous n'avez pas fait de double avec ce lancé. ";
+    } 
+
     public String forward(Dice d) {
         System.out.println(this.game);
         System.out.println(this.game.getBoard());
@@ -121,6 +161,8 @@ public class Player {
         String message = d.getMessage();
 
         System.out.println(totalCases);
+
+        message += outOfJail();
 
         if (position + d.getValue() > totalCases) {
             position = totalCases % (position + d.getValue());
@@ -137,12 +179,19 @@ public class Player {
         if (current instanceof Property) {
             Property property = (Property)current;
 
-            // Case prison (simple visite) ou parking gratuit
-            if(property.getName().equals("PRISON") || property.getName().equals("PARKING GRATUIT")) {
-                message += "Vous êtes sur la case " + property.getName() + ". Vous êtes tranquille pour ce tour! ";
+            // Va directement en prison pendant 3 tours cheh
+            if(property.getName().equals("GO TO JAIL")) {
+                Property prison = (Property)(cards.stream().filter((card) -> {
+                    return ((Property)card).getName() == "PRISON";
+                }).findFirst().get());
+                int id = prison.getId();
+                this.position = cards.indexOf(id);
+                this.inJail = true;
+                this.nbToursToGo = 3;
+                message += "Vous êtes sur la case Aller en prison. Les N dèques vous y amènent pour 3 tours. Le seul moyen pour vous de sortir en avance sera de faire un double. ";
             }
 
-            // Case Go To Jail
+            // Case prison (simple visite) ou parking gratuit
             if(property.getName().equals("PRISON") || property.getName().equals("PARKING GRATUIT")) {
                 message += "Vous êtes sur la case " + property.getName() + ". Vous êtes tranquille pour ce tour! ";
             }
