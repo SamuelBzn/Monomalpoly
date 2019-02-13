@@ -265,7 +265,7 @@ public class MonopolySpeechlet implements Speechlet {
 	}
 
 	private SpeechletResponse getNotBuyPropertyResponse() {
-		String String speechText = get("/buy/refuse").getString("message");
+		String speechText = get("/buy/refuse").getString("message");
 
 		return askResponse(speechText);
 	}
@@ -277,7 +277,7 @@ public class MonopolySpeechlet implements Speechlet {
 	}
 
 	private SpeechletResponse getNotBuyHouseResponse() {
-		String String speechText = get("/buy/refuse").getString("message");
+		String speechText = get("/buy/refuse").getString("message");
 
 		return askResponse(speechText);
 	}
