@@ -48,6 +48,7 @@ public class PropertyRestController extends BaseController {
 
         property.setUser(current);
         propertyRepository.save(property);
+        current.getProperties().add(property);
 
         current.removeToBalance(property.getLandCost());
         playerRepository.save(current);

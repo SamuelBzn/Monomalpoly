@@ -11,6 +11,8 @@ import com.monomalpoly.api.player.Player;
 import com.monomalpoly.api.card.Card;
 import com.monomalpoly.api.board.Board;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public class Property extends Card {
@@ -24,8 +26,11 @@ public class Property extends Card {
     private String name;
     private String nature; // normal, special, etc
     private boolean buyable;
+
+    @JsonIgnore
     @ManyToOne
     private Player user;
+
     private int landCost; // prix terrain
     private int cost;  // prix terrain + aménagement
     private int level; // 0 = pas acheter 1 = terrain, 2 = maison, 3 = hotel
