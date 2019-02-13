@@ -265,27 +265,39 @@ public class MonopolySpeechlet implements Speechlet {
 	}
 
 	private SpeechletResponse getNotBuyPropertyResponse() {
-		String speechText = get("/buy/refuse").getString("message");
-
-		return askResponse(speechText);
+		try {
+			return askResponse(get("/buy/refuse").getString("message"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return askResponse("Une erreur est survenue.");
+		}
 	}
 
 	private SpeechletResponse getBuyPropertyResponse() {
-		String speechText = get("/buy/property").getString("message");
-
-		return askResponse(speechText);
+		try {
+			return askResponse(get("/buy/property").getString("message"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return askResponse("Une erreur est survenue pendant l'achat.");
+		}
 	}
 
 	private SpeechletResponse getNotBuyHouseResponse() {
-		String speechText = get("/buy/refuse").getString("message");
-
-		return askResponse(speechText);
+		try {
+			return askResponse(get("/buy/refuse").getString("message"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return askResponse("Une erreur est survenue.");
+		}
 	}
 
 	private SpeechletResponse getBuyHouseResponse() {
-		String speechText = get("/buy/property/house").getString("message");
-
-		return askResponse(speechText);
+		try {
+			return askResponse(get("/buy/property/house").getString("message"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return askResponse("Une erreur est survenue pendant l'achat.");
+		}
 	}
 
 	/**
