@@ -211,16 +211,8 @@ public class BoardService {
 		propertyRepository.save(p17);
 		b.getCards().add( p17);
 
-		Property p18 = new Property();
-		p18.setName("COMMUNITY CHEST");
-		p18.setNature("community");
-		p18.setBuyable(false);
-		p18.setUser(null);
-		p18.setLandCost(0);
-		p18.setCost(0);
-		p18.setLevel(0);
-		p18.setColor(null);
-		propertyRepository.save(p18);
+		Chance p18 = new Chance();
+		chanceRepository.save(p18);
 		b.getCards().add( p18);
 
 		Property p19 = new Property();
@@ -395,16 +387,8 @@ public class BoardService {
 		propertyRepository.save(p33);
 		b.getCards().add( p33);
 
-		Property p34 = new Property();
-		p34.setName("COMMUNITY CHEST");
-		p34.setNature("community");
-		p34.setBuyable(false);
-		p34.setUser(null);
-		p34.setLandCost(0);
-		p34.setCost(0);
-		p34.setLevel(0);
-		p34.setColor(null);
-		propertyRepository.save(p34);
+		Chance p34 = new Chance();
+		chanceRepository.save(p34);
 		b.getCards().add( p34);
 
 		Property p35 = new Property();
