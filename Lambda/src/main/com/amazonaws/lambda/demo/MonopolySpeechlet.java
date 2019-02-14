@@ -250,7 +250,7 @@ public class MonopolySpeechlet implements Speechlet {
 		" Le jeu se déroule en tour par tour, avec deux dés ordinaires à 6 faces. "+
 		" Au début de la partie, chaque joueur annonce son pseudo. L'ordre de jeu est défini à l'aide d'un lancer de dés et le joueur ayant fait le plus grand nombre commence. " +
 		" Pour jouer, vous devrez dire lance les dés, j'avancerais votre pion sur le parcours, puis selon la case sur laquelle vous vous arrêterez, je vous proposerais alors le choix correspondant." +
-		" Vous devrez alors annoncer votre choix et je l'éxecuterais." +
+		" Vous devrez alors annoncer votre choix et je l'éxècuterais." +
 		" Le vainqueur seras le dernier joueur n’ayant pas fait faillite.";
 
 		return askResponse(speechText);
