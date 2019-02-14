@@ -47,16 +47,8 @@ public class BoardService {
 		propertyRepository.save(p2);
 		b.getCards().add(p2);
 
-		Property p3 = new Property();
-		p3.setName("COMMUNITY CHEST");
-		p3.setNature("community");
-		p3.setBuyable(false);
-		p3.setUser(null);
-		p3.setLandCost(0);
-		p3.setCost(0);
-		p3.setLevel(0);
-		p3.setColor(null);
-		propertyRepository.save(p3);
+		Chance p3 = new Chance();
+		chanceRepository.save(p3);
 		b.getCards().add(p3);
 
 		Property p4 = new Property();
@@ -431,16 +423,8 @@ public class BoardService {
 		propertyRepository.save(p38);
 		b.getCards().add( p38);
 
-		Property p39 = new Property();
-		p39.setName("LUXURY TAX");
-		p39.setNature("tax");
-		p39.setBuyable(false);
-		p39.setUser(null);
-		p39.setLandCost(0);
-		p39.setCost(0);
-		p39.setLevel(0);
-		p39.setColor(null);
-		propertyRepository.save(p39);
+		Chance p39 = new Chance();
+		chanceRepository.save(p39);
 		b.getCards().add( p39);
 
 		Property p40 = new Property();
