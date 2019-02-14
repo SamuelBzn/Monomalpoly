@@ -4,18 +4,36 @@ layout: default
 
 ## Démarrer une partie - `POST /start`
 
+### Requête :
+
 ~~~
-$ curl -X POST <url>/start
+$ curl -X POST <url>/game/new/<nb>/<state>
 ~~~
 
-* Succès : `status 200`
-* Erreur :
+* Le paramètre `nb` permet de spécifier le nombre d'utilisateur qui vont
+  jouer.
+* Le paramètre `state` permet de définir l'état dans laquelle la partie
+  doit se trouver au début.
 
-  ~~~json
-  {
-    "error": "Erreur lors de la création de la partie"
-  }
-  ~~~
+### Réponse :
+
+Par exemple, avec la requête :
+
+~~~
+$ curl -X POST <url>/game/new/4/choix_pseudo
+~~~
+
+~~~json
+{
+  "nbUsers": 4,
+  "countNbUsers": 4,
+  "state": "choix_pseudo",
+  "currentPlayer": null,
+  "board": [
+    ...
+  ]
+}
+~~~
 
 ### Utterances
 

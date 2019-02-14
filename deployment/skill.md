@@ -259,7 +259,7 @@ Editez ensuite votre Skill et dans le panneau de gauche, cliquer sur
             }
         ]
     }
-
+}
 ~~~
 
 Cliquez sur <kbd>Save Model</kbd> et <kbd>Build Model</kbd> en haut de

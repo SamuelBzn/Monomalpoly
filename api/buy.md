@@ -2,21 +2,10 @@
 layout: default
 ---
 
-## Acheter - `POST /buy/<type>`
+## Acheter
 
 ### Requête
 
-Dans le cas d'une maison :
-
-~~~
-$ curl -X POST <url>/buy/house
-~~~
-
-Dans le cas d'un hôtel :
-
-~~~
-$ curl -X POST <url>/buy/hotel
-~~~
 
 Dans le cas d'une propriété
 
@@ -24,67 +13,58 @@ Dans le cas d'une propriété
 $ curl -X POST <url>/buy/property
 ~~~
 
+Dans le cas d'une maison :
+
+~~~
+$ curl -X POST <url>/buy/property/house
+~~~
+
+Pour faire avancer la partie mais spécifier le refus d'achat :
+
+~~~
+$ curl -X POST <url>/buy/refuse
+~~~
+
 ### Réponse
 
 #### Pour les maisons et hôtels
 
-Dans le cas d'une maison pouvant être achetée (nombre maximal non dépassé) :
+Dans le cas d'une propriété :
 
 ~~~json
 {
-  "message": "Vous venez d'acheter une maison ; cette propriété en possède désormais 3."
+  "message": "Vous avez acheté cette propriété. Au tour de Jean-Michel."
 }
 ~~~
 
-Dans le cas d'une maison ne pouvant pas être achetée :
+Dans le cas d'une maison :
 
 ~~~json
 {
-  "message": "Vous ne pouvez plus acheter de maison pour cette propriété"
+  "messsage": "Vous avez acheté une maison pour cette propriété. Au tour de Patrick."
 }
 ~~~
 
-Dans le cas d'un hôtel pouvant être acheté :
+Dans le cas d'un refus :
 
 ~~~json
 {
-  "messsage": "Vous venez d'acheter un hôtel ; cette propriété en possède désormais 2"
+  "message": "Vous n'avez rien acheté. Au tour de Mouloud."
 }
 ~~~
 
-Dans le cas d'un hôtel ne pouvant pas être acheté :
-
-~~~json
-{
-  "message": "Vous ne pouvez plus acheter d'hôtels pour cette propriété"
-}
-~~~
-
-#### Pour les propriétés
-
-Dans le cas d'une propriété qui n'est possédée par personne :
-
-~~~json
-{
-  "message": "Vous venez d'acheter cette propriété. Il vous reste 500 euros."
-}
-~~~
-
-Dans le cas d'une propriété déjà possédée :
-
-~~~json
-{
-  "message": "Vous ne pouvez pas acheter cette propriété."
-}
-~~~
-
-### Utterances
+### Utterances pour les propriétés
 
 <ul class="utterances">
-  <li>achètes une <span class="slot buyable">maison</span></li>
-  <li>ajoute une <span class="slot buyable">maison</span></li>
-  <li>achètes un <span class="slot buyable">hôtel</span></li>
-  <li>ajoute un <span class="slot buyable">hôtel</span></li>
-  <li>achètes cette <span class="slot buyable">case</span></li>
-  <li>achètes cette <span class="slot buyable">propriété</span></li>
+  <li>Oui je veux acheter le terrain</li>
+  <li>Je veux acheter le terrain</li>
+  <li>Je ne veux pas acheter le terrain</li>
+  <li>Non je ne veux pas acheter le terrain</li>
+</ul>
+
+### Utterances pour les maisons
+
+<ul class="utterances">
+  <li>Oui je veux améliorer</li>
+  <li>Non je ne veux pas améliorer</li>
 </ul>

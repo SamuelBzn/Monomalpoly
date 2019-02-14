@@ -39,14 +39,14 @@ Slots disponibles pour les utterances :
 
 * [Démarrer une partie](start.html)
 * [Ajouter un joueur](add-player.html)
+* [Déterminer le joueur qui commence](who-start.html)
 
 ## Actions au cours de la partie
 
 * [Lancer les dés](dice.html)
-* [Acheter](buy.html)
-* Revendre (to-do)
+* [Achat](buy.html)
 
 ## Autres
 
-* [Demander les informations sur un joueur](player.html)
-* [Demander les règles](rules.html)
+* [Solde du joueur courant](consult.html)
+* [Remettre à zéro](reset.html)
