@@ -17,6 +17,8 @@ import com.monomalpoly.api.chance.Chance;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 
 @RestController
 public class AppRestController extends BaseController {
@@ -93,6 +95,17 @@ public class AppRestController extends BaseController {
         return JSONResponse.builder()
             .with("message", "Votre compte est de " + p.getBalance() + " et votre capital est de " + p.getCapital())
             .build();
+    }
+
+    @RequestMapping("force/goToJail")
+    public void goToJail() {
+        Game game = getLastGame();
+        List<Card> cards = game.getBoard().getCards();
+        Property prison = (Property)cards.get(30);
+        int id = prison.getId();
+        game.getCurrentPlayer().setPosition(id);
+        playerRepository.save(game.getCurrentPlayer());
+        game.getCurrentPlayer().forward(new Dice(0, false, ""));
     }
 
 }
