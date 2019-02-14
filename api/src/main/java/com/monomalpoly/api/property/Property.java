@@ -1,8 +1,6 @@
 package com.monomalpoly.api.property;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
@@ -20,9 +18,6 @@ public class Property extends Card {
 	public static final int HOUSEPRICE = 100;
 	public static final int HOSTELPRICE = 300;
 
-    @Id
-    @GeneratedValue
-    private int id;
     private String name;
     private String nature; // normal, special, etc
     private boolean buyable;

@@ -5,26 +5,15 @@ import com.monomalpoly.api.player.Player;
 import com.monomalpoly.api.board.Board;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.ManyToOne;
 
-import java.util.HashMap;
-import java.util.Random;
 
 @Entity
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public class Chance extends Card {
 
-    @Id
-    @GeneratedValue
-    private int id;
     private String name;
-
-    @ManyToOne
-    protected Board board;
 
     private String cardType;
 
@@ -36,20 +25,12 @@ public class Chance extends Card {
         this.name = name;
     }
 
-    public int getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }
 
     public String getCardType() {
         return cardType;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setName(String name) {
