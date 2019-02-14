@@ -184,11 +184,7 @@ public class Player {
 
             // Va directement en prison pendant 3 tours cheh
             if(property.getName().equals("GO TO JAIL")) {
-                Property prison = (Property)(cards.stream().filter((card) -> {
-                    return ((Property)card).getName() == "PRISON";
-                }).findFirst().get());
-                int id = prison.getId();
-                this.position = cards.indexOf(id);
+                this.position = 10;
                 this.inJail = true;
                 this.nbToursToGo = 3;
                 message += "Vous êtes sur la case Aller en prison. Les N dèques vous y amènent pour 3 tours. Le seul moyen pour vous de sortir en avance sera de faire un double. ";

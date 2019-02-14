@@ -13,6 +13,7 @@ import com.monomalpoly.api.game.GameRepository;
 import com.monomalpoly.api.card.Card;
 import com.monomalpoly.api.board.Board;
 import com.monomalpoly.api.property.Property;
+import com.monomalpoly.api.property.PropertyRepository;
 import com.monomalpoly.api.chance.Chance;
 
 import java.util.Map;
@@ -28,6 +29,9 @@ public class AppRestController extends BaseController {
 
     @Autowired
     private GameRepository gameRepository;
+
+    @Autowired
+    private PropertyRepository propertyRepository;
 
     @Autowired
     private PlayerRepository playerRepository;
@@ -98,14 +102,22 @@ public class AppRestController extends BaseController {
     }
 
     @RequestMapping("force/goToJail")
-    public void goToJail() {
+    public HashMap<String, Object> goToJail() {
         Game game = getLastGame();
-        List<Card> cards = game.getBoard().getCards();
-        Property prison = (Property)cards.get(30);
-        int id = prison.getId();
-        game.getCurrentPlayer().setPosition(id);
-        playerRepository.save(game.getCurrentPlayer());
+
+        Property goToJail = (Property)game.getCards().get(30);
+
+        goToJail.setUser(game.getCurrentPlayer());
+        propertyRepository.save(goToJail);
+
+        game.getCurrentPlayer().setPosition(30);
         game.getCurrentPlayer().forward(new Dice(0, false, ""));
+
+        playerRepository.save(game.getCurrentPlayer());
+
+        return JSONResponse.builder()
+            .with("message", "success")
+            .build();
     }
 
 }

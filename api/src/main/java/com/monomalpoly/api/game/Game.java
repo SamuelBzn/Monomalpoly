@@ -8,6 +8,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 
 import com.monomalpoly.api.player.Player;
+import com.monomalpoly.api.card.Card;
 import com.monomalpoly.api.board.Board;
 
 import java.util.List;
@@ -71,5 +72,9 @@ public class Game {
 
     public void setBoard(Board board) {
         this.board = board;
+    }
+
+    public List<Card> getCards() {
+        return this.board.getCards();
     }
 }
