@@ -114,8 +114,6 @@ public class MonopolySpeechlet implements Speechlet {
 			return getHelpResponse();
 		case "AMAZON.StopIntent":
 			return stopResponse();
-		case "AMAZON.CancelIntent":
-			return stopResponse();
 		case "RulesIntent":
 			return getRulesResponse();
 		default :
