@@ -270,6 +270,8 @@ public class Player {
             game.setCurrentPlayer(players.get(index + 1));
         }
 
+        message += " Au tour de " + game.getCurrentPlayer() + " de jouer. ";
+
         return message;
     }
 }
