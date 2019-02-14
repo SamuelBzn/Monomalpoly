@@ -71,16 +71,8 @@ public class BoardService {
 		propertyRepository.save(p4);
 		b.getCards().add(p4);
 
-		Property p5 = new Property();
-		p5.setName("INCOME TAX");
-		p5.setNature("tax");
-		p5.setBuyable(false);
-		p5.setUser(null);
-		p5.setLandCost(0);
-		p5.setCost(0);
-		p5.setLevel(0);
-		p5.setColor(null);
-		propertyRepository.save(p5);
+		Chance p5 = new Chance();
+		chanceRepository.save(p5);
 		b.getCards().add(p5);
 
 		Property p6 = new Property();
