@@ -81,7 +81,7 @@ public class MonopolySpeechlet implements Speechlet {
 				return getNotAllowedResponse();
 			}
 		case "MoneyIntent" :
-			if(state.equals("game_started")) {
+			if(state.equals("game_started") || state.equals("attente_achat") || state.equals("attente_amelioration")) {
 				return getMoneyResponse();
 			}else{
 				return getNotAllowedResponse();
