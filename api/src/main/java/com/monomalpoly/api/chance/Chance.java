@@ -62,9 +62,9 @@ public class Chance extends Card {
 
     public String action(Player player) {
         Random r = new Random();
-        int result = r.nextInt((1 - 0) + 1) + 0;
+        int result = r.nextInt(5);
 
-        if (result == 0) {
+        if (result >= 2) {
             player.removeToBalance(50);
             return "La banque te prend 50 euros, cheh ! ";
         } else {
