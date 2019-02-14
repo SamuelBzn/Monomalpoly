@@ -2,6 +2,9 @@ package com.monomalpoly.api.player;
 
 import com.monomalpoly.api.BaseController;
 
+import com.monomalpoly.api.game.Game;
+import com.monomalpoly.api.game.GameRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,11 +20,15 @@ public class PlayerRestController extends BaseController {
     @RequestMapping("player/add/{name}")
     public Player addPlayer(@PathVariable String name) {
         Player p = new Player();
+        Game game = getLastGame();
+
         p.setName(name);
         p.setBalance(1000);
-        p.setGame(getLastGame());
-        // p.setGame(getLastGame());
+        p.setGame(game);
         playerRepository.save(p);
+
+        game.getPlayers().add(p);
+        gameRepository.save(game);
 
         return p;
     }

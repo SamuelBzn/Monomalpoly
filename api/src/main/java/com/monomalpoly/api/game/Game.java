@@ -13,6 +13,8 @@ import com.monomalpoly.api.board.Board;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Game {
 
@@ -74,7 +76,13 @@ public class Game {
         this.board = board;
     }
 
+    @JsonIgnore
     public List<Card> getCards() {
         return this.board.getCards();
+    }
+
+    @JsonIgnore
+    public List<Player> getPlayers() {
+        return players;
     }
 }

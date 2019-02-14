@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Player {
 
@@ -82,6 +84,11 @@ public class Player {
 
     public int getNbToursToGo() {
         return nbToursToGo;
+    }
+
+    @JsonIgnore
+    public Game getGame() {
+        return game;
     }
 
     public void setId(int id) {
@@ -245,6 +252,22 @@ public class Player {
         } else if (current instanceof Chance) {
             message += "Vous tombez sur une case Chance. ";
             message += current.action(this);
+        }
+
+        List<Player> players = game.getPlayers();
+
+        Player currentInList = players
+            .stream()
+            .filter(x -> x.getId() == this.id)
+            .findFirst()
+            .get();
+
+        int index = players.indexOf(currentInList);
+
+        if (index == players.size() - 1) {
+            game.setCurrentPlayer(players.get(0));
+        } else {
+            game.setCurrentPlayer(players.get(index + 1));
         }
 
         return message;

@@ -114,6 +114,8 @@ public class AppRestController extends BaseController {
         game.getCurrentPlayer().forward(new Dice(0, false, ""));
 
         playerRepository.save(game.getCurrentPlayer());
+        gameRepository.save(game);
+
 
         return JSONResponse.builder()
             .with("message", "success")

@@ -21,6 +21,9 @@ public class DiceRestController extends BaseController {
     @Autowired
     private PlayerRepository playerRepository;
 
+    @Autowired
+    private GameRepository gameRepository;
+
     @RequestMapping("/dice")
     public HashMap<String, Object> dice() {
         Dice d = Dice.draw();
@@ -29,6 +32,7 @@ public class DiceRestController extends BaseController {
         String action  = current.forward(d);
 
         playerRepository.save(current);
+        gameRepository.save(current.getGame());
 
         return JSONResponse.builder()
             .with("message", action)
