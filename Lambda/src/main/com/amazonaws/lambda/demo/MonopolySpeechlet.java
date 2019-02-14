@@ -201,7 +201,16 @@ public class MonopolySpeechlet implements Speechlet {
 	}
 
 	private SpeechletResponse stopResponse() {
-		return tellResponse("Au revoir");
+		String speechText;
+
+		try {
+			speechText = get("/winner").getString("message");
+		} catch (IOException e) {
+			e.printStackTrace();
+
+			speechText = "Une erreur est survenue pendant la requête.";
+		}
+		return tellResponse(speechText);
 	}
 
 	private SpeechletResponse getPlayerNameResponse(Intent intent) {
