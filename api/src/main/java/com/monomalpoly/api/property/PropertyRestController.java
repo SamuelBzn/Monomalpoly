@@ -53,11 +53,15 @@ public class PropertyRestController extends BaseController {
         current.removeToBalance(property.getLandCost());
         playerRepository.save(current);
 
-        game.setNextCurrentUser();
+        game.setNextCurrentPlayer();
+        game.setState("game_started");
         gameRepository.save(game);
 
+        String message = "Vous avez acheté cette propriété."
+            + game.nextPlayerMessage();
+
         return JSONResponse.builder()
-            .with("message", "Vous avez acheté cette propriété.")
+            .with("message", message)
             .build();
     }
 
@@ -72,18 +76,31 @@ public class PropertyRestController extends BaseController {
         property.addToHouses(1);
         propertyRepository.save(property);
 
-        game.setNextCurrentUser();
+        game.setNextCurrentPlayer();
+        game.setState("game_started");
         gameRepository.save(game);
 
+        String message = "Vous avez acheté une maison pour cette propriété."
+            + game.nextPlayerMessage();
+
         return JSONResponse.builder()
-            .with("message", "Vous avez acheté une maison pour cette propriété.")
+            .with("message", message)
             .build();
     }
 
     @RequestMapping("/buy/refuse")
     public HashMap<String, Object> refuse() {
+        Game game = getLastGame();
+
+        game.setNextCurrentPlayer();
+        game.setState("game_started");
+        gameRepository.save(game);
+
+        String message = "Vous n'avez rien acheté. "
+            + game.nextPlayerMessage();
+
         return JSONResponse.builder()
-            .with("message", "Vous n'avez rien acheté")
+            .with("message", message)
             .build();
     }
 }

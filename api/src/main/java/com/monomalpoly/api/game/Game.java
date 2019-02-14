@@ -89,16 +89,20 @@ public class Game {
     public void setNextCurrentPlayer() {
         Player currentInList = players
             .stream()
-            .filter(x -> x.getId() == this.id)
+            .filter(x -> x.getId() == currentPlayer.getId())
             .findFirst()
             .get();
 
         int index = players.indexOf(currentInList);
 
         if (index == players.size() - 1) {
-            game.setCurrentPlayer(players.get(0));
+            currentPlayer = players.get(0);
         } else {
-            game.setCurrentPlayer(players.get(index + 1));
+            currentPlayer = players.get(index + 1);
         }
+    }
+
+    public String nextPlayerMessage() {
+        return " Au tour de " + currentPlayer.getName() + " de jouer. ";
     }
 }

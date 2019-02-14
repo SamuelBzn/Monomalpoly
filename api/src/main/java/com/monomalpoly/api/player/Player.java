@@ -163,14 +163,9 @@ public class Player {
     }
 
     public String forward(Dice d) {
-        System.out.println(this.game);
-        System.out.println(this.game.getBoard());
-
         List<Card> cards = this.game.getBoard().getCards();
         int totalCases = cards.size();
         String message = d.getMessage();
-
-        System.out.println(totalCases);
 
         message += outOfJail();
 
@@ -254,10 +249,10 @@ public class Player {
             message += current.action(this);
         }
 
-        if (!game.setState().equals("attente_achat")) {
+        if (!game.getState().equals("attente_achat")) {
             game.setNextCurrentPlayer();
 
-            message += " Au tour de " + game.getCurrentPlayer().getName() + " de jouer. ";
+            message += game.nextPlayerMessage();
         }
 
         return message;
