@@ -212,4 +212,8 @@ public class Property extends Card {
 		    }
 		}
 	}
+
+	public int getValue() {
+		return landCost + Property.HOUSEPRICE * nbHouses + Property.HOSTELPRICE * nbHotels;
+	}
 }

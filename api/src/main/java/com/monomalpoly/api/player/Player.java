@@ -27,9 +27,9 @@ public class Player {
     private int id;
     private String name;
     private int balance;
-    private int capital;
     private int position;
     private int nbTours;
+
     // Gestion prison
     private boolean inJail;
     private int nbToursToGo;
@@ -47,7 +47,6 @@ public class Player {
     public Player(String name) {
         this.name = name;
         this.balance = 1500;
-        this.capital = this.balance;
         this.position = 0;
         this.properties = new ArrayList<Property>();
         this.inJail = false;
@@ -64,10 +63,6 @@ public class Player {
 
     public int getBalance() {
         return balance;
-    }
-
-    public int getCapital() {
-        return capital;
     }
 
     public List<Property> getProperties() {
@@ -103,10 +98,6 @@ public class Player {
         this.balance = balance;
     }
 
-    public void setCapital(int capital) {
-        this.capital = capital;
-    }
-
     public void setProperties(List<Property> properties) {
         this.properties = properties;
     }
@@ -125,7 +116,6 @@ public class Player {
 
     public void addToBalance(int amount) {
         this.balance += amount;
-        this.capital += amount;
     }
 
     public void removeToBalance(int amount) {           // cas d'une amélioration ou achat d'une case neutre : solde retiré du compte mais pas de son capital
@@ -134,11 +124,27 @@ public class Player {
 
     public void removeToBalanceAndCapital(int amount) {  // cas d'un achat d'une propriété adverse ou paiement d'une rente.
         this.balance = (this.balance - amount > 0) ? balance - amount : 0;
-        this.capital = (this.capital - amount > 0) ? capital - amount : 0;
     }
 
     public void setGame(Game game) {
         this.game = game;
+    }
+
+    /**
+     * Permet de calculer la capital de l'utilisateur.
+     */
+    public int getCapital() {
+        if (properties != null) {
+
+            int propertiesValue = properties
+                .stream()
+                .mapToInt(x -> x.getValue())
+                .sum();
+
+            return this.balance + propertiesValue;
+        } else {
+            return this.balance;
+        }
     }
 
     public String outOfJail() {
