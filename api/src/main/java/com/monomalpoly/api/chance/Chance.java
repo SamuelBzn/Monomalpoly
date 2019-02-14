@@ -40,17 +40,4 @@ public class Chance extends Card {
     public void setCardType(String cardType) {
         this.cardType = cardType;
     }
-
-    public String action(Player player) {
-        Random r = new Random();
-        int result = r.nextInt(5);
-
-        if (result >= 2) {
-            player.removeToBalance(50);
-            return "La banque te prend 50 euros, cheh ! ";
-        } else {
-            player.addToBalance(50);
-            return "Tu gagnes 50 balles, gégé le sang. Mais tékaté ça n'arrivera pas souvent. ";
-        }
-    }
 }

@@ -11,6 +11,7 @@ import com.monomalpoly.api.game.Game;
 import com.monomalpoly.api.game.GameRepository;
 
 import com.monomalpoly.api.card.Card;
+import com.monomalpoly.api.dice.ForwardService;
 import com.monomalpoly.api.board.Board;
 import com.monomalpoly.api.property.Property;
 import com.monomalpoly.api.property.PropertyRepository;
@@ -38,6 +39,9 @@ public class AppRestController extends BaseController {
 
     @Autowired
     private ResetService resetService;
+
+    @Autowired
+    private ForwardService forwardService;
 
     @RequestMapping("reset")
     public HashMap<String, Object> reset() {
@@ -111,11 +115,16 @@ public class AppRestController extends BaseController {
         propertyRepository.save(goToJail);
 
         game.getCurrentPlayer().setPosition(30);
-        game.getCurrentPlayer().forward(new Dice(0, false, ""));
+
+        forwardService.forward(
+            game.getCurrentPlayer(),
+            new Dice(0, false, "")
+        );
+
+        game.setNextCurrentPlayer();
 
         playerRepository.save(game.getCurrentPlayer());
         gameRepository.save(game);
-
 
         return JSONResponse.builder()
             .with("message", "success")

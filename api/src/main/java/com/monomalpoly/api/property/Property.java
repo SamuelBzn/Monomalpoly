@@ -133,6 +133,18 @@ public class Property extends Card {
 		this.nbHouses = nbHouses;
 	}
 
+	public void setNbHotels(int nbHotels) {
+		this.nbHotels = nbHotels;
+	}
+
+	public boolean equals(Object o) {
+		if (o instanceof Property) {
+			return ((Property)o).getId() == id;
+		} else {
+			return false;
+		}
+	}
+
 	public void improve(Player player) {
 		if (this.level < 3) {
 			switch(this.level) {

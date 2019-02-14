@@ -24,12 +24,15 @@ public class DiceRestController extends BaseController {
     @Autowired
     private GameRepository gameRepository;
 
+    @Autowired
+    private ForwardService forwardService;
+
     @RequestMapping("/dice")
     public HashMap<String, Object> dice() {
         Dice d = Dice.draw();
 
         Player current = getLastGame().getCurrentPlayer();
-        String action  = current.forward(d);
+        String action  = forwardService.forward(current, d);
 
         playerRepository.save(current);
         gameRepository.save(current.getGame());
