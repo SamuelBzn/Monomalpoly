@@ -53,6 +53,9 @@ public class PropertyRestController extends BaseController {
         current.removeToBalance(property.getLandCost());
         playerRepository.save(current);
 
+        game.setNextCurrentUser();
+        gameRepository.save(game);
+
         return JSONResponse.builder()
             .with("message", "Vous avez acheté cette propriété.")
             .build();
@@ -68,6 +71,9 @@ public class PropertyRestController extends BaseController {
 
         property.addToHouses(1);
         propertyRepository.save(property);
+
+        game.setNextCurrentUser();
+        gameRepository.save(game);
 
         return JSONResponse.builder()
             .with("message", "Vous avez acheté une maison pour cette propriété.")

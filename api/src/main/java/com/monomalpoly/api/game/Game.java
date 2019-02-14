@@ -85,4 +85,20 @@ public class Game {
     public List<Player> getPlayers() {
         return players;
     }
+
+    public void setNextCurrentPlayer() {
+        Player currentInList = players
+            .stream()
+            .filter(x -> x.getId() == this.id)
+            .findFirst()
+            .get();
+
+        int index = players.indexOf(currentInList);
+
+        if (index == players.size() - 1) {
+            game.setCurrentPlayer(players.get(0));
+        } else {
+            game.setCurrentPlayer(players.get(index + 1));
+        }
+    }
 }

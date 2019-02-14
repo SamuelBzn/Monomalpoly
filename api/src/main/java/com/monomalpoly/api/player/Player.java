@@ -254,23 +254,11 @@ public class Player {
             message += current.action(this);
         }
 
-        List<Player> players = game.getPlayers();
+        if (!game.setState().equals("attente_achat")) {
+            game.setNextCurrentPlayer();
 
-        Player currentInList = players
-            .stream()
-            .filter(x -> x.getId() == this.id)
-            .findFirst()
-            .get();
-
-        int index = players.indexOf(currentInList);
-
-        if (index == players.size() - 1) {
-            game.setCurrentPlayer(players.get(0));
-        } else {
-            game.setCurrentPlayer(players.get(index + 1));
+            message += " Au tour de " + game.getCurrentPlayer().getName() + " de jouer. ";
         }
-
-        message += " Au tour de " + game.getCurrentPlayer() + " de jouer. ";
 
         return message;
     }
