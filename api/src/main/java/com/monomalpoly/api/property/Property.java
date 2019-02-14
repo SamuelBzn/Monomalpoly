@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.CascadeType;
 
 import com.monomalpoly.api.player.Player;
 import com.monomalpoly.api.card.Card;
@@ -27,7 +28,7 @@ public class Property extends Card {
     private boolean buyable;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Player user;
 
     private int landCost; // prix terrain

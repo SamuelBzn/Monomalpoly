@@ -27,10 +27,10 @@ public class ResetService {
 	private PlayerRepository playerRepository;
 
 	public void reset() {
-		playerRepository.deleteAll();
 		boardRepository.deleteAll();
 		gameRepository.deleteAll();
 		chanceRepository.deleteAll();
 		propertyRepository.deleteAll();
+		playerRepository.deleteAll();
 	}
 }
