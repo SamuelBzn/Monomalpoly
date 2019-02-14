@@ -176,7 +176,7 @@ public class Player {
         message += outOfJail();
 
         if (position + d.getValue() > totalCases) {
-            position = totalCases % (position + d.getValue());
+            position = (position + d.getValue()) % totalCases;
             nbTours += 1;
             balance += 200;
 
